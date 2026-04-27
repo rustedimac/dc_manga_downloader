@@ -1,4 +1,4 @@
-# DC Manga Downloader Suite (Definitive Edition)
+# DC Manga Downloader
 
 
 
