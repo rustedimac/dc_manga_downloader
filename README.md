@@ -2,6 +2,8 @@
 
 An advanced, multi-threaded PowerShell suite designed to automatically crawl, parse, and download translated manga chapters from DCInside. 
 
+한국어 README는 여기에: https://github.com/rustedimac/dc_manga_downloader/blob/d40d2a38097da13cc9e8526fcb4cb5cbaec4ce1d/README_ko.md
+
 ## 🚀 Key Features
 
 * **Advanced Anti-Bot Bypass:** Uses modern browser fingerprinting (Chrome UAs, Sec-Fetch headers) to bypass DCInside's "Forbidden" and empty-page bot protections.
