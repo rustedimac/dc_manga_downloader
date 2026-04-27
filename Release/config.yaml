@@ -32,7 +32,7 @@ MaxConcurrentDownloads: 15
 
 # --- Downloader Settings ---
 # Folder where images will be saved (relative .\ or absolute path)
-DownloadDir: "C:\Users\John\Desktop\dc_manga_downloader\Downloads"
+DownloadDir: ".\Downloads"
 
 # Path to the activity log (JSON format)
 LogPath: ".\activity_log.json"
