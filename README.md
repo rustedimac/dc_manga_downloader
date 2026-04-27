@@ -1,4 +1,4 @@
-readme_content = """# DC Manga Downloader Suite (Definitive Edition)
+# DC Manga Downloader Suite (Definitive Edition)
 
 A highly robust, multithreaded, and automated toolchain designed to scrape, extract, and batch-download high-quality images and manga translations from DCInside.
 
