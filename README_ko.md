@@ -19,7 +19,6 @@
 * `launch.bat` - 프로그램 실행기입니다. `config.yaml`이 없으면 기본 설정값을 자동 생성하고, 백그라운드 로거를 실행한 뒤 메인 메뉴를 띄웁니다.
 * `Run-Crawler.ps1` - 설정된 게시판을 스캔하여 '번역'이 포함된 게시글을 찾아 `download_list.txt`에 대기열로 등록합니다.
 * `Start-Downloader.ps1` - 다운로드 핵심 엔진입니다. 대기열을 읽어 HTML을 파싱하고, 차단을 우회하며, 이미지를 안전하게 다운로드합니다.
-* `Background-Logger.ps1` - 다운로드 속도 저하 없이 로그를 백그라운드에서 처리하는 가벼운 프로세스입니다.
 * `config.yaml` - 다운로더의 모든 설정을 제어하는 설정 파일입니다.
 * `download_list.txt` - 처리할 대기열 파일입니다 (`[manual_urls]` 및 `[automatic_urls]` 로 나뉨).
 
