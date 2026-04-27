@@ -137,11 +137,11 @@ function Process-Post($Url, $BaseDir) {
         $LingeringFiles | Remove-Item -Force -ErrorAction SilentlyContinue
     }
 
-    # --- EXTRACTION ---
-    $AttachmentIds = @{}
-    $RawLinks = @()
+    # --- BODY-FIRST EXTRACTION ENGINE ---
+    $FinalLinks = [ordered]@{ }
+    $HQ_Dictionary = @{}
     
-    # 1. Scrape the Attachment Box FIRST to get the "Bypass" links
+    # 1. Scrape the Attachment Box to build the High-Quality Lookup Dictionary
     $AppIndex = $Html.IndexOf('class="appending_file"')
     if ($AppIndex -ge 0) {
         $AppEnd = $Html.IndexOf('</ul>', $AppIndex)
@@ -154,15 +154,13 @@ function Process-Post($Url, $BaseDir) {
             if ($AttUrl -match '^//') { $AttUrl = "https:" + $AttUrl }
             elseif ($AttUrl -notmatch '^http') { $AttUrl = "https://gall.dcinside.com" + $AttUrl }
             
-            # Extract the ID so we can strictly check it against body images
-            if ($AttUrl -match '(?i)(?:attach_no|f_no)=([^&]+)') {
-                $AttachmentIds[$Matches[1]] = $true
+            if ($AttUrl -match '(?i)[?&](?:no|attach_no|f_no)=([^&]+)') {
+                $HQ_Dictionary[$Matches[1]] = $AttUrl
             }
-            $RawLinks += $AttUrl
         }
     }
 
-    # 2. Scrape the Post Body
+    # 2. Scrape the Post Body (The Absolute Source of Sequence Truth)
     $StartIndex = $Html.IndexOf('class="writing_view_box"')
     if ($StartIndex -lt 0) { $StartIndex = 0 }
     
@@ -177,17 +175,6 @@ function Process-Post($Url, $BaseDir) {
     foreach ($Node in $ImgNodes) {
         $ImgStr = $Node.Value
         
-        # Check if this image ID was successfully grabbed from the Attachment Box
-        $CurrentId = ""
-        if ($ImgStr -match '(?i)data-fileno=["'']?([^"''\s>]+)') { 
-            $CurrentId = $Matches[1] 
-        }
-
-        # ONLY skip if we mathematically proved we already have this specific attachment
-        if ($CurrentId -and $AttachmentIds.ContainsKey($CurrentId)) {
-            continue
-        }
-
         $ImgUrl = ""
         if ($ImgStr -match '(?i)data-original="([^"]+)"') { $ImgUrl = $Matches[1] } 
         elseif ($ImgStr -match '(?i)src="([^"]+)"') { $ImgUrl = $Matches[1] }
@@ -202,12 +189,43 @@ function Process-Post($Url, $BaseDir) {
             if ($ImgUrl -match 'dcinside\.(com|co\.kr)' -and $ImgUrl -notmatch 'viewimage\.php|dcimg\d+\.dcinside\.(com|co\.kr)|image\.dcinside\.(com|co\.kr)|download\.php') {
                 $IsJunk = $true
             }
+            if ($IsJunk) { continue }
 
-            if (-not $IsJunk) { $RawLinks += $ImgUrl }
+            $BodyHash = ""
+            if ($ImgUrl -match '(?i)[?&](?:no|attach_no|f_no)=([^&]+)') { $BodyHash = $Matches[1] }
+
+            $FileNo = ""
+            if ($ImgStr -match '(?i)data-fileno\s*=\s*["'']?([^"''\s>]+)') { $FileNo = $Matches[1] }
+
+            $FinalUrlToUse = $ImgUrl 
+            $Matched = $false
+
+            # EXACT MATCH CHECK
+            if ($BodyHash -and $HQ_Dictionary.ContainsKey($BodyHash)) {
+                $FinalUrlToUse = $HQ_Dictionary[$BodyHash]; $Matched = $true
+            } elseif ($FileNo -and $HQ_Dictionary.ContainsKey($FileNo)) {
+                $FinalUrlToUse = $HQ_Dictionary[$FileNo]; $Matched = $true
+            }
+
+            # PARTIAL MATCH FALLBACK (Fixes Thumbnail Hash Mutation)
+            if (-not $Matched) {
+                foreach ($Key in $HQ_Dictionary.Keys) {
+                    if ($BodyHash -and $Key -and ($BodyHash.StartsWith($Key) -or $Key.StartsWith($BodyHash))) {
+                        $FinalUrlToUse = $HQ_Dictionary[$Key]; break
+                    }
+                    if ($FileNo -and $Key -and ($FileNo.StartsWith($Key) -or $Key.StartsWith($FileNo))) {
+                        $FinalUrlToUse = $HQ_Dictionary[$Key]; break
+                    }
+                }
+            }
+
+            if (-not $FinalLinks.Contains($FinalUrlToUse)) {
+                $FinalLinks[$FinalUrlToUse] = $FinalUrlToUse
+            }
         }
     }
 
-    $UniqueLinks = @($RawLinks | Select-Object -Unique)
+    $UniqueLinks = @($FinalLinks.Values)
     $TotalCount = $UniqueLinks.Count
 
     if ($TotalCount -eq 0) { 
@@ -226,7 +244,6 @@ function Process-Post($Url, $BaseDir) {
         $Item = $UniqueLinks[$i]
         $BaseFileName = if ($RenameSequential) { (($i+1).ToString('000')) } else { "img_$($i+1)" }
         
-        # --- STRICT IMAGE VERIFICATION ---
         $ExistingFile = Get-ChildItem -LiteralPath $TargetDir -Filter "$BaseFileName.*" -File | Where-Object { $ValidExts -contains $_.Extension.ToLower() } | Select-Object -First 1
 
         if ($null -eq $ExistingFile) {
@@ -260,45 +277,53 @@ function Process-Post($Url, $BaseDir) {
                     $JobHeaders.Remove("Referer")
                 }
 
-                try {
-                    Invoke-WebRequest -Uri $DownloadUrl -Headers $JobHeaders -OutFile $DestPath -UseBasicParsing -TimeoutSec 30
-                    
-                    $Stream = [System.IO.File]::OpenRead($DestPath)
-                    $Bytes = New-Object byte[] 12
-                    $Stream.Read($Bytes, 0, 12) | Out-Null
-                    $Stream.Close()
-                    
-                    $Hex = [System.BitConverter]::ToString($Bytes)
-                    $Ext = ".jpg" 
-                    
-                    if ($Hex -match "^89-50-4E-47") { $Ext = ".png" }
-                    elseif ($Hex -match "^47-49-46-38") { $Ext = ".gif" }
-                    elseif ($Hex -match "^52-49-46-46" -and $Hex -match "57-45-42-50") { $Ext = ".webp" }
-                    elseif ($Hex -match "^FF-D8-FF") { $Ext = ".jpg" }
-                    
-                    $FinalPath = $DestPath -replace '\.tmp$', $Ext
-                    Rename-Item -LiteralPath $DestPath -NewName "$BaseName$Ext" -Force
-                    
-                    $Size = (Get-Item -LiteralPath $FinalPath).Length
-                    return @{ Success=$true; Size=$Size; Index=$Idx; FileName=("$BaseName$Ext") }
-                } catch { 
-                    if (Test-Path $DestPath) { Remove-Item $DestPath -Force -ErrorAction SilentlyContinue }
-                    return @{ Success=$false; Index=$Idx; ErrorMsg=$_.Exception.Message } 
+                # --- INTERNAL RETRY LOOP (Fixes ResponseEnded Drops) ---
+                $MaxImageRetries = 3
+                $ErrorMsg = ""
+                for ($retry = 0; $retry -lt $MaxImageRetries; $retry++) {
+                    try {
+                        Invoke-WebRequest -Uri $DownloadUrl -Headers $JobHeaders -OutFile $DestPath -UseBasicParsing -TimeoutSec 30
+                        
+                        $Stream = [System.IO.File]::OpenRead($DestPath)
+                        $Bytes = New-Object byte[] 12
+                        $Stream.Read($Bytes, 0, 12) | Out-Null
+                        $Stream.Close()
+                        
+                        $Hex = [System.BitConverter]::ToString($Bytes)
+                        $Ext = ".jpg" 
+                        
+                        if ($Hex -match "^89-50-4E-47") { $Ext = ".png" }
+                        elseif ($Hex -match "^47-49-46-38") { $Ext = ".gif" }
+                        elseif ($Hex -match "^52-49-46-46" -and $Hex -match "57-45-42-50") { $Ext = ".webp" }
+                        elseif ($Hex -match "^FF-D8-FF") { $Ext = ".jpg" }
+                        
+                        $FinalPath = $DestPath -replace '\.tmp$', $Ext
+                        Rename-Item -LiteralPath $DestPath -NewName "$BaseName$Ext" -Force
+                        
+                        $Size = (Get-Item -LiteralPath $FinalPath).Length
+                        return @{ Success=$true; Size=$Size; Index=$Idx; FileName=("$BaseName$Ext") }
+                    } catch { 
+                        $ErrorMsg = $_.Exception.Message
+                        if (Test-Path $DestPath) { Remove-Item $DestPath -Force -ErrorAction SilentlyContinue }
+                        Start-Sleep -Seconds 2 # Wait 2 seconds before retrying the dropped connection
+                    }
                 }
+                # If it fails all 3 times, officially report the error
+                return @{ Success=$false; Index=$Idx; ErrorMsg=$ErrorMsg }
             } -ArgumentList $Item, $TmpPath, ($i+1), $BaseFileName, $Headers, $Config.UseProxy
         } else { $PostSkip++; $script:SessionSkipCount++ }
     }
 
-    if ($RunningJobs) {
-        $Results = $RunningJobs | Wait-Job | Receive-Job
-        foreach ($R in $Results) {
-            if ($R.Success) { 
-                $PostSuccess++; $script:SessionSuccessCount++; $PostBytes += $R.Size; $script:SessionTotalBytes += $R.Size
-                Write-Log "SUCCESS" "Saved: $($R.FileName)" $CleanUrl $SafeManga $SafeChapter $R.Index $TotalCount "$($R.Size) B" 
-            }
-            else { 
-                $PostFail++; $script:SessionFailureCount++; 
-                Write-Log "ERROR" "Failed: $($R.Error)" $CleanUrl $SafeManga $SafeChapter $R.Index $TotalCount 
+    if ($RunningJobs.Count -gt 0) {
+        $FinishedData = $RunningJobs | Wait-Job | Receive-Job
+        foreach ($Res in $FinishedData) {
+            if ($Res.Success) { 
+                $PostSuccess++; $script:SessionSuccessCount++; $PostBytes += $Res.Size; $script:SessionTotalBytes += $Res.Size 
+                Write-Log "SUCCESS" "Saved: $($Res.FileName)" $CleanUrl $SafeManga $SafeChapter $Res.Index $TotalCount "$($Res.Size) B"
+            } else { 
+                $PostFail++; $script:SessionFailureCount++ 
+                $ActualError = if ($Res.ErrorMsg) { $Res.ErrorMsg } else { "Unknown Network Error" }
+                Write-Log "ERROR" "Failed: $ActualError" $CleanUrl $SafeManga $SafeChapter $Res.Index $TotalCount
             }
         }
         $RunningJobs | Remove-Job
