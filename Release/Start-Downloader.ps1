@@ -131,13 +131,13 @@ function Process-Post($Url, $BaseDir) {
     $SourceFile = Join-Path $TargetDir "source.txt"
     if (-not (Test-Path -LiteralPath $SourceFile)) { $CleanUrl | Set-Content -LiteralPath $SourceFile -Encoding UTF8 }
 
-    # --- 🧹 FAIL-SAFE: STRICT CLEANUP OF LINGERING GHOST FILES ---
+    # --- FAIL-SAFE: STRICT CLEANUP OF LINGERING GHOST FILES ---
     $LingeringFiles = Get-ChildItem -LiteralPath $TargetDir -File | Where-Object { $_.Extension -eq '.tmp' -or $_.Extension -eq '' }
     if ($LingeringFiles) {
         $LingeringFiles | Remove-Item -Force -ErrorAction SilentlyContinue
     }
 
-    # --- 🛡️ EXTRACTION ---
+    # --- EXTRACTION ---
     $AttachmentIds = @{}
     $RawLinks = @()
     
@@ -379,7 +379,7 @@ try {
     $SessionEndTime = Get-Date
     $Elapsed = "{0:hh\:mm\:ss}" -f ($SessionEndTime - $SessionStartTime)
     
-    # --- 🎣 CTRL+C ORPHAN CATCHER ---
+    # --- CTRL+C ORPHAN CATCHER ---
     if ($script:SessionInterrupted) {
         $OrphanJobs = Get-Job | Where-Object { $_.Name -like "Job*" }
         if ($OrphanJobs) {
