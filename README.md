@@ -1,28 +1,60 @@
-# DC Manga Downloader Suite
+readme_content = """# DC Manga Downloader Suite (Definitive Edition)
 
-An advanced, multi-threaded PowerShell suite designed to automatically crawl, parse, and download translated manga chapters from DCInside. 
+A highly robust, multithreaded, and automated toolchain designed to scrape, extract, and batch-download high-quality images and manga translations from DCInside.
+
+Built to counter modern CDN firewall restrictions, it handles native attachments, inline images, and external host links (like Imgur) gracefully while maintaining perfect local file integrity. It includes an automated crawler, a smart downloading engine, and a background logging daemon.
 
 [🇰🇷 한국어 README는 여기에 있습니다 (Korean Version)](./README_ko.md)
 
-## 🚀 Key Features
+---
 
-* **Advanced Anti-Bot Bypass:** Uses modern browser fingerprinting (Chrome UAs, Sec-Fetch headers) to bypass DCInside's "Forbidden" and empty-page bot protections.
-* **Smart Title Parsing:** Automatically cleans folder names. It strips tags like `번역)`, ignores trailing flavor text, and cleanly extracts complex chapter numbers (e.g., `2화＆9화`, `1.5화`, or standalone numbers like `29`).
-* **Uncapped Concurrent Downloads:** Uses PowerShell Jobs to download multiple images simultaneously for maximum speed. You control the thread limit.
-* **Fail-Safe & Auto-Retry System:** If the network drops or a specific image fails, the script flags the URL with a `#RETRY` tag in `download_list.txt` instead of removing it, ensuring you never miss a missing page.
-* **Asynchronous Background Logging:** Uses a Named Pipe server (`Background-Logger.ps1`) to prevent file-lock crashes when running high concurrent threads.
-* **DNS Auto-Repair:** Automatically flushes the DNS (`ipconfig /flushdns`) and recovers if host resolution fails mid-download.
-* **Session Timers & Metrics:** Tracks success/fail rates, total bandwidth used, and elapsed time per chapter and per session.
+## ✨ Comprehensive Feature List
+
+### 🕸️ Automated Board Crawler (`Run-Crawler.ps1`)
+* **Keyword Filtering:** Scans board pages for posts containing the keyword "번역" (Translation).
+* **Configurable Depth & Direction:** Set how many pages to scan (`MaxPages`) and whether to crawl Oldest-to-Newest or Newest-to-Oldest (`CrawlOrder`).
+* **Smart List Management:** Automatically appends newly found URLs to `download_list.txt` under `[automatic_urls]`, preserving manual entries and previously failed URLs (`#RETRY`).
+* **Auto-Handoff:** Automatically launches the Downloader engine upon completing the crawl.
+
+### 📥 Core Downloading Engine (`Start-Downloader.ps1`)
+* **Intelligent 403 Forbidden Bypass:** DCInside's image servers dynamically block requests based on regional routing. The script intercepts native files (`data-fileno`) and redirects them through hidden attachment endpoints (`download.php`) to completely bypass hotlink protection.
+* **Universal Link Support:** Detects externally hosted images (like Imgur) via `data-tempno` and dynamically strips DC-specific HTTP `Referer` headers to prevent third-party hosts from rejecting the connection.
+* **Strict Boundary Slicing:** Prevents "garbage collection" by enforcing strict HTML boundaries (`gallview_contents` to `reply_box` / `updown_area`). It perfectly isolates the post body so thumbnail grids and recommended posts at the bottom of the page are never downloaded.
+* **Magic Byte File Verification:** Downloads files as temporary `.tmp` binaries, reads their raw hexadecimal headers (Magic Bytes), and accurately assigns `.jpg`, `.png`, `.gif`, or `.webp` extensions before finalizing the file.
+* **Multithreaded Execution:** Uses PowerShell Jobs to download multiple files concurrently. Max concurrent downloads can be adjusted in the config.
+* **State Resumption & Cleanup:**
+  * Sweeps for and deletes lingering `.tmp` files or ghost files (extensionless) from previous aborted runs before starting.
+  * Checks existing files to automatically skip already downloaded images.
+  * Catches `Ctrl+C` interrupts securely to save stats for any background jobs that finished before the exit command.
+
+### 📝 Background Logger (`Background-Logger.ps1`)
+* **Named Pipe IPC:** Runs as a detached daemon listening on `\\.\\pipe\\DCMangaLogger`.
+* **JSON Structured Logs:** Asynchronously writes highly detailed JSON log entries to `activity_log.json` without blocking or slowing down the main downloading threads.
+
+### 🚀 Launcher (`launch.bat`)
+* **Auto-Configuration:** Automatically generates a definitive `config.yaml` if one is missing.
+* **Environment Detection:** Automatically detects if PowerShell Core (`pwsh.exe`) is installed for better performance, falling back to standard Windows PowerShell (`powershell.exe`).
+* **Process Management:** Boots the background logger, provides a clean interactive menu, and safely cleans up background processes upon exit.
 
 ---
 
-## 🛠️ File Structure
+## 🛠️ Setup & Requirements
 
-* `launch.bat` - The main entry point. Automatically generates the definitive `config.yaml`, starts the background logger, and opens the main menu.
-* `Run-Crawler.ps1` - Scans the target board for translated posts, parses the links, and queues them up in `download_list.txt`.
-* `Start-Downloader.ps1` - The core engine. Reads the queue, handles the HTML scraping, bypasses blocks, and securely downloads the images.
-* `config.yaml` - Your master settings file.
-* `download_list.txt` - The download queue consisting of `[manual_urls]` and `[automatic_urls]`.
+### Requirements
+* **Operating System:** Windows 10 or Windows 11 (Due to batch scripts and Named Pipes).
+* **Environment:** PowerShell 5.1 (native) or PowerShell 7 (Core).
+* **Network:** Active internet connection (VPNs or Proxies are supported via config).
+
+### File Structure
+Ensure all files are placed in the same directory:
+```text
+/
+├── launch.bat                 # Main entry point - Run this!
+├── config.yaml                # Configuration settings
+├── download_list.txt          # Stores URLs for auto/manual processing
+├── Run-Crawler.ps1            # Scrapes DCInside boards
+├── Start-Downloader.ps1       # The multi-threaded downloading engine
+└── Background-Logger.ps1      # Daemon for writing activity_log.json
 
 ---
 
