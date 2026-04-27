@@ -21,7 +21,6 @@ An advanced, multi-threaded PowerShell suite designed to automatically crawl, pa
 * `launch.bat` - The main entry point. Automatically generates the definitive `config.yaml`, starts the background logger, and opens the main menu.
 * `Run-Crawler.ps1` - Scans the target board for translated posts, parses the links, and queues them up in `download_list.txt`.
 * `Start-Downloader.ps1` - The core engine. Reads the queue, handles the HTML scraping, bypasses blocks, and securely downloads the images.
-* `Background-Logger.ps1` - A lightweight background process that safely catches and writes logs without slowing down the downloader.
 * `config.yaml` - Your master settings file.
 * `download_list.txt` - The download queue consisting of `[manual_urls]` and `[automatic_urls]`.
 
