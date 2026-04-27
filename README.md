@@ -10,7 +10,7 @@ Built to counter modern CDN firewall restrictions, it handles native attachments
 
 
 
-[🇰🇷 한국어 README는 여기에 있습니다 (Korean Version)](./README_korean.md)
+[🇰🇷 한국어 README는 여기에 있습니다 (Korean Version)](./README_ko.md)
 
 
 
