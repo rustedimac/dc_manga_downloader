@@ -6,64 +6,40 @@
 # The board URL to scan (Recommendation Board)
 BoardUrl: "https://gall.dcinside.com/board/lists/?id=comic_new6&exception_mode=recommend"
 
-# Number of pages to look back (Crawler scans from Page X down to 1)
+# Number of pages to look back
 MaxPages: 10
 
-# Crawl Direction: 0 = Oldest First (Page 3 -> 1), 1 = Newest First (Page 1 -> 3)
+# Crawl Direction: 0 = Oldest First, 1 = Newest First
 CrawlOrder: 0
 
-# If True, the crawler appends to the list instead of wiping it fresh.
-# Note: Downloader always removes successful links regardless of this setting.
+# Append unfinished links instead of wiping
 KeepUnfinishedLinks: False
 
 # --- Network Settings ---
-# Set to True to allow the script to flush DNS and wait 10s on "No such host" errors
 DNSAutoRepair: True
-
-# Set to False to bypass system proxies (recommended for direct connection speed)
 UseProxy: False
-
-# Delay between processing each Manga Post (in seconds) to avoid IP blocks
 RateLimitSeconds: 2.5
-
-# Max images to download at the same time (Range: 1 to 5)
-# 3 is the "Sweet Spot" for speed vs stability.
 MaxConcurrentDownloads: 3
 
 # --- Downloader Settings ---
-# Folder where images will be saved (relative .\ or absolute path)
 DownloadDir: ".\Downloads"
-
-# Path to the activity log (JSON format)
 LogPath: ".\activity_log.json"
-
-# Logging detail: "Verbose" logs every image, "Error" logs only failures
 LogLevel: "Verbose"
-
-# Set to False to hide the native PowerShell download bar for a cleaner console
 ShowProgressBar: False
-
-# Set to True to rename images to 001.jpg, 002.jpg, etc.
 RenameFilesSequential: True
-
-# Extra characters to strip from folder names (e.g., "$@")
 CustomStripChars: ""
 
 # --- Google Custom Search Engine (optional) ---
-# Enables faster, higher-quality keyword search via Google CSE in Search-Crawler.ps1.
-# If left blank, the search tool will fall back to native DCInside search automatically.
-#
-# Setup (free, ~5 minutes):
-#   1. Go to https://console.cloud.google.com/ and create a project
-#   2. Enable the "Custom Search API" for your project
-#   3. Generate an API key under APIs & Services > Credentials
-#   4. Go to https://programmablesearchengine.google.com/ and create a search engine
-#      scoped to: gall.dcinside.com
-#   5. Copy the "Search engine ID" (cx) from the Overview page
 GoogleCseApiKey: ""
 GoogleCseCxId: ""
 
+# --- Crawler Log Settings ---
+# Folder for Search-Crawler JSON logs (separate from downloader's activity_log.json)
+CrawlerLogDir: ".\logs"
+
+# Crawler log detail: "Verbose" logs everything, "Error" logs only failures
+CrawlerLogLevel: "Verbose"
+
 # --- Debug & Compatibility ---
-# Set to True to force the use of powershell.exe (v5.1) even if pwsh (v7) is installed.
-# If False, the script will automatically prefer pwsh.exe and fallback to powershell.exe.
 ForceLegacyMode: False
+``
