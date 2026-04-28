@@ -12,15 +12,17 @@ $ListFile   = Join-Path $ScriptRoot "download_list.txt"
 $Downloader = Join-Path $ScriptRoot "Start-Downloader.ps1"
 
 # =========================
-# Config Loader
+# Config Loader (Hybrid Native Parser)
 # =========================
 function Get-CrawlerConfig {
-    $cfg = Join-Path $PSScriptRoot "config.yaml"
-    if (-not (Test-Path $cfg)) { throw "config.yaml not found" }
-    if (-not (Get-Command ConvertFrom-Yaml -ErrorAction SilentlyContinue)) {
-        throw "ConvertFrom-Yaml required (PowerShell 7+)"
+    $cfgPath = Join-Path $PSScriptRoot "config.yaml"
+    if (-not (Test-Path $cfgPath)) { throw "config.yaml not found" }
+    
+    $ConfigObj = @{}
+    Get-Content $cfgPath -Encoding UTF8 | Where-Object { $_ -match '^\s*([^:]+)\s*:\s*(.*)$' } | ForEach-Object {
+        $ConfigObj[$Matches[1].Trim()] = ($Matches[2] -split '#')[0].Trim(" `"'")
     }
-    Get-Content $cfg -Raw -Encoding UTF8 | ConvertFrom-Yaml
+    return $ConfigObj
 }
 $Config = Get-CrawlerConfig
 
@@ -34,12 +36,12 @@ $script:RunId = [guid]::NewGuid().ToString()
 # =========================
 $LogDir = Join-Path $ScriptRoot ($Config.CrawlerLogDir -replace '^.\[\\/]', '')
 if (-not (Test-Path $LogDir)) {
-    New-Item -ItemType Directory -Path $LogDir | Out-Null
+    New-Item -ItemType Directory -Path $LogDir -Force | Out-Null
 }
 
 $LogFile  = Join-Path $LogDir "crawler.log.jsonl"
-$MaxBytes = $Config.CrawlerLogMaxMB * 1MB
-$MaxFiles = $Config.CrawlerLogMaxFiles
+$MaxBytes = [int]$Config.CrawlerLogMaxMB * 1MB
+$MaxFiles = [int]$Config.CrawlerLogMaxFiles
 
 $LogRank = @{ Error=0; Warn=1; Info=2; Verbose=3 }
 
@@ -71,8 +73,13 @@ function Write-CrawlerLog {
     }
     foreach ($k in $Data.Keys) { $entry[$k] = $Data[$k] }
 
-    ($entry | ConvertTo-Json -Compress) |
-        Add-Content -Path $LogFile -Encoding UTF8
+    if ($PSVersionTable.PSVersion.Major -ge 6) {
+        $JsonStr = $entry | ConvertTo-Json -Compress -EscapeHandling EscapeHtml
+    } else {
+        $JsonStr = ($entry | ConvertTo-Json -Compress) -replace '\\u0026', '&'
+    }
+    
+    $JsonStr | Add-Content -Path $LogFile -Encoding UTF8
 }
 
 function Write-Log {
@@ -82,7 +89,7 @@ function Write-Log {
 }
 
 # =========================
-# Series Extraction (FIXED)
+# Series Extraction 
 # =========================
 function Extract-SeriesFromHtml {
     param(
@@ -105,17 +112,15 @@ function Extract-SeriesFromHtml {
     # --- FIXED TITLE LOGIC ---
     $clean = ($after -replace '<[^>]+>', '').Trim()
 
-    
     if ($clean -match '^(?<series>.*?)\s*·') {
         $title = $Matches['series'].Trim()
     } else {
         $title = $clean.Trim()
     }
 
-
     if (-not $title) { $title = "UNKNOWN" }
 
-    # --- CHAPTER EXTRACTION (unchanged) ---
+    # --- CHAPTER EXTRACTION ---
     $chapterMatches = [regex]::Matches(
         $after,
         '<a[^>]+href="([^"]+)"[^>]*>\s*·\s*([^<]+)</a>',
@@ -144,7 +149,6 @@ function Extract-SeriesFromHtml {
     return @{ $title = $chapters }
 }
 
-
 # =========================
 # CSV Helpers
 # =========================
@@ -169,6 +173,8 @@ function Merge-SeriesCsv($SeriesMap) {
         }
     }
     Write-SeriesCsv $out
+    Write-Host "Successfully merged to CSV." -ForegroundColor Green
+    Start-Sleep -Seconds 1
 }
 
 # =========================
@@ -197,7 +203,8 @@ function Add-ToManualDownloadList($Urls) {
 
 function Invoke-ManualDownloader {
     Write-CrawlerLog Info Handoff StartDownloaderInvoked @{ mode="MANUAL" }
-    powershell -ExecutionPolicy Bypass -File $Downloader
+    # Use native call operator so it safely runs inside current fast pwsh session
+    & $Downloader
 }
 
 # =========================
@@ -205,9 +212,15 @@ function Invoke-ManualDownloader {
 # =========================
 function Start-NativeSearch {
     $url = Read-Host "Enter DCInside post URL"
-    $html = Invoke-WebRequest $url -UseBasicParsing | Select-Object -Expand Content
-    $series = Extract-SeriesFromHtml $html $url
-    if ($series.Count) { Merge-SeriesCsv $series }
+    try {
+        $html = Invoke-WebRequest $url -UseBasicParsing | Select-Object -Expand Content
+        $series = Extract-SeriesFromHtml $html $url
+        if ($series.Count) { Merge-SeriesCsv $series }
+        else { Write-Host "No series data found at that URL." -ForegroundColor Yellow; Start-Sleep -Seconds 2 }
+    } catch {
+        Write-Host "Failed to reach URL: $($_.Exception.Message)" -ForegroundColor Red
+        Start-Sleep -Seconds 2
+    }
 }
 
 # =========================
@@ -216,9 +229,11 @@ function Start-NativeSearch {
 function Start-GoogleSearch {
     if (-not $Config.GoogleCseApiKey -or -not $Config.GoogleCseCxId) {
         Write-Host "Google CSE not configured."
+        Start-Sleep -Seconds 1
         return
     }
     Write-Host "Google search preserved."
+    Start-Sleep -Seconds 1
 }
 
 # =========================
@@ -226,70 +241,91 @@ function Start-GoogleSearch {
 # =========================
 function Start-SeriesBrowser {
     Write-Host "Existing series browser preserved."
+    Start-Sleep -Seconds 1
 }
 
 # =========================
-# Feature 4: CSV Series Browser (NEW)
+# Feature 4: CSV Series Browser
 # =========================
 function Start-CsvSeriesBrowser {
     $rows = Read-SeriesCsv
-    if (-not $rows) { Write-Host "CSV empty."; return }
+    if (-not $rows) { Write-Host "CSV empty."; Start-Sleep -Seconds 1; return }
 
     $groups = $rows | Group-Object Series | Sort-Object Name
     $page = 0
 
     while ($true) {
         Clear-Host
-        Write-Host "=== CSV SERIES BROWSER ==="
-        $slice = $groups | Select-Object -Skip ($page*10) -First 10
-        for ($i=0;$i -lt $slice.Count;$i++) {
+        Write-Host "=== CSV SERIES BROWSER ===" -ForegroundColor Cyan
+        
+        $slice = $groups | Select-Object -Skip ($page * 10) -First 10
+        for ($i=0; $i -lt $slice.Count; $i++) {
             Write-Host "[$i] $($slice[$i].Name)"
         }
 
-        Write-Host "n/p page | b back"
+        Write-Host "`nn/p page | b back" -ForegroundColor Gray
         $k = Read-Host "Input"
+        
         if ($k -eq 'b') { return }
-        if ($k -eq 'n') { $page++; continue }
+        if ($k -eq 'n' -and ($page * 10 + 10) -lt $groups.Count) { $page++; continue }
         if ($k -eq 'p' -and $page -gt 0) { $page--; continue }
 
-        if ($k -match '^[0-9]$') {
-            Browse-CsvSeriesChapters $slice[$k]
+        # Single-digit selection locked to the current page slice
+        if ($k -match '^[0-9]$' -and [int]$k -lt $slice.Count) {
+            Browse-CsvSeriesChapters $slice[[int]$k]
         }
     }
 }
 
 function Browse-CsvSeriesChapters($Group) {
     $chs = $Group.Group
-    Clear-Host
-    Write-Host "=== $($Group.Name) ==="
-    for ($i=0;$i -lt $chs.Count;$i++) {
-        Write-Host "[$i] $($chs[$i].Chapter)"
-    }
+    $page = 0
 
-    Write-Host "d = queue all | b = back"
-    $k = Read-Host "Input"
-    if ($k -eq 'b') { return }
-    if ($k -eq 'd') {
-        Add-ToManualDownloadList $chs.Url
-        Invoke-ManualDownloader
-    }
-    elseif ($k -match '^[0-9]$') {
-        Add-ToManualDownloadList $chs[$k].Url
-        Invoke-ManualDownloader
+    while ($true) {
+        Clear-Host
+        Write-Host "=== $($Group.Name) ===" -ForegroundColor Cyan
+        
+        # Added pagination to match the Title Browser design
+        $slice = $chs | Select-Object -Skip ($page * 10) -First 10
+        for ($i=0; $i -lt $slice.Count; $i++) {
+            Write-Host "[$i] $($slice[$i].Chapter)"
+        }
+
+        Write-Host "`nn/p page | d queue all | b back" -ForegroundColor Gray
+        $k = Read-Host "Input"
+        
+        if ($k -eq 'b') { return }
+        if ($k -eq 'd') {
+            Add-ToManualDownloadList $chs.Url
+            Invoke-ManualDownloader
+            return
+        }
+        if ($k -eq 'n' -and ($page * 10 + 10) -lt $chs.Count) { $page++; continue }
+        if ($k -eq 'p' -and $page -gt 0) { $page--; continue }
+
+        # Single-digit selection locked to the current page slice
+        if ($k -match '^[0-9]$' -and [int]$k -lt $slice.Count) {
+            Add-ToManualDownloadList $slice[[int]$k].Url
+            Invoke-ManualDownloader
+            return
+        }
     }
 }
 
 # =========================
-# CLI (original + appended option 4)
+# CLI
 # =========================
 function Show-Menu {
-    Write-Host ""
-    Write-Host "==== Search Crawler ===="
-    Write-Host "1. Native DCInside Search"
-    Write-Host "2. Google Search"
-    Write-Host "3. Series Browser"
-    Write-Host "4. CSV Series Browser"
-    Write-Host "0. Exit"
+    Clear-Host
+    Write-Host "==========================================" -ForegroundColor Cyan
+    Write-Host "          DC Manga Search-Crawler         " -ForegroundColor Cyan
+    Write-Host "==========================================" -ForegroundColor Cyan
+    Write-Host " 1. Native DCInside Search"
+    Write-Host " 2. Google Search"
+    Write-Host " 3. Series Browser"
+    Write-Host " 4. CSV Series Browser"
+    Write-Host " 0. Exit"
+    Write-Host "==========================================" -ForegroundColor Cyan
 }
 
 do {
@@ -301,6 +337,6 @@ do {
         "3" { Start-SeriesBrowser }
         "4" { Start-CsvSeriesBrowser }
         "0" { break }
-        default { Write-Host "Invalid option" }
+        default { Write-Host "Invalid option" -ForegroundColor Red; Start-Sleep -Seconds 1 }
     }
 } while ($true)
