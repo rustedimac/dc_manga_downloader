@@ -3,8 +3,8 @@
 try { [Console]::OutputEncoding = [System.Text.Encoding]::UTF8 } catch {}
 
 . (Join-Path $PSScriptRoot "Get-Config.ps1")
-$Config   = Get-Config
-$CsvFile  = Join-Path $PSScriptRoot "series_catalog.csv"
+$Config  = Get-Config
+$CsvFile = Join-Path $PSScriptRoot "series_catalog.csv"
 
 $MaxPages = [int]$Config.MaxPages
 $Headers = @{
@@ -13,37 +13,13 @@ $Headers = @{
 }
 
 # =========================
-# JSON LOGGING
-# =========================
-$LogDir = $Config.CrawlerLogDir
-if (-not (Test-Path $LogDir)) { New-Item -ItemType Directory -Path $LogDir | Out-Null }
-$LogFile = Join-Path $LogDir "crawler_$(Get-Date -Format yyyyMMdd_HHmmss).json"
-
-$Log = [ordered]@{ events = @() }
-
-function Log($cat,$msg,$data=@{}) {
-    $Log.events += @{
-        time = (Get-Date).ToString("o")
-        category = $cat
-        message = $msg
-        data = $data
-    }
-}
-
-function Save-Log {
-    $Log | ConvertTo-Json -Depth 6 | Set-Content $LogFile -Encoding UTF8
-}
-
-# =========================
 # HELPERS
 # =========================
 function Get-PageHtml($Url) {
     try {
         $r = Invoke-WebRequest -Uri $Url -Headers $Headers -TimeoutSec 15
-        Log "Fetch" "OK" @{ url=$Url; length=$r.Content.Length }
         return $r.Content
     } catch {
-        Log "Fetch" "FAIL" @{ url=$Url; error=$_.Exception.Message }
         return $null
     }
 }
@@ -55,83 +31,103 @@ function Clean-DcUrl($u) {
 # =========================
 # SERIES PARSER (FIXED)
 # =========================
-function Get-SeriesFromHtml($Html) {
-    $Result = @{}
+# Extract all dc_series blocks from a post's HTML
+function Get-SeriesFromHtml([string]$Html) {
+    $SeriesMap = @{}
 
+    # FIXED: capture entire dc_series block, not just up to first inner </div>
     $Blocks = [regex]::Matches(
         $Html,
         '(?s)<div\s+class="dc_series"[^>]*>(.+?)</div>\s*(?=<div|$)'
     )
 
-    Log "SeriesScan" "dc_series blocks" @{ count=$Blocks.Count }
+    foreach ($Block in $Blocks) {
+        $BlockHtml = $Block.Groups[1].Value
 
-    foreach ($B in $Blocks) {
-        $BlockHtml = $B.Groups[1].Value
-
-        if ($BlockHtml -notmatch '<div[^>]*font-weight\s*:\s*bold[^>]*>\s*\[시리즈\]\s*(.*?)\s*</div>') {
-            continue
+        # Title extraction
+        $SeriesTitle = "Unknown Series"
+        if ($BlockHtml -match '<div[^>]*font-weight\s*:\s*bold[^>]*>\s*\[시리즈\]\s*(.*?)\s*</div>') {
+            $SeriesTitle = $Matches[1].Trim()
         }
 
-        $Title = $Matches[1].Trim()
-
-        $Links = [regex]::Matches(
+        # Chapter link extraction
+        $ChapterLinks = [regex]::Matches(
             $BlockHtml,
             '<a\s+class="lnk"[^>]*href="([^"]+)"[^>]*>\s*·\s*(.*?)\s*</a>'
         )
 
-        if ($Links.Count -eq 0) { continue }
-
         $Chapters = @()
-        foreach ($L in $Links) {
-            $Chapters += [PSCustomObject]@{
-                Series  = $Title
-                Chapter = $L.Groups[2].Value.Trim()
-                URL     = Clean-DcUrl $L.Groups[1].Value
+        foreach ($L in $ChapterLinks) {
+            $ChUrl   = Clean-DcUrl ($L.Groups[1].Value)
+            $ChTitle = ($L.Groups[2].Value -replace '<[^>]+>', '').Replace('&amp;', '&').Replace('&lt;', '<').Replace('&gt;', '>').Trim()
+            $Chapters += [PSCustomObject]@{ Title = $ChTitle; URL = $ChUrl }
+        }
+
+        if ($Chapters.Count -gt 0 -and $SeriesTitle -ne "Unknown Series") {
+            $SeriesMap[$SeriesTitle] = $Chapters
+        }
+    }
+
+    return $SeriesMap
+}
+
+# =========================
+# SERIES BROWSER MODE
+# =========================
+function Start-SeriesBrowser {
+    Write-Host ""
+    Write-Host "Scanning $MaxPages page(s)..." -ForegroundColor Cyan
+
+    $All = @()
+
+    for ($p = 1; $p -le $MaxPages; $p++) {
+        $ListHtml = Get-PageHtml "$($Config.BoardUrl)&page=$p"
+        if (-not $ListHtml) { continue }
+
+        $Posts = [regex]::Matches(
+            $ListHtml,
+            '/board/view/\?id=[^"&]+&no=\d+'
+        ) | ForEach-Object {
+            "https://gall.dcinside.com$($_.Value)"
+        } | Select-Object -Unique
+
+        foreach ($Post in $Posts) {
+            $PostHtml = Get-PageHtml $Post
+            if (-not $PostHtml) { continue }
+            if ($PostHtml -notmatch 'dc_series') { continue }
+
+            $Series = Get-SeriesFromHtml $PostHtml
+            foreach ($S in $Series.Values) {
+                $All += $S
+                Write-Host "[SERIES] $($S[0].Series)" -ForegroundColor Green
             }
         }
-
-        $Result[$Title] = $Chapters
     }
 
-    return $Result
-}
-
-# =========================
-# MAIN SCAN
-# =========================
-$All = @()
-
-for ($p=1; $p -le $MaxPages; $p++) {
-    $ListHtml = Get-PageHtml "$($Config.BoardUrl)&page=$p"
-    if (-not $ListHtml) { continue }
-
-    $Posts = [regex]::Matches(
-        $ListHtml,
-        '/board/view/\?id=[^"&]+&no=\d+'
-    ) | ForEach-Object {
-        "https://gall.dcinside.com$($_.Value)"
-    } | Select-Object -Unique
-
-    foreach ($Post in $Posts) {
-        $PostHtml = Get-PageHtml $Post
-        if (-not $PostHtml) { continue }
-        if ($PostHtml -notmatch 'dc_series') { continue }
-
-        $Series = Get-SeriesFromHtml $PostHtml
-        foreach ($S in $Series.Values) {
-            $All += $S
-            Write-Host "[SERIES] $($S[0].Series)" -ForegroundColor Green
-        }
+    if ($All.Count -gt 0) {
+        $All | Export-Csv $CsvFile -NoTypeInformation -Encoding UTF8
+        Write-Host ""
+        Write-Host "Saved to $CsvFile" -ForegroundColor Cyan
+    } else {
+        Write-Host ""
+        Write-Host "No series found." -ForegroundColor Red
     }
 }
 
-if ($All.Count -gt 0) {
-    $All | Export-Csv $CsvFile -NoTypeInformation -Encoding UTF8
-    Write-Host "`nSaved to $CsvFile" -ForegroundColor Cyan
-} else {
-    Write-Host "`nNo series found." -ForegroundColor Red
+# =========================
+# CLI MENU (RESTORED)
+# =========================
+Clear-Host
+Write-Host "DCinside Series Crawler" -ForegroundColor Cyan
+Write-Host ""
+Write-Host "1. Series Browser"
+Write-Host "2. Exit"
+
+switch (Read-Host "Select") {
+    "1" { Start-SeriesBrowser }
+    default { }
 }
 
-Save-Log
-Write-Host "Log saved to $LogFile"
-``
+Write-Host ""
+Write-Host "Press any key to exit..."
+[Console]::ReadKey($true)
