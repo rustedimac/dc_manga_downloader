@@ -63,11 +63,9 @@ CustomStripChars: ""
 GoogleCseApiKey: ""
 GoogleCseCxId: ""
 
-# --- Crawler Log Settings ---
-# Folder for Search-Crawler JSON logs (separate from downloader's activity_log.json)
-CrawlerLogDir: ".\logs"
 
-# Crawler log detail: "Verbose" logs every post scanned, "Error" logs only failures
+# --- Crawler Log Settings ---
+CrawlerLogDir: ".\logs"
 CrawlerLogLevel: "Verbose"
 
 # --- Debug & Compatibility ---
