@@ -1,0 +1,2573 @@
+{
+  "run_start": "2026-04-28T00:29:57.3107417-04:00",
+  "log_level": "Verbose",
+  "mode": "SeriesBrowser",
+  "events": [
+    {
+      "timestamp": "2026-04-28T00:29:58.3694524-04:00",
+      "level": "INFO",
+      "category": "SeriesBrowser",
+      "message": "Starting board scan",
+      "data": {
+        "board": "https://gall.dcinside.com/board/lists/?id=comic_new6&exception_mode=recommend",
+        "pages": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:29:59.8738578-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 195903,
+        "url": "https://gall.dcinside.com/board/lists/?id=comic_new6&exception_mode=recommend&page=1"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:29:59.8750196-04:00",
+      "level": "DEBUG",
+      "category": "SeriesBrowser",
+      "message": "Board page fetched",
+      "data": {
+        "page": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:29:59.9191678-04:00",
+      "level": "DEBUG",
+      "category": "SeriesBrowser",
+      "message": "Post links found",
+      "data": {
+        "count": 112,
+        "page": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:01.3567801-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 264013,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4077652"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:01.3578031-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post has dc_series",
+      "data": {
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4077652"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:01.3717725-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:01.3786440-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Block parsed",
+      "data": {
+        "title": ".",
+        "chapters": 0
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:01.3800153-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Extraction result",
+      "data": {
+        "series_count": 0,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4077652"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:02.9016710-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 282023,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4082927"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:02.9022370-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post has dc_series",
+      "data": {
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4082927"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:02.9076657-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:02.9080123-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Block parsed",
+      "data": {
+        "title": "이세계 헌헌 전체 링크",
+        "chapters": 0
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:02.9081524-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Extraction result",
+      "data": {
+        "series_count": 0,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4082927"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:04.2754288-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 252316,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4077539"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:04.2757394-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post has dc_series",
+      "data": {
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4077539"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:04.2775818-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:04.2780485-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Block parsed",
+      "data": {
+        "title": "우에부리 씨는 추천하고 싶어",
+        "chapters": 0
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:04.2782580-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Extraction result",
+      "data": {
+        "series_count": 0,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4077539"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:05.7126146-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 273332,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4077651"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:05.7132077-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post has dc_series",
+      "data": {
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4077651"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:05.7138856-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:05.7141577-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Block parsed",
+      "data": {
+        "title": "호리데이 야스미 링크 모음",
+        "chapters": 0
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:05.7144020-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Extraction result",
+      "data": {
+        "series_count": 0,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4077651"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:07.1941018-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 284438,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4078435"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:07.1943637-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post has dc_series",
+      "data": {
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4078435"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:07.1985665-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:07.1988961-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Block parsed",
+      "data": {
+        "title": "1",
+        "chapters": 0
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:07.1990267-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Extraction result",
+      "data": {
+        "series_count": 0,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4078435"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:08.6875600-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 270692,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4080785"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:08.6883810-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post has dc_series",
+      "data": {
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4080785"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:08.6914115-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:08.6916915-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Block parsed",
+      "data": {
+        "title": "1",
+        "chapters": 0
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:08.6918273-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Extraction result",
+      "data": {
+        "series_count": 0,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4080785"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:10.0937572-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 257367,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4086014"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:11.4775018-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 260392,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4080295"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:11.4777034-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post has dc_series",
+      "data": {
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4080295"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:11.4801069-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:11.4803936-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Block parsed",
+      "data": {
+        "title": "번역) 밥벌레 신령님",
+        "chapters": 0
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:11.4805215-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Extraction result",
+      "data": {
+        "series_count": 0,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4080295"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:12.9802361-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 277499,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4084538"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:14.4551408-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 269071,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4077890"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:14.4554336-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post has dc_series",
+      "data": {
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4077890"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:14.4572406-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:14.4578800-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Block parsed",
+      "data": {
+        "title": "진심 스크램블!",
+        "chapters": 0
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:14.4579936-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Extraction result",
+      "data": {
+        "series_count": 0,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4077890"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:15.8196131-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 248590,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4086044"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:17.1683284-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 255261,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4082530"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:17.1685301-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post has dc_series",
+      "data": {
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4082530"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:17.1692686-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:17.1694186-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Block parsed",
+      "data": {
+        "title": "벗어줘잉",
+        "chapters": 0
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:17.1694759-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Extraction result",
+      "data": {
+        "series_count": 0,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4082530"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:18.5756131-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 266456,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4081650"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:18.5758667-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post has dc_series",
+      "data": {
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4081650"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:18.5795498-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:18.5798929-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Block parsed",
+      "data": {
+        "title": "단둘이 버스",
+        "chapters": 0
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:18.5799844-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Extraction result",
+      "data": {
+        "series_count": 0,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4081650"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:19.9746734-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 257109,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4080984"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:21.4114575-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 278497,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4081188"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:21.4116295-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post has dc_series",
+      "data": {
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4081188"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:21.4142651-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:21.4144420-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Block parsed",
+      "data": {
+        "title": "Jhon dick",
+        "chapters": 0
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:21.4144999-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Extraction result",
+      "data": {
+        "series_count": 0,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4081188"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:22.8910125-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 282786,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4080431"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:24.3371739-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 272903,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4081130"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:24.3373538-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post has dc_series",
+      "data": {
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4081130"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:24.3391086-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:24.3396180-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Block parsed",
+      "data": {
+        "title": "삼청교육대",
+        "chapters": 0
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:24.3396923-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Extraction result",
+      "data": {
+        "series_count": 0,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4081130"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:25.7765612-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 267721,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4085670"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:25.7769745-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post has dc_series",
+      "data": {
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4085670"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:25.7813199-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:25.7815825-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Block parsed",
+      "data": {
+        "title": "파도의 침묵의 호리존트",
+        "chapters": 0
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:25.7816832-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Extraction result",
+      "data": {
+        "series_count": 0,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4085670"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:27.2349265-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 280280,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4077337"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:27.2352171-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post has dc_series",
+      "data": {
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4077337"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:27.2405578-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:27.2408234-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Block parsed",
+      "data": {
+        "title": "MZ 후지이 부활",
+        "chapters": 0
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:27.2409266-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Extraction result",
+      "data": {
+        "series_count": 0,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4077337"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:28.6340454-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 264499,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4077293"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:28.6347228-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post has dc_series",
+      "data": {
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4077293"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:28.6382473-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:28.6384523-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Block parsed",
+      "data": {
+        "title": "쓰레기재수생 105화~",
+        "chapters": 0
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:28.6385303-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Extraction result",
+      "data": {
+        "series_count": 0,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4077293"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:30.0478574-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 264758,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4077248"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:31.4850135-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 268798,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4076832"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:31.4852916-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post has dc_series",
+      "data": {
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4076832"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:31.4885723-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:31.4887676-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Block parsed",
+      "data": {
+        "title": "1",
+        "chapters": 0
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:31.4888263-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Extraction result",
+      "data": {
+        "series_count": 0,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4076832"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:32.8908484-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 261344,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4076464"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:32.8910091-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post has dc_series",
+      "data": {
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4076464"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:32.8927082-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:32.8929026-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Block parsed",
+      "data": {
+        "title": "모녀사기단",
+        "chapters": 0
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:32.8929844-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Extraction result",
+      "data": {
+        "series_count": 0,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4076464"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:34.3667545-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 292883,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4076069"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:34.3670676-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post has dc_series",
+      "data": {
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4076069"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:34.3732441-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:34.3734483-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Block parsed",
+      "data": {
+        "title": "유기 대현자 1",
+        "chapters": 0
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:34.3735297-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Extraction result",
+      "data": {
+        "series_count": 0,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4076069"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:35.7976160-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 268786,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4075648"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:35.7978005-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post has dc_series",
+      "data": {
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4075648"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:35.8005493-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:35.8011752-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Block parsed",
+      "data": {
+        "title": "1",
+        "chapters": 0
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:35.8012369-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Extraction result",
+      "data": {
+        "series_count": 0,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4075648"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:37.1753212-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 258058,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4075050"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:38.6378377-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 270713,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4074947"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:38.6380963-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post has dc_series",
+      "data": {
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4074947"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:38.6409625-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:38.6415061-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Block parsed",
+      "data": {
+        "title": "물 마법 현대 지식 충분?",
+        "chapters": 0
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:38.6415995-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Extraction result",
+      "data": {
+        "series_count": 0,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4074947"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:40.0618300-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 262985,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4074701"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:40.0621330-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post has dc_series",
+      "data": {
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4074701"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:40.0646746-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:40.0655367-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Block parsed",
+      "data": {
+        "title": "맹렬 괴짜가족 시리즈",
+        "chapters": 0
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:40.0657254-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Extraction result",
+      "data": {
+        "series_count": 0,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4074701"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:41.5142035-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 268259,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4074682"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:41.5143906-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post has dc_series",
+      "data": {
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4074682"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:41.5168009-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:41.5169961-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Block parsed",
+      "data": {
+        "title": "1",
+        "chapters": 0
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:41.5170827-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Extraction result",
+      "data": {
+        "series_count": 0,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4074682"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:43.0159599-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 280854,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4074658"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:43.0162192-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post has dc_series",
+      "data": {
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4074658"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:43.0204573-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:43.0206631-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Block parsed",
+      "data": {
+        "title": "미이쨩과 야마다씨",
+        "chapters": 0
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:43.0207300-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Extraction result",
+      "data": {
+        "series_count": 0,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4074658"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:44.4514836-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 268414,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4074061"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:44.4517119-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post has dc_series",
+      "data": {
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4074061"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:44.4537031-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:44.4538351-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Block parsed",
+      "data": {
+        "title": "1",
+        "chapters": 0
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:44.4538804-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Extraction result",
+      "data": {
+        "series_count": 0,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4074061"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:45.8852226-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 267471,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4073537"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:45.8854740-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post has dc_series",
+      "data": {
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4073537"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:45.8888519-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:45.8890984-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Block parsed",
+      "data": {
+        "title": "1",
+        "chapters": 0
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:45.8891894-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Extraction result",
+      "data": {
+        "series_count": 0,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4073537"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:47.3061772-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 263989,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4073391"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:47.3063917-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post has dc_series",
+      "data": {
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4073391"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:47.3089910-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:47.3091760-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Block parsed",
+      "data": {
+        "title": "진심 스크램블!",
+        "chapters": 0
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:47.3092638-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Extraction result",
+      "data": {
+        "series_count": 0,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4073391"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:48.7817105-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 272539,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4067594"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:48.7819078-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post has dc_series",
+      "data": {
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4067594"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:48.7846447-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:48.7848109-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Block parsed",
+      "data": {
+        "title": "전생 무패",
+        "chapters": 0
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:48.7848698-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Extraction result",
+      "data": {
+        "series_count": 0,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4067594"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:50.2064414-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 274229,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4065803"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:50.2065871-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post has dc_series",
+      "data": {
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4065803"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:50.2089859-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:50.2091615-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Block parsed",
+      "data": {
+        "title": "나는 마음대로",
+        "chapters": 0
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:50.2096238-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Extraction result",
+      "data": {
+        "series_count": 0,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4065803"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:51.6453117-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 269192,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4063903"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:53.0384503-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 259586,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4063849"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:53.0385981-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post has dc_series",
+      "data": {
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4063849"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:53.0402909-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:53.0404398-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Block parsed",
+      "data": {
+        "title": "진심 스크램블!",
+        "chapters": 0
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:53.0405187-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Extraction result",
+      "data": {
+        "series_count": 0,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4063849"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:54.4527926-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 270565,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4063797"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:54.4530392-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post has dc_series",
+      "data": {
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4063797"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:54.4556040-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:54.4558494-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Block parsed",
+      "data": {
+        "title": "달콤한 생활 2nd",
+        "chapters": 0
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:54.4559309-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Extraction result",
+      "data": {
+        "series_count": 0,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4063797"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:55.9050755-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 263393,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4062603"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:55.9053658-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post has dc_series",
+      "data": {
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4062603"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:55.9063832-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:55.9065163-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Block parsed",
+      "data": {
+        "title": "1",
+        "chapters": 0
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:55.9065805-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Extraction result",
+      "data": {
+        "series_count": 0,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4062603"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:57.3067131-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 262402,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4058767"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:58.7024808-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 262970,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4058266"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:58.7027749-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post has dc_series",
+      "data": {
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4058266"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:58.7055002-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:58.7056856-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Block parsed",
+      "data": {
+        "title": "헤이세이 패잔병☆스미레 쨩",
+        "chapters": 0
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:30:58.7057643-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Extraction result",
+      "data": {
+        "series_count": 0,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4058266"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:31:00.0554601-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 248118,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4057116"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:31:00.0556976-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post has dc_series",
+      "data": {
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4057116"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:31:00.0575818-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:31:00.0576838-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Block parsed",
+      "data": {
+        "title": "만순마위",
+        "chapters": 0
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:31:00.0577312-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Extraction result",
+      "data": {
+        "series_count": 0,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4057116"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:31:01.4718137-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 258927,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4056395"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:31:01.4719559-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post has dc_series",
+      "data": {
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4056395"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:31:01.4729164-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:31:01.4730568-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Block parsed",
+      "data": {
+        "title": "만순마위",
+        "chapters": 0
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:31:01.4731357-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Extraction result",
+      "data": {
+        "series_count": 0,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4056395"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:31:02.8835612-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 258714,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4055234"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:31:02.8837360-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post has dc_series",
+      "data": {
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4055234"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:31:02.8849991-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:31:02.8851014-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Block parsed",
+      "data": {
+        "title": "만순마위",
+        "chapters": 0
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:31:02.8851375-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Extraction result",
+      "data": {
+        "series_count": 0,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4055234"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:31:04.3404200-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 267427,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4055014"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:31:04.3405554-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post has dc_series",
+      "data": {
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4055014"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:31:04.3416777-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:31:04.3417679-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Block parsed",
+      "data": {
+        "title": "파도의 침묵의 호리존트",
+        "chapters": 0
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:31:04.3418120-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Extraction result",
+      "data": {
+        "series_count": 0,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4055014"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:31:05.7315408-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 251960,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4054882"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:31:07.1811386-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 271455,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4053772"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:31:07.1812804-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post has dc_series",
+      "data": {
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4053772"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:31:07.1839108-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:31:07.1840504-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Block parsed",
+      "data": {
+        "title": "내 일편단심을 방해하는 저 녀석",
+        "chapters": 0
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:31:07.1844580-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Extraction result",
+      "data": {
+        "series_count": 0,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4053772"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:31:08.5989247-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 256773,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4053029"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:31:10.0609699-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 277798,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4053027"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:31:11.5345706-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 276657,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4052872"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:31:12.9449361-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 283990,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424672"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:31:14.1161456-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 261921,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424727"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:31:15.6020456-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 294626,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424766"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:31:17.1206580-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 287698,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424805"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:31:18.5510098-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 262297,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424783"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:31:19.9828663-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 262301,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424809"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:31:21.4397074-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 274763,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424692"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:31:22.6988261-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 286524,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424710"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:31:24.1662442-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 302484,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424791"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:31:25.6306568-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 276048,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424686"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:31:27.1188745-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 283576,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424724"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:31:28.6622793-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 296276,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424706"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:31:30.1030947-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 262372,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424708"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:31:31.5226189-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 268418,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424740"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:31:32.9362128-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 271474,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424742"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:31:34.3568037-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 276359,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424694"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:31:35.8300599-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 270769,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424803"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:31:37.2703415-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 293412,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424739"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:31:38.7777192-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 276660,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424732"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:31:40.1760740-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 262846,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424797"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:31:41.6382550-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 273376,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424743"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:31:43.1425150-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 284492,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424725"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:31:44.5914659-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 268020,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424676"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:31:46.0568296-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 269296,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424680"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:31:47.4861511-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 267090,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424751"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:31:48.7163887-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 292312,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424735"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:31:50.1478635-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 267057,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424682"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:31:51.6054252-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 269112,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424760"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:31:53.0299077-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 272655,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424700"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:31:54.6258445-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 297970,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424670"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:31:56.0812693-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 268717,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424745"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:31:57.5489808-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 278287,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424773"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:31:59.1292466-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 291002,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424719"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:32:00.5601373-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 264544,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424737"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:32:01.9637411-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 267160,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424674"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:32:03.3991959-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 267387,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424775"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:32:04.8672530-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 276227,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424769"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:32:06.3319455-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 269678,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424789"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:32:07.7537757-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 280647,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424720"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:32:09.3588256-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 309305,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424754"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:32:10.7824607-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 262154,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424678"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:32:12.2688117-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 282240,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424715"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:32:13.6665302-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 262009,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424704"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:32:15.0928860-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 262829,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424811"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:32:16.5262739-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 282809,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424752"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:32:17.9553720-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 269723,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424771"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:32:19.4654334-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 292951,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424714"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:32:20.9141573-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 270168,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424758"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:32:22.3414765-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 279718,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424746"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:32:23.8166076-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 277650,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424688"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:32:25.0019100-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 269917,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424749"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:32:26.4292097-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 268623,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424777"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:32:27.8659314-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 262223,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424698"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:32:29.3518045-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 273359,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424734"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:32:30.7357032-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 269894,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424779"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:32:32.1849463-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 287125,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424761"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:32:33.5479099-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 243299,
+        "url": "https://gall.dcinside.com/board/view/?id=leagueoflegends6&no=13035940"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:32:34.9093169-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 243499,
+        "url": "https://gall.dcinside.com/board/view/?id=leagueoflegends6&no=13035215"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:32:36.2714604-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 242977,
+        "url": "https://gall.dcinside.com/board/view/?id=leagueoflegends6&no=13034334"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:32:37.6252318-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 241673,
+        "url": "https://gall.dcinside.com/board/view/?id=leagueoflegends6&no=13031709"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:32:38.9753164-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 244113,
+        "url": "https://gall.dcinside.com/board/view/?id=leagueoflegends6&no=13031056"
+      }
+    },
+    {
+      "timestamp": "2026-04-28T00:32:40.0929909-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 251574,
+        "url": "https://gall.dcinside.com/board/view/?id=leagueoflegends6&no=13031045"
+      }
+    }
+  ],
+  "run_end": "2026-04-28T00:32:40.0974991-04:00"
+}
