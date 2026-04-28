@@ -1,0 +1,2324 @@
+=== CSV SERIES BROWSER ===
+[0] . · 번역) 에일리언 헤드벗 1화 (소년점프 신작) · 번역) 에일리언 헤드벗 2화 (점프의 액션) · 번역) 에일리언 헤드벗 3화 (살짝 토리코 느낌) · 번역) 에일리언 헤드벗 4화 (근육파괴술) ·">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+         -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                //document.domain = "dcinside.com";
+                var k_cnt = 0;
+                var _GALLERY_TYPE_ = "G";
+                var conn_n = 0;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        window._taboola = window._taboola || [];
+        _taboola.push({category:'auto'});
+        !function (e, f, u, i) {
+          if (!document.getElementById(i)){
+            e.async = 1;
+            e.src = u;
+            e.id = i;
+            f.parentNode.insertBefore(e, f);
+          }
+        }(document.createElement('script'),
+        document.getElementsByTagName('script')[0],
+        '//cdn.taboola.com/libtrc/dcinside/loader.js',
+        'tb_loader_script');
+        if(window.performance && typeof window.performance.mark == 'function')
+        {window.performance.mark('tbl_ic');}
+     -->
+
+
+const adBlockDetection = {
+   states : {
+       'ABP_DETECTION_DISABLED': -2,
+       'ABP_NOT_DETECTED' : 0,
+       'ABP_DETECTED' : 1
+   },
+
+   blockedState: null,
+
+   createBlockDetectionDiv: function(className){
+        const div = document.createElement("div");
+        div.className = className;
+        // some publishers set default font size in their size to be "0" and then we don't get offsetHeight
+        div.style.fontSize = '12px';
+        // some publishers set default line height of their elements to be "0" and then we don't get offsetHeight
+        div.style.lineHeight = '1';
+        // now the text container will have offsetHeight if displayed
+        div.appendChild(document.createTextNode("."));
+        document.documentElement.appendChild(div);
+        return div;
+    },
+
+    isBlockDetectedOnDiv: function(div){
+        if (!div.offsetHeight) {
+            //window._taboola.messages.publish('send-debug', {type: 'debug', message:`AdBlockPlus detected on div with class: ${div.className}`});
+            return true;
+        } else {
+            //window._taboola.messages.publish('send-debug', {type: 'debug', message:`No AdBlockPlus detected on div with class: ${div.className}`});
+            return false;
+        }
+    },
+
+    isBlockDetectedOnClassNames: function(classNames){
+        let i,
+            len = classNames.length,
+            div;
+        for (i = 0; i
+
+
+
+
+
+
+{
+    "@context":"https://schema.org",
+    "@type":"DiscussionForumPosting",
+    "inLanguage":"ko-KR",
+    "URL":"https://gall.dcinside.com/board/view/?id=comic_new6&no=4077652&page=",
+    "headline":"번역) 에일리언 헤드벗 12화 (출하회피기동) - 만화 갤러리",
+    "articleBody":"[시리즈] . · 번역) 에일리언 헤드벗 1화 (소년점프 신작) · 번역) 에일리언 헤드벗 2화 (점프의 액션) · 번역) 에일리언 헤드벗 3화 (살짝 토리코 느낌) · 번역) 에일리언 헤드벗 4화 (근육파괴술) · 번역) 외계인 박치기 5화 · 번역) 에일리언 헤드벗 6,7화 · 번역) 에일리언 헤드벗 8화 (톱맨행동) · 번역) 에일리언 헤드벗 9화 · 번역) 에일리언 헤드벗 10화 (드 디어 여캐나옴) · 번역) 에일리언 헤드벗 11화 (일성모) +) 대충 현지반응출하직전 이판사판0.2초의 영역전개",
+    "keywords": "만화/애니, 만화, comic_new6, dc, 디시, gall, gallery, 갤러리, 커뮤니티",
+    "image":{
+        "@type":"ImageObject",
+        "URL":"https://dcimg2.dcinside.co.kr/viewimage.php?id=2eb2dd2fe6ed36a379e9&no=24b0d769e1d32ca73fe787fa11d0283193cea73dd4e46b57ae29b1dab5929946a118c7ed293f61ccda4312993cc4eb404d0c70f2cc0cdabe0856a42e977a2380b75ca4bc97"
+    },
+    "datePublished":"2026-04-27T22:43:29+09:00",
+    "author":{
+        "@type":"Person",
+        "name":"야채알곱창",
+        "url":"https://gallog.dcinside.com/ksm8732213"
+    },
+    "publisher":{
+        "@id": "https://www.dcinside.com/#publisher",
+        "@type":"Organization",
+        "name":"디시인사이드",
+        "url": "https://www.dcinside.com/",
+        "logo":{
+            "@type":"ImageObject",
+            "URL":"https://nstatic.dcinside.com/dc/w/images/descrip_img.png",
+            "height": 305,
+            "width": 305
+        }
+    },
+
+    "mainEntityOfPage":{
+        "@type":"WebPage",
+        "@id":"https://gall.dcinside.com/board/view/?id=comic_new6&no=4077652&page="
+    },
+    "interactionStatistic":[
+        {
+            "@type":"InteractionCounter",
+            "interactionType": "https://schema.org/CommentAction",
+            "userInteractionCount": 100        },
+        {
+            "@type": "InteractionCounter",
+            "interactionType": "https://schema.org/ViewAction",
+            "userInteractionCount": 7760        }
+    ]
+}
+
+
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "item": {
+        "@id": "https://www.dcinside.com/",
+        "name": "디시인사이드 메인"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "item": {
+        "@id": "https://gall.dcinside.com",
+        "name": "메인 갤러리 메인"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "item": {
+        "@id": "https://gall.dcinside.com/board/lists/?id=comic_new6",
+        "name": "만화 메인 갤러리 리스트"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "item": {
+        "@id": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4077652&page=",
+        "name": "만화 메인 갤러리 본문"
+      }
+    }
+  ]
+}
+[1] . · 번역) 에일리언 헤드벗 1화 (소년점프 신작) · 번역) 에일리언 헤드벗 2화 (점프의 액션) · 번역) 에일리언 헤드벗 3화 (살짝 토리코 느낌) · 번역) 에일리언 헤드벗 4화 (근육파괴술) ·">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+         -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                //document.domain = "dcinside.com";
+                var k_cnt = 0;
+                var _GALLERY_TYPE_ = "G";
+                var conn_n = 0;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        window._taboola = window._taboola || [];
+        _taboola.push({category:'auto'});
+        !function (e, f, u, i) {
+          if (!document.getElementById(i)){
+            e.async = 1;
+            e.src = u;
+            e.id = i;
+            f.parentNode.insertBefore(e, f);
+          }
+        }(document.createElement('script'),
+        document.getElementsByTagName('script')[0],
+        '//cdn.taboola.com/libtrc/dcinside/loader.js',
+        'tb_loader_script');
+        if(window.performance && typeof window.performance.mark == 'function')
+        {window.performance.mark('tbl_ic');}
+     -->
+
+
+const adBlockDetection = {
+   states : {
+       'ABP_DETECTION_DISABLED': -2,
+       'ABP_NOT_DETECTED' : 0,
+       'ABP_DETECTED' : 1
+   },
+
+   blockedState: null,
+
+   createBlockDetectionDiv: function(className){
+        const div = document.createElement("div");
+        div.className = className;
+        // some publishers set default font size in their size to be "0" and then we don't get offsetHeight
+        div.style.fontSize = '12px';
+        // some publishers set default line height of their elements to be "0" and then we don't get offsetHeight
+        div.style.lineHeight = '1';
+        // now the text container will have offsetHeight if displayed
+        div.appendChild(document.createTextNode("."));
+        document.documentElement.appendChild(div);
+        return div;
+    },
+
+    isBlockDetectedOnDiv: function(div){
+        if (!div.offsetHeight) {
+            //window._taboola.messages.publish('send-debug', {type: 'debug', message:`AdBlockPlus detected on div with class: ${div.className}`});
+            return true;
+        } else {
+            //window._taboola.messages.publish('send-debug', {type: 'debug', message:`No AdBlockPlus detected on div with class: ${div.className}`});
+            return false;
+        }
+    },
+
+    isBlockDetectedOnClassNames: function(classNames){
+        let i,
+            len = classNames.length,
+            div;
+        for (i = 0; i
+
+
+
+
+
+
+{
+    "@context":"https://schema.org",
+    "@type":"DiscussionForumPosting",
+    "inLanguage":"ko-KR",
+    "URL":"https://gall.dcinside.com/board/view/?id=comic_new6&no=4077652&page=",
+    "headline":"번역) 에일리언 헤드벗 12화 (출하회피기동) - 만화 갤러리",
+    "articleBody":"[시리즈] . · 번역) 에일리언 헤드벗 1화 (소년점프 신작) · 번역) 에일리언 헤드벗 2화 (점프의 액션) · 번역) 에일리언 헤드벗 3화 (살짝 토리코 느낌) · 번역) 에일리언 헤드벗 4화 (근육파괴술) · 번역) 외계인 박치기 5화 · 번역) 에일리언 헤드벗 6,7화 · 번역) 에일리언 헤드벗 8화 (톱맨행동) · 번역) 에일리언 헤드벗 9화 · 번역) 에일리언 헤드벗 10화 (드 디어 여캐나옴) · 번역) 에일리언 헤드벗 11화 (일성모) +) 대충 현지반응출하직전 이판사판0.2초의 영역전개",
+    "keywords": "만화/애니, 만화, comic_new6, dc, 디시, gall, gallery, 갤러리, 커뮤니티",
+    "image":{
+        "@type":"ImageObject",
+        "URL":"https://dcimg2.dcinside.co.kr/viewimage.php?id=2eb2dd2fe6ed36a379e9&no=24b0d769e1d32ca73fe787fa11d0283193cea73dd4e46b57ae29b1dab5929946a118c7ed293f61ccda4312993cc4eb404d0c70f2cc0cdabe0856a42e977a2380b75ca4bc97"
+    },
+    "datePublished":"2026-04-27T22:43:29+09:00",
+    "author":{
+        "@type":"Person",
+        "name":"야채알곱창",
+        "url":"https://gallog.dcinside.com/ksm8732213"
+    },
+    "publisher":{
+        "@id": "https://www.dcinside.com/#publisher",
+        "@type":"Organization",
+        "name":"디시인사이드",
+        "url": "https://www.dcinside.com/",
+        "logo":{
+            "@type":"ImageObject",
+            "URL":"https://nstatic.dcinside.com/dc/w/images/descrip_img.png",
+            "height": 305,
+            "width": 305
+        }
+    },
+
+    "mainEntityOfPage":{
+        "@type":"WebPage",
+        "@id":"https://gall.dcinside.com/board/view/?id=comic_new6&no=4077652&page="
+    },
+    "interactionStatistic":[
+        {
+            "@type":"InteractionCounter",
+            "interactionType": "https://schema.org/CommentAction",
+            "userInteractionCount": 100        },
+        {
+            "@type": "InteractionCounter",
+            "interactionType": "https://schema.org/ViewAction",
+            "userInteractionCount": 7784        }
+    ]
+}
+
+
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "item": {
+        "@id": "https://www.dcinside.com/",
+        "name": "디시인사이드 메인"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "item": {
+        "@id": "https://gall.dcinside.com",
+        "name": "메인 갤러리 메인"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "item": {
+        "@id": "https://gall.dcinside.com/board/lists/?id=comic_new6",
+        "name": "만화 메인 갤러리 리스트"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "item": {
+        "@id": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4077652&page=",
+        "name": "만화 메인 갤러리 본문"
+      }
+    }
+  ]
+}
+[2] 1 · 다이랜드 북마크 ">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+         -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                //document.domain = "dcinside.com";
+                var k_cnt = 0;
+                var _GALLERY_TYPE_ = "G";
+                var conn_n = 0;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        window._taboola = window._taboola || [];
+        _taboola.push({category:'auto'});
+        !function (e, f, u, i) {
+          if (!document.getElementById(i)){
+            e.async = 1;
+            e.src = u;
+            e.id = i;
+            f.parentNode.insertBefore(e, f);
+          }
+        }(document.createElement('script'),
+        document.getElementsByTagName('script')[0],
+        '//cdn.taboola.com/libtrc/dcinside/loader.js',
+        'tb_loader_script');
+        if(window.performance && typeof window.performance.mark == 'function')
+        {window.performance.mark('tbl_ic');}
+     -->
+
+
+const adBlockDetection = {
+   states : {
+       'ABP_DETECTION_DISABLED': -2,
+       'ABP_NOT_DETECTED' : 0,
+       'ABP_DETECTED' : 1
+   },
+
+   blockedState: null,
+
+   createBlockDetectionDiv: function(className){
+        const div = document.createElement("div");
+        div.className = className;
+        // some publishers set default font size in their size to be "0" and then we don't get offsetHeight
+        div.style.fontSize = '12px';
+        // some publishers set default line height of their elements to be "0" and then we don't get offsetHeight
+        div.style.lineHeight = '1';
+        // now the text container will have offsetHeight if displayed
+        div.appendChild(document.createTextNode("."));
+        document.documentElement.appendChild(div);
+        return div;
+    },
+
+    isBlockDetectedOnDiv: function(div){
+        if (!div.offsetHeight) {
+            //window._taboola.messages.publish('send-debug', {type: 'debug', message:`AdBlockPlus detected on div with class: ${div.className}`});
+            return true;
+        } else {
+            //window._taboola.messages.publish('send-debug', {type: 'debug', message:`No AdBlockPlus detected on div with class: ${div.className}`});
+            return false;
+        }
+    },
+
+    isBlockDetectedOnClassNames: function(classNames){
+        let i,
+            len = classNames.length,
+            div;
+        for (i = 0; i
+
+
+
+
+
+
+{
+    "@context":"https://schema.org",
+    "@type":"DiscussionForumPosting",
+    "inLanguage":"ko-KR",
+    "URL":"https://gall.dcinside.com/board/view/?id=comic_new6&no=4074061&page=",
+    "headline":"번역)다이랜드 10화 - 만화 갤러리",
+    "articleBody":"[시리즈] 1 · 다이랜드 북마크",
+    "keywords": "만화/애니, 만화, comic_new6, dc, 디시, gall, gallery, 갤러리, 커뮤니티",
+    "image":{
+        "@type":"ImageObject",
+        "URL":"https://dcimg2.dcinside.co.kr/viewimage.php?id=2eb2dd2fe6ed36a379e9&no=24b0d769e1d32ca73fe787fa11d0283193cea73dd4e46b57ae29b1dab5929946a118c7ed293f61ccda43109030c4ec478722290727b8efed48f1e9cc3257c5828448af03"
+    },
+    "datePublished":"2026-04-27T20:03:06+09:00",
+    "author":{
+        "@type":"Person",
+        "name":"번역벌레",
+        "url":"https://gallog.dcinside.com/growth8237"
+    },
+    "publisher":{
+        "@id": "https://www.dcinside.com/#publisher",
+        "@type":"Organization",
+        "name":"디시인사이드",
+        "url": "https://www.dcinside.com/",
+        "logo":{
+            "@type":"ImageObject",
+            "URL":"https://nstatic.dcinside.com/dc/w/images/descrip_img.png",
+            "height": 305,
+            "width": 305
+        }
+    },
+
+    "mainEntityOfPage":{
+        "@type":"WebPage",
+        "@id":"https://gall.dcinside.com/board/view/?id=comic_new6&no=4074061&page="
+    },
+    "interactionStatistic":[
+        {
+            "@type":"InteractionCounter",
+            "interactionType": "https://schema.org/CommentAction",
+            "userInteractionCount": 87        },
+        {
+            "@type": "InteractionCounter",
+            "interactionType": "https://schema.org/ViewAction",
+            "userInteractionCount": 5883        }
+    ]
+}
+
+
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "item": {
+        "@id": "https://www.dcinside.com/",
+        "name": "디시인사이드 메인"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "item": {
+        "@id": "https://gall.dcinside.com",
+        "name": "메인 갤러리 메인"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "item": {
+        "@id": "https://gall.dcinside.com/board/lists/?id=comic_new6",
+        "name": "만화 메인 갤러리 리스트"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "item": {
+        "@id": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4074061&page=",
+        "name": "만화 메인 갤러리 본문"
+      }
+    }
+  ]
+}
+[3] 1 · 다이랜드 북마크 ">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+         -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                //document.domain = "dcinside.com";
+                var k_cnt = 0;
+                var _GALLERY_TYPE_ = "G";
+                var conn_n = 0;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        window._taboola = window._taboola || [];
+        _taboola.push({category:'auto'});
+        !function (e, f, u, i) {
+          if (!document.getElementById(i)){
+            e.async = 1;
+            e.src = u;
+            e.id = i;
+            f.parentNode.insertBefore(e, f);
+          }
+        }(document.createElement('script'),
+        document.getElementsByTagName('script')[0],
+        '//cdn.taboola.com/libtrc/dcinside/loader.js',
+        'tb_loader_script');
+        if(window.performance && typeof window.performance.mark == 'function')
+        {window.performance.mark('tbl_ic');}
+     -->
+
+
+const adBlockDetection = {
+   states : {
+       'ABP_DETECTION_DISABLED': -2,
+       'ABP_NOT_DETECTED' : 0,
+       'ABP_DETECTED' : 1
+   },
+
+   blockedState: null,
+
+   createBlockDetectionDiv: function(className){
+        const div = document.createElement("div");
+        div.className = className;
+        // some publishers set default font size in their size to be "0" and then we don't get offsetHeight
+        div.style.fontSize = '12px';
+        // some publishers set default line height of their elements to be "0" and then we don't get offsetHeight
+        div.style.lineHeight = '1';
+        // now the text container will have offsetHeight if displayed
+        div.appendChild(document.createTextNode("."));
+        document.documentElement.appendChild(div);
+        return div;
+    },
+
+    isBlockDetectedOnDiv: function(div){
+        if (!div.offsetHeight) {
+            //window._taboola.messages.publish('send-debug', {type: 'debug', message:`AdBlockPlus detected on div with class: ${div.className}`});
+            return true;
+        } else {
+            //window._taboola.messages.publish('send-debug', {type: 'debug', message:`No AdBlockPlus detected on div with class: ${div.className}`});
+            return false;
+        }
+    },
+
+    isBlockDetectedOnClassNames: function(classNames){
+        let i,
+            len = classNames.length,
+            div;
+        for (i = 0; i
+
+
+
+
+
+
+{
+    "@context":"https://schema.org",
+    "@type":"DiscussionForumPosting",
+    "inLanguage":"ko-KR",
+    "URL":"https://gall.dcinside.com/board/view/?id=comic_new6&no=4074061&page=",
+    "headline":"번역)다이랜드 10화 - 만화 갤러리",
+    "articleBody":"[시리즈] 1 · 다이랜드 북마크",
+    "keywords": "만화/애니, 만화, comic_new6, dc, 디시, gall, gallery, 갤러리, 커뮤니티",
+    "image":{
+        "@type":"ImageObject",
+        "URL":"https://dcimg2.dcinside.co.kr/viewimage.php?id=2eb2dd2fe6ed36a379e9&no=24b0d769e1d32ca73fe787fa11d0283193cea73dd4e46b57ae29b1dab5929946a118c7ed293f61ccda43109030c4ec478722290727b8efed48f1e9cc3257c5828448af03"
+    },
+    "datePublished":"2026-04-27T20:03:06+09:00",
+    "author":{
+        "@type":"Person",
+        "name":"번역벌레",
+        "url":"https://gallog.dcinside.com/growth8237"
+    },
+    "publisher":{
+        "@id": "https://www.dcinside.com/#publisher",
+        "@type":"Organization",
+        "name":"디시인사이드",
+        "url": "https://www.dcinside.com/",
+        "logo":{
+            "@type":"ImageObject",
+            "URL":"https://nstatic.dcinside.com/dc/w/images/descrip_img.png",
+            "height": 305,
+            "width": 305
+        }
+    },
+
+    "mainEntityOfPage":{
+        "@type":"WebPage",
+        "@id":"https://gall.dcinside.com/board/view/?id=comic_new6&no=4074061&page="
+    },
+    "interactionStatistic":[
+        {
+            "@type":"InteractionCounter",
+            "interactionType": "https://schema.org/CommentAction",
+            "userInteractionCount": 87        },
+        {
+            "@type": "InteractionCounter",
+            "interactionType": "https://schema.org/ViewAction",
+            "userInteractionCount": 5889        }
+    ]
+}
+
+
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "item": {
+        "@id": "https://www.dcinside.com/",
+        "name": "디시인사이드 메인"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "item": {
+        "@id": "https://gall.dcinside.com",
+        "name": "메인 갤러리 메인"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "item": {
+        "@id": "https://gall.dcinside.com/board/lists/?id=comic_new6",
+        "name": "만화 메인 갤러리 리스트"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "item": {
+        "@id": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4074061&page=",
+        "name": "만화 메인 갤러리 본문"
+      }
+    }
+  ]
+}
+[4] 1 · 다이랜드 북마크 ">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+         -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                //document.domain = "dcinside.com";
+                var k_cnt = 0;
+                var _GALLERY_TYPE_ = "G";
+                var conn_n = 0;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        window._taboola = window._taboola || [];
+        _taboola.push({category:'auto'});
+        !function (e, f, u, i) {
+          if (!document.getElementById(i)){
+            e.async = 1;
+            e.src = u;
+            e.id = i;
+            f.parentNode.insertBefore(e, f);
+          }
+        }(document.createElement('script'),
+        document.getElementsByTagName('script')[0],
+        '//cdn.taboola.com/libtrc/dcinside/loader.js',
+        'tb_loader_script');
+        if(window.performance && typeof window.performance.mark == 'function')
+        {window.performance.mark('tbl_ic');}
+     -->
+
+
+const adBlockDetection = {
+   states : {
+       'ABP_DETECTION_DISABLED': -2,
+       'ABP_NOT_DETECTED' : 0,
+       'ABP_DETECTED' : 1
+   },
+
+   blockedState: null,
+
+   createBlockDetectionDiv: function(className){
+        const div = document.createElement("div");
+        div.className = className;
+        // some publishers set default font size in their size to be "0" and then we don't get offsetHeight
+        div.style.fontSize = '12px';
+        // some publishers set default line height of their elements to be "0" and then we don't get offsetHeight
+        div.style.lineHeight = '1';
+        // now the text container will have offsetHeight if displayed
+        div.appendChild(document.createTextNode("."));
+        document.documentElement.appendChild(div);
+        return div;
+    },
+
+    isBlockDetectedOnDiv: function(div){
+        if (!div.offsetHeight) {
+            //window._taboola.messages.publish('send-debug', {type: 'debug', message:`AdBlockPlus detected on div with class: ${div.className}`});
+            return true;
+        } else {
+            //window._taboola.messages.publish('send-debug', {type: 'debug', message:`No AdBlockPlus detected on div with class: ${div.className}`});
+            return false;
+        }
+    },
+
+    isBlockDetectedOnClassNames: function(classNames){
+        let i,
+            len = classNames.length,
+            div;
+        for (i = 0; i
+
+
+
+
+
+
+{
+    "@context":"https://schema.org",
+    "@type":"DiscussionForumPosting",
+    "inLanguage":"ko-KR",
+    "URL":"https://gall.dcinside.com/board/view/?id=comic_new6&no=4074682&page=",
+    "headline":"번역)다이랜드 11화  - 만화 갤러리",
+    "articleBody":"[시리즈] 1 · 다이랜드 북마크",
+    "keywords": "만화/애니, 만화, comic_new6, dc, 디시, gall, gallery, 갤러리, 커뮤니티",
+    "image":{
+        "@type":"ImageObject",
+        "URL":"https://dcimg2.dcinside.co.kr/viewimage.php?id=2eb2dd2fe6ed36a379e9&no=24b0d769e1d32ca73fe787fa11d0283193cea73dd4e46b57ae29b1dab5929946a118c7ed293f61ccda431b9b3ac0e8410dc359cbfdc8778a6d3c66512e7112145fd2390a"
+    },
+    "datePublished":"2026-04-27T20:31:21+09:00",
+    "author":{
+        "@type":"Person",
+        "name":"번역벌레",
+        "url":"https://gallog.dcinside.com/growth8237"
+    },
+    "publisher":{
+        "@id": "https://www.dcinside.com/#publisher",
+        "@type":"Organization",
+        "name":"디시인사이드",
+        "url": "https://www.dcinside.com/",
+        "logo":{
+            "@type":"ImageObject",
+            "URL":"https://nstatic.dcinside.com/dc/w/images/descrip_img.png",
+            "height": 305,
+            "width": 305
+        }
+    },
+
+    "mainEntityOfPage":{
+        "@type":"WebPage",
+        "@id":"https://gall.dcinside.com/board/view/?id=comic_new6&no=4074682&page="
+    },
+    "interactionStatistic":[
+        {
+            "@type":"InteractionCounter",
+            "interactionType": "https://schema.org/CommentAction",
+            "userInteractionCount": 70        },
+        {
+            "@type": "InteractionCounter",
+            "interactionType": "https://schema.org/ViewAction",
+            "userInteractionCount": 5456        }
+    ]
+}
+
+
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "item": {
+        "@id": "https://www.dcinside.com/",
+        "name": "디시인사이드 메인"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "item": {
+        "@id": "https://gall.dcinside.com",
+        "name": "메인 갤러리 메인"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "item": {
+        "@id": "https://gall.dcinside.com/board/lists/?id=comic_new6",
+        "name": "만화 메인 갤러리 리스트"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "item": {
+        "@id": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4074682&page=",
+        "name": "만화 메인 갤러리 본문"
+      }
+    }
+  ]
+}
+[5] 1 · 다이랜드 북마크 ">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+         -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                //document.domain = "dcinside.com";
+                var k_cnt = 0;
+                var _GALLERY_TYPE_ = "G";
+                var conn_n = 0;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        window._taboola = window._taboola || [];
+        _taboola.push({category:'auto'});
+        !function (e, f, u, i) {
+          if (!document.getElementById(i)){
+            e.async = 1;
+            e.src = u;
+            e.id = i;
+            f.parentNode.insertBefore(e, f);
+          }
+        }(document.createElement('script'),
+        document.getElementsByTagName('script')[0],
+        '//cdn.taboola.com/libtrc/dcinside/loader.js',
+        'tb_loader_script');
+        if(window.performance && typeof window.performance.mark == 'function')
+        {window.performance.mark('tbl_ic');}
+     -->
+
+
+const adBlockDetection = {
+   states : {
+       'ABP_DETECTION_DISABLED': -2,
+       'ABP_NOT_DETECTED' : 0,
+       'ABP_DETECTED' : 1
+   },
+
+   blockedState: null,
+
+   createBlockDetectionDiv: function(className){
+        const div = document.createElement("div");
+        div.className = className;
+        // some publishers set default font size in their size to be "0" and then we don't get offsetHeight
+        div.style.fontSize = '12px';
+        // some publishers set default line height of their elements to be "0" and then we don't get offsetHeight
+        div.style.lineHeight = '1';
+        // now the text container will have offsetHeight if displayed
+        div.appendChild(document.createTextNode("."));
+        document.documentElement.appendChild(div);
+        return div;
+    },
+
+    isBlockDetectedOnDiv: function(div){
+        if (!div.offsetHeight) {
+            //window._taboola.messages.publish('send-debug', {type: 'debug', message:`AdBlockPlus detected on div with class: ${div.className}`});
+            return true;
+        } else {
+            //window._taboola.messages.publish('send-debug', {type: 'debug', message:`No AdBlockPlus detected on div with class: ${div.className}`});
+            return false;
+        }
+    },
+
+    isBlockDetectedOnClassNames: function(classNames){
+        let i,
+            len = classNames.length,
+            div;
+        for (i = 0; i
+
+
+
+
+
+
+{
+    "@context":"https://schema.org",
+    "@type":"DiscussionForumPosting",
+    "inLanguage":"ko-KR",
+    "URL":"https://gall.dcinside.com/board/view/?id=comic_new6&no=4074682&page=",
+    "headline":"번역)다이랜드 11화  - 만화 갤러리",
+    "articleBody":"[시리즈] 1 · 다이랜드 북마크",
+    "keywords": "만화/애니, 만화, comic_new6, dc, 디시, gall, gallery, 갤러리, 커뮤니티",
+    "image":{
+        "@type":"ImageObject",
+        "URL":"https://dcimg2.dcinside.co.kr/viewimage.php?id=2eb2dd2fe6ed36a379e9&no=24b0d769e1d32ca73fe787fa11d0283193cea73dd4e46b57ae29b1dab5929946a118c7ed293f61ccda431b9b3ac0e8410dc359cbfdc8778a6d3c66512e7112145fd2390a"
+    },
+    "datePublished":"2026-04-27T20:31:21+09:00",
+    "author":{
+        "@type":"Person",
+        "name":"번역벌레",
+        "url":"https://gallog.dcinside.com/growth8237"
+    },
+    "publisher":{
+        "@id": "https://www.dcinside.com/#publisher",
+        "@type":"Organization",
+        "name":"디시인사이드",
+        "url": "https://www.dcinside.com/",
+        "logo":{
+            "@type":"ImageObject",
+            "URL":"https://nstatic.dcinside.com/dc/w/images/descrip_img.png",
+            "height": 305,
+            "width": 305
+        }
+    },
+
+    "mainEntityOfPage":{
+        "@type":"WebPage",
+        "@id":"https://gall.dcinside.com/board/view/?id=comic_new6&no=4074682&page="
+    },
+    "interactionStatistic":[
+        {
+            "@type":"InteractionCounter",
+            "interactionType": "https://schema.org/CommentAction",
+            "userInteractionCount": 70        },
+        {
+            "@type": "InteractionCounter",
+            "interactionType": "https://schema.org/ViewAction",
+            "userInteractionCount": 5463        }
+    ]
+}
+
+
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "item": {
+        "@id": "https://www.dcinside.com/",
+        "name": "디시인사이드 메인"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "item": {
+        "@id": "https://gall.dcinside.com",
+        "name": "메인 갤러리 메인"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "item": {
+        "@id": "https://gall.dcinside.com/board/lists/?id=comic_new6",
+        "name": "만화 메인 갤러리 리스트"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "item": {
+        "@id": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4074682&page=",
+        "name": "만화 메인 갤러리 본문"
+      }
+    }
+  ]
+}
+[6] 1 · 다이랜드 북마크 ">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+         -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                //document.domain = "dcinside.com";
+                var k_cnt = 0;
+                var _GALLERY_TYPE_ = "G";
+                var conn_n = 0;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        window._taboola = window._taboola || [];
+        _taboola.push({category:'auto'});
+        !function (e, f, u, i) {
+          if (!document.getElementById(i)){
+            e.async = 1;
+            e.src = u;
+            e.id = i;
+            f.parentNode.insertBefore(e, f);
+          }
+        }(document.createElement('script'),
+        document.getElementsByTagName('script')[0],
+        '//cdn.taboola.com/libtrc/dcinside/loader.js',
+        'tb_loader_script');
+        if(window.performance && typeof window.performance.mark == 'function')
+        {window.performance.mark('tbl_ic');}
+     -->
+
+
+const adBlockDetection = {
+   states : {
+       'ABP_DETECTION_DISABLED': -2,
+       'ABP_NOT_DETECTED' : 0,
+       'ABP_DETECTED' : 1
+   },
+
+   blockedState: null,
+
+   createBlockDetectionDiv: function(className){
+        const div = document.createElement("div");
+        div.className = className;
+        // some publishers set default font size in their size to be "0" and then we don't get offsetHeight
+        div.style.fontSize = '12px';
+        // some publishers set default line height of their elements to be "0" and then we don't get offsetHeight
+        div.style.lineHeight = '1';
+        // now the text container will have offsetHeight if displayed
+        div.appendChild(document.createTextNode("."));
+        document.documentElement.appendChild(div);
+        return div;
+    },
+
+    isBlockDetectedOnDiv: function(div){
+        if (!div.offsetHeight) {
+            //window._taboola.messages.publish('send-debug', {type: 'debug', message:`AdBlockPlus detected on div with class: ${div.className}`});
+            return true;
+        } else {
+            //window._taboola.messages.publish('send-debug', {type: 'debug', message:`No AdBlockPlus detected on div with class: ${div.className}`});
+            return false;
+        }
+    },
+
+    isBlockDetectedOnClassNames: function(classNames){
+        let i,
+            len = classNames.length,
+            div;
+        for (i = 0; i
+
+
+
+
+
+
+{
+    "@context":"https://schema.org",
+    "@type":"DiscussionForumPosting",
+    "inLanguage":"ko-KR",
+    "URL":"https://gall.dcinside.com/board/view/?id=comic_new6&no=4075648&page=",
+    "headline":"번역)다이랜드 12화 (최종장 입갤) - 만화 갤러리",
+    "articleBody":"[시리즈] 1 · 다이랜드 북마크",
+    "keywords": "만화/애니, 만화, comic_new6, dc, 디시, gall, gallery, 갤러리, 커뮤니티",
+    "image":{
+        "@type":"ImageObject",
+        "URL":"https://dcimg2.dcinside.co.kr/viewimage.php?id=2eb2dd2fe6ed36a379e9&no=24b0d769e1d32ca73fe787fa11d0283193cea73dd4e46b57ae29b1dab5929946a118c7ed293f61ccda4316993fc3e843a5dc3ab7d1c6481e260bfe0845b3fe62a7eea660"
+    },
+    "datePublished":"2026-04-27T21:10:25+09:00",
+    "author":{
+        "@type":"Person",
+        "name":"번역벌레",
+        "url":"https://gallog.dcinside.com/growth8237"
+    },
+    "publisher":{
+        "@id": "https://www.dcinside.com/#publisher",
+        "@type":"Organization",
+        "name":"디시인사이드",
+        "url": "https://www.dcinside.com/",
+        "logo":{
+            "@type":"ImageObject",
+            "URL":"https://nstatic.dcinside.com/dc/w/images/descrip_img.png",
+            "height": 305,
+            "width": 305
+        }
+    },
+
+    "mainEntityOfPage":{
+        "@type":"WebPage",
+        "@id":"https://gall.dcinside.com/board/view/?id=comic_new6&no=4075648&page="
+    },
+    "interactionStatistic":[
+        {
+            "@type":"InteractionCounter",
+            "interactionType": "https://schema.org/CommentAction",
+            "userInteractionCount": 64        },
+        {
+            "@type": "InteractionCounter",
+            "interactionType": "https://schema.org/ViewAction",
+            "userInteractionCount": 7105        }
+    ]
+}
+
+
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "item": {
+        "@id": "https://www.dcinside.com/",
+        "name": "디시인사이드 메인"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "item": {
+        "@id": "https://gall.dcinside.com",
+        "name": "메인 갤러리 메인"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "item": {
+        "@id": "https://gall.dcinside.com/board/lists/?id=comic_new6",
+        "name": "만화 메인 갤러리 리스트"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "item": {
+        "@id": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4075648&page=",
+        "name": "만화 메인 갤러리 본문"
+      }
+    }
+  ]
+}
+[7] 1 · 다이랜드 북마크 ">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+         -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                //document.domain = "dcinside.com";
+                var k_cnt = 0;
+                var _GALLERY_TYPE_ = "G";
+                var conn_n = 0;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        window._taboola = window._taboola || [];
+        _taboola.push({category:'auto'});
+        !function (e, f, u, i) {
+          if (!document.getElementById(i)){
+            e.async = 1;
+            e.src = u;
+            e.id = i;
+            f.parentNode.insertBefore(e, f);
+          }
+        }(document.createElement('script'),
+        document.getElementsByTagName('script')[0],
+        '//cdn.taboola.com/libtrc/dcinside/loader.js',
+        'tb_loader_script');
+        if(window.performance && typeof window.performance.mark == 'function')
+        {window.performance.mark('tbl_ic');}
+     -->
+
+
+const adBlockDetection = {
+   states : {
+       'ABP_DETECTION_DISABLED': -2,
+       'ABP_NOT_DETECTED' : 0,
+       'ABP_DETECTED' : 1
+   },
+
+   blockedState: null,
+
+   createBlockDetectionDiv: function(className){
+        const div = document.createElement("div");
+        div.className = className;
+        // some publishers set default font size in their size to be "0" and then we don't get offsetHeight
+        div.style.fontSize = '12px';
+        // some publishers set default line height of their elements to be "0" and then we don't get offsetHeight
+        div.style.lineHeight = '1';
+        // now the text container will have offsetHeight if displayed
+        div.appendChild(document.createTextNode("."));
+        document.documentElement.appendChild(div);
+        return div;
+    },
+
+    isBlockDetectedOnDiv: function(div){
+        if (!div.offsetHeight) {
+            //window._taboola.messages.publish('send-debug', {type: 'debug', message:`AdBlockPlus detected on div with class: ${div.className}`});
+            return true;
+        } else {
+            //window._taboola.messages.publish('send-debug', {type: 'debug', message:`No AdBlockPlus detected on div with class: ${div.className}`});
+            return false;
+        }
+    },
+
+    isBlockDetectedOnClassNames: function(classNames){
+        let i,
+            len = classNames.length,
+            div;
+        for (i = 0; i
+
+
+
+
+
+
+{
+    "@context":"https://schema.org",
+    "@type":"DiscussionForumPosting",
+    "inLanguage":"ko-KR",
+    "URL":"https://gall.dcinside.com/board/view/?id=comic_new6&no=4075648&page=",
+    "headline":"번역)다이랜드 12화 (최종장 입갤) - 만화 갤러리",
+    "articleBody":"[시리즈] 1 · 다이랜드 북마크",
+    "keywords": "만화/애니, 만화, comic_new6, dc, 디시, gall, gallery, 갤러리, 커뮤니티",
+    "image":{
+        "@type":"ImageObject",
+        "URL":"https://dcimg2.dcinside.co.kr/viewimage.php?id=2eb2dd2fe6ed36a379e9&no=24b0d769e1d32ca73fe787fa11d0283193cea73dd4e46b57ae29b1dab5929946a118c7ed293f61ccda4316993fc3e843a5dc3ab7d1c6481e260bfe0845b3fe62a7eea660"
+    },
+    "datePublished":"2026-04-27T21:10:25+09:00",
+    "author":{
+        "@type":"Person",
+        "name":"번역벌레",
+        "url":"https://gallog.dcinside.com/growth8237"
+    },
+    "publisher":{
+        "@id": "https://www.dcinside.com/#publisher",
+        "@type":"Organization",
+        "name":"디시인사이드",
+        "url": "https://www.dcinside.com/",
+        "logo":{
+            "@type":"ImageObject",
+            "URL":"https://nstatic.dcinside.com/dc/w/images/descrip_img.png",
+            "height": 305,
+            "width": 305
+        }
+    },
+
+    "mainEntityOfPage":{
+        "@type":"WebPage",
+        "@id":"https://gall.dcinside.com/board/view/?id=comic_new6&no=4075648&page="
+    },
+    "interactionStatistic":[
+        {
+            "@type":"InteractionCounter",
+            "interactionType": "https://schema.org/CommentAction",
+            "userInteractionCount": 64        },
+        {
+            "@type": "InteractionCounter",
+            "interactionType": "https://schema.org/ViewAction",
+            "userInteractionCount": 7114        }
+    ]
+}
+
+
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "item": {
+        "@id": "https://www.dcinside.com/",
+        "name": "디시인사이드 메인"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "item": {
+        "@id": "https://gall.dcinside.com",
+        "name": "메인 갤러리 메인"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "item": {
+        "@id": "https://gall.dcinside.com/board/lists/?id=comic_new6",
+        "name": "만화 메인 갤러리 리스트"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "item": {
+        "@id": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4075648&page=",
+        "name": "만화 메인 갤러리 본문"
+      }
+    }
+  ]
+}
+[8] 1 · 다이랜드 북마크 +보너스톤카치와 꽃장군 폽펜 선생의 일요일후나자키 가쓰히로라는 아동 문학 작가는 일본에 있는 아동 문학상많이 수상하고 한국에 출판될 정도로 유명하신 작가임.+후기 찐빠있어서 수정하려">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+         -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                //document.domain = "dcinside.com";
+                var k_cnt = 0;
+                var _GALLERY_TYPE_ = "G";
+                var conn_n = 0;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        window._taboola = window._taboola || [];
+        _taboola.push({category:'auto'});
+        !function (e, f, u, i) {
+          if (!document.getElementById(i)){
+            e.async = 1;
+            e.src = u;
+            e.id = i;
+            f.parentNode.insertBefore(e, f);
+          }
+        }(document.createElement('script'),
+        document.getElementsByTagName('script')[0],
+        '//cdn.taboola.com/libtrc/dcinside/loader.js',
+        'tb_loader_script');
+        if(window.performance && typeof window.performance.mark == 'function')
+        {window.performance.mark('tbl_ic');}
+     -->
+
+
+const adBlockDetection = {
+   states : {
+       'ABP_DETECTION_DISABLED': -2,
+       'ABP_NOT_DETECTED' : 0,
+       'ABP_DETECTED' : 1
+   },
+
+   blockedState: null,
+
+   createBlockDetectionDiv: function(className){
+        const div = document.createElement("div");
+        div.className = className;
+        // some publishers set default font size in their size to be "0" and then we don't get offsetHeight
+        div.style.fontSize = '12px';
+        // some publishers set default line height of their elements to be "0" and then we don't get offsetHeight
+        div.style.lineHeight = '1';
+        // now the text container will have offsetHeight if displayed
+        div.appendChild(document.createTextNode("."));
+        document.documentElement.appendChild(div);
+        return div;
+    },
+
+    isBlockDetectedOnDiv: function(div){
+        if (!div.offsetHeight) {
+            //window._taboola.messages.publish('send-debug', {type: 'debug', message:`AdBlockPlus detected on div with class: ${div.className}`});
+            return true;
+        } else {
+            //window._taboola.messages.publish('send-debug', {type: 'debug', message:`No AdBlockPlus detected on div with class: ${div.className}`});
+            return false;
+        }
+    },
+
+    isBlockDetectedOnClassNames: function(classNames){
+        let i,
+            len = classNames.length,
+            div;
+        for (i = 0; i
+
+
+
+
+
+
+{
+    "@context":"https://schema.org",
+    "@type":"DiscussionForumPosting",
+    "inLanguage":"ko-KR",
+    "URL":"https://gall.dcinside.com/board/view/?id=comic_new6&no=4078435&page=",
+    "headline":"번역)다이랜드 14화 (完) - 만화 갤러리",
+    "articleBody":"[시리즈] 1 · 다이랜드 북마크 +보너스톤카치와 꽃장군 폽펜 선생의 일요일후나자키 가쓰히로라는 아동 문학 작가는 일본에 있는 아동 문학상많이 수상하고 한국에 출판될 정도로 유명하신 작가임.+후기 찐빠있어서 수정하려고 했는데 왜 념글감. 개추구걸글 안쓴 거 같은데",
+    "keywords": "만화/애니, 만화, comic_new6, dc, 디시, gall, gallery, 갤러리, 커뮤니티",
+    "image":{
+        "@type":"ImageObject",
+        "URL":"https://dcimg2.dcinside.co.kr/viewimage.php?id=2eb2dd2fe6ed36a379e9&no=24b0d769e1d32ca73fe787fa11d0283193cea73dd4e46b57ae29b1dab5929946a118c7ed293f61ccda43149e30cfed4e0fceec32ca01467e9e82e79743a12edb6344d45f"
+    },
+    "datePublished":"2026-04-27T23:21:51+09:00",
+    "author":{
+        "@type":"Person",
+        "name":"번역벌레",
+        "url":"https://gallog.dcinside.com/growth8237"
+    },
+    "publisher":{
+        "@id": "https://www.dcinside.com/#publisher",
+        "@type":"Organization",
+        "name":"디시인사이드",
+        "url": "https://www.dcinside.com/",
+        "logo":{
+            "@type":"ImageObject",
+            "URL":"https://nstatic.dcinside.com/dc/w/images/descrip_img.png",
+            "height": 305,
+            "width": 305
+        }
+    },
+
+    "mainEntityOfPage":{
+        "@type":"WebPage",
+        "@id":"https://gall.dcinside.com/board/view/?id=comic_new6&no=4078435&page="
+    },
+    "interactionStatistic":[
+        {
+            "@type":"InteractionCounter",
+            "interactionType": "https://schema.org/CommentAction",
+            "userInteractionCount": 448        },
+        {
+            "@type": "InteractionCounter",
+            "interactionType": "https://schema.org/ViewAction",
+            "userInteractionCount": 14034        }
+    ]
+}
+
+
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "item": {
+        "@id": "https://www.dcinside.com/",
+        "name": "디시인사이드 메인"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "item": {
+        "@id": "https://gall.dcinside.com",
+        "name": "메인 갤러리 메인"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "item": {
+        "@id": "https://gall.dcinside.com/board/lists/?id=comic_new6",
+        "name": "만화 메인 갤러리 리스트"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "item": {
+        "@id": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4078435&page=",
+        "name": "만화 메인 갤러리 본문"
+      }
+    }
+  ]
+}
+[9] 1 · 다이랜드 북마크 +보너스톤카치와 꽃장군 폽펜 선생의 일요일후나자키 가쓰히로라는 아동 문학 작가는 일본에 있는 아동 문학상많이 수상하고 한국에 출판될 정도로 유명하신 작가임.+후기 찐빠있어서 수정하려">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+         -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                //document.domain = "dcinside.com";
+                var k_cnt = 0;
+                var _GALLERY_TYPE_ = "G";
+                var conn_n = 0;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        window._taboola = window._taboola || [];
+        _taboola.push({category:'auto'});
+        !function (e, f, u, i) {
+          if (!document.getElementById(i)){
+            e.async = 1;
+            e.src = u;
+            e.id = i;
+            f.parentNode.insertBefore(e, f);
+          }
+        }(document.createElement('script'),
+        document.getElementsByTagName('script')[0],
+        '//cdn.taboola.com/libtrc/dcinside/loader.js',
+        'tb_loader_script');
+        if(window.performance && typeof window.performance.mark == 'function')
+        {window.performance.mark('tbl_ic');}
+     -->
+
+
+const adBlockDetection = {
+   states : {
+       'ABP_DETECTION_DISABLED': -2,
+       'ABP_NOT_DETECTED' : 0,
+       'ABP_DETECTED' : 1
+   },
+
+   blockedState: null,
+
+   createBlockDetectionDiv: function(className){
+        const div = document.createElement("div");
+        div.className = className;
+        // some publishers set default font size in their size to be "0" and then we don't get offsetHeight
+        div.style.fontSize = '12px';
+        // some publishers set default line height of their elements to be "0" and then we don't get offsetHeight
+        div.style.lineHeight = '1';
+        // now the text container will have offsetHeight if displayed
+        div.appendChild(document.createTextNode("."));
+        document.documentElement.appendChild(div);
+        return div;
+    },
+
+    isBlockDetectedOnDiv: function(div){
+        if (!div.offsetHeight) {
+            //window._taboola.messages.publish('send-debug', {type: 'debug', message:`AdBlockPlus detected on div with class: ${div.className}`});
+            return true;
+        } else {
+            //window._taboola.messages.publish('send-debug', {type: 'debug', message:`No AdBlockPlus detected on div with class: ${div.className}`});
+            return false;
+        }
+    },
+
+    isBlockDetectedOnClassNames: function(classNames){
+        let i,
+            len = classNames.length,
+            div;
+        for (i = 0; i
+
+
+
+
+
+
+{
+    "@context":"https://schema.org",
+    "@type":"DiscussionForumPosting",
+    "inLanguage":"ko-KR",
+    "URL":"https://gall.dcinside.com/board/view/?id=comic_new6&no=4078435&page=",
+    "headline":"번역)다이랜드 14화 (完) - 만화 갤러리",
+    "articleBody":"[시리즈] 1 · 다이랜드 북마크 +보너스톤카치와 꽃장군 폽펜 선생의 일요일후나자키 가쓰히로라는 아동 문학 작가는 일본에 있는 아동 문학상많이 수상하고 한국에 출판될 정도로 유명하신 작가임.+후기 찐빠있어서 수정하려고 했는데 왜 념글감. 개추구걸글 안쓴 거 같은데",
+    "keywords": "만화/애니, 만화, comic_new6, dc, 디시, gall, gallery, 갤러리, 커뮤니티",
+    "image":{
+        "@type":"ImageObject",
+        "URL":"https://dcimg2.dcinside.co.kr/viewimage.php?id=2eb2dd2fe6ed36a379e9&no=24b0d769e1d32ca73fe787fa11d0283193cea73dd4e46b57ae29b1dab5929946a118c7ed293f61ccda43149e30cfed4e0fceec32ca01467e9e82e79743a12edb6344d45f"
+    },
+    "datePublished":"2026-04-27T23:21:51+09:00",
+    "author":{
+        "@type":"Person",
+        "name":"번역벌레",
+        "url":"https://gallog.dcinside.com/growth8237"
+    },
+    "publisher":{
+        "@id": "https://www.dcinside.com/#publisher",
+        "@type":"Organization",
+        "name":"디시인사이드",
+        "url": "https://www.dcinside.com/",
+        "logo":{
+            "@type":"ImageObject",
+            "URL":"https://nstatic.dcinside.com/dc/w/images/descrip_img.png",
+            "height": 305,
+            "width": 305
+        }
+    },
+
+    "mainEntityOfPage":{
+        "@type":"WebPage",
+        "@id":"https://gall.dcinside.com/board/view/?id=comic_new6&no=4078435&page="
+    },
+    "interactionStatistic":[
+        {
+            "@type":"InteractionCounter",
+            "interactionType": "https://schema.org/CommentAction",
+            "userInteractionCount": 449        },
+        {
+            "@type": "InteractionCounter",
+            "interactionType": "https://schema.org/ViewAction",
+            "userInteractionCount": 14078        }
+    ]
+}
+
+
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "item": {
+        "@id": "https://www.dcinside.com/",
+        "name": "디시인사이드 메인"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "item": {
+        "@id": "https://gall.dcinside.com",
+        "name": "메인 갤러리 메인"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "item": {
+        "@id": "https://gall.dcinside.com/board/lists/?id=comic_new6",
+        "name": "만화 메인 갤러리 리스트"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "item": {
+        "@id": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4078435&page=",
+        "name": "만화 메인 갤러리 본문"
+      }
+    }
+  ]
+}
+
+n/p page | b back
+Input:
