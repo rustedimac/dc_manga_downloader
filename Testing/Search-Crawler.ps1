@@ -95,20 +95,28 @@ function Extract-SeriesFromHtml {
 
     $after = $parts[1]
 
-    # Title = text before first <a>
-    $rawTitle = ($after -split '<a', 2)[0]
-    $title = ($rawTitle -replace '<[^>]+>', '').Trim()
+    # --- FIXED TITLE LOGIC ---
+    $clean = ($after -replace '<[^>]+>', '').Trim()
+
+    
+    if ($clean -match '^(?<series>.*?)\s*·') {
+        $title = $Matches['series'].Trim()
+    } else {
+        $title = $clean.Trim()
+    }
+
+
     if (-not $title) { $title = "UNKNOWN" }
 
-    # Extract ANY anchor containing the middle dot
-    $matches = [regex]::Matches(
+    # --- CHAPTER EXTRACTION (unchanged) ---
+    $chapterMatches = [regex]::Matches(
         $after,
         '<a[^>]+href="([^"]+)"[^>]*>\s*·\s*([^<]+)</a>',
         [System.Text.RegularExpressions.RegexOptions]::IgnoreCase
     )
 
     $chapters = @()
-    foreach ($m in $matches) {
+    foreach ($m in $chapterMatches) {
         $chapters += [PSCustomObject]@{
             Series  = $title
             Chapter = $m.Groups[2].Value.Trim()
