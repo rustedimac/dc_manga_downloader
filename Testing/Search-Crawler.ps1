@@ -230,7 +230,10 @@ function Update-SeriesCsvStatus([string]$Url, [string]$NewStatus) {
 # Extract all dc_series blocks from a post's HTML
 function Get-SeriesFromHtml([string]$Html) {
     $SeriesMap = @{}
-    $Blocks = [regex]::Matches($Html, '(?s)<div\s+class="dc_series"[^>]*>(.+?)</div>\s*(?=<div|$)')
+    $Blocks = [regex]::Matches(
+        $Html, 
+        '(?s)<div\s+class="dc_series"[^>]*>(.+?)</div>\s*(?=<div|$)'
+    )
     Write-CrawlerLog "INFO" "SeriesScan" "Regex scan complete" @{ blocks_found = $Blocks.Count }
     foreach ($Block in $Blocks) {
         $BlockHtml = $Block.Groups[1].Value
@@ -242,7 +245,10 @@ function Get-SeriesFromHtml([string]$Html) {
         }
 
         # Extract all chapter links
-        $ChapterLinks = [regex]::Matches($BlockHtml, '<a class="lnk"[^>]*href="([^"]+)"[^>]*>\s*·\s*(.*?)\s*</a>')
+        $ChapterLinks = [regex]::Matches(
+            $Html,
+            '<a\s+class="lnk"[^>]*href="([^"]+)"[^>]*>\s*·\s*(.*?)\s*</a>'
+        )
         $Chapters = @()
         foreach ($L in $ChapterLinks) {
             $ChUrl   = Clean-DcUrl ($L.Groups[1].Value)
