@@ -1,0 +1,2610 @@
+{
+  "run_start": "2026-04-27T23:18:49.8321686-04:00",
+  "log_level": "Verbose",
+  "events": [
+    {
+      "timestamp": "2026-04-27T23:18:50.6990006-04:00",
+      "level": "INFO",
+      "category": "SeriesBrowser",
+      "message": "Start scan",
+      "data": {
+        "board": "https://gall.dcinside.com/board/lists/?id=comic_new6&exception_mode=recommend",
+        "pages": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:18:52.1989866-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 196114,
+        "url": "https://gall.dcinside.com/board/lists/?id=comic_new6&exception_mode=recommend&page=1"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:18:52.2377564-04:00",
+      "level": "DEBUG",
+      "category": "SeriesBrowser",
+      "message": "Posts found",
+      "data": {
+        "page": 1,
+        "count": 112
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:18:53.6882868-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 272337,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4077651"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:18:53.6892038-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": true,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4077651"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:18:53.7062515-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:18:55.1120953-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 258828,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4080295"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:18:55.1125154-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": true,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4080295"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:18:55.1156590-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:18:56.5239049-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 256358,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4080984"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:18:56.5244482-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4080984"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:18:57.8999272-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 254516,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4082530"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:18:57.9015325-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": true,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4082530"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:18:57.9071379-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:18:59.3888721-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 282176,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4080431"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:18:59.3892115-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4080431"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:00.8683372-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 270104,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4080785"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:00.8686800-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": true,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4080785"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:00.8749269-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:02.3865260-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 276738,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4084538"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:02.3869226-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4084538"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:03.9381984-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 272292,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4081130"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:03.9386514-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": true,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4081130"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:03.9481333-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:05.4955297-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 281573,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4082927"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:05.4958692-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": true,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4082927"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:05.5044240-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:06.9521987-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 279540,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4077337"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:06.9529041-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": true,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4077337"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:06.9605046-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:08.4129297-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 278156,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4081188"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:08.4131968-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": true,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4081188"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:08.4195682-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:09.8948540-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 268452,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4077890"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:09.8950946-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": true,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4077890"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:09.9008312-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:11.3351733-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 265981,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4081650"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:11.3354282-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": true,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4081650"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:11.3388983-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:12.7670344-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 251862,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4077539"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:12.7690027-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": true,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4077539"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:12.7725164-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:14.1735331-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 256876,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4086014"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:14.1738459-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4086014"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:15.6407072-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 283844,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4078435"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:15.6409318-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": true,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4078435"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:15.6422207-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:17.0010069-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 243860,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4086044"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:17.0056756-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4086044"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:18.4418708-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 263764,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4077652"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:18.4423048-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": true,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4077652"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:18.4442032-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:19.8509288-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 263730,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4077293"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:19.8511021-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": true,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4077293"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:19.8529398-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:21.2547124-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 263662,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4077248"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:21.2548928-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4077248"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:22.6940263-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 267702,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4076832"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:22.6942299-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": true,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4076832"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:22.6978166-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:24.0967067-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 260250,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4076464"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:24.0968999-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": true,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4076464"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:24.1007417-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:25.5868389-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 291543,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4076069"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:25.5873733-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": true,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4076069"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:25.5938600-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 2
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:27.0333070-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 267462,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4075648"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:27.0335142-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": true,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4075648"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:27.0355649-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:28.4079091-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 256718,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4075050"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:28.4081224-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4075050"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:29.8822943-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 269367,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4074947"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:29.8824862-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": true,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4074947"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:29.8877753-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:31.3048241-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 261642,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4074701"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:31.3051761-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": true,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4074701"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:31.3091848-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:32.7415494-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 266912,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4074682"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:32.7417812-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": true,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4074682"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:32.7451796-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:34.2493882-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 280040,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4074658"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:34.2495456-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": true,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4074658"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:34.2514229-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:35.6975332-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 267729,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4074061"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:35.6979021-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": true,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4074061"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:35.7017193-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:37.1732324-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 266299,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4073537"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:37.1734733-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": true,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4073537"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:37.1766970-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:38.3694555-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 262801,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4073391"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:38.3696555-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": true,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4073391"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:38.3721540-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:39.8249837-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 271355,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4067594"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:39.8261299-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": true,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4067594"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:39.8336495-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:41.2921460-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 273049,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4065803"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:41.2923553-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": true,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4065803"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:41.2961376-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:42.7302155-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 267739,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4063903"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:42.7305219-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4063903"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:44.1237489-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 257859,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4063849"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:44.1239424-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": true,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4063849"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:44.1254021-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:45.5664264-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 269142,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4063797"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:45.5665416-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": true,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4063797"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:45.5680789-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:46.9916400-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 262116,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4062603"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:46.9918092-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": true,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4062603"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:46.9930042-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:48.4033483-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 261200,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4058767"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:48.4036022-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4058767"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:49.8156407-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 261870,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4058266"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:49.8158120-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": true,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4058266"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:49.8191727-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:51.1787441-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 247004,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4057116"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:51.1789311-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": true,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4057116"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:51.1804040-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:52.6092621-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 258063,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4056395"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:52.6095478-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": true,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4056395"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:52.6123737-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 2
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:54.1049468-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 257932,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4055234"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:54.1053640-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": true,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4055234"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:54.1067686-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 2
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:55.5970577-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 266925,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4055014"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:55.5972484-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": true,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4055014"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:55.5997873-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:56.9996146-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 251362,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4054882"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:56.9998882-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4054882"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:58.4382018-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 270958,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4053772"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:58.4383675-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": true,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4053772"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:58.4399825-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:59.8419769-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 256025,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4053029"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:19:59.8422907-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4053029"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:01.3523475-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 277039,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4053027"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:01.3526198-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4053027"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:02.8919520-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 276051,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4052872"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:02.8922780-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4052872"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:04.3651590-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 268599,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4052843"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:04.3653429-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": true,
+        "url": "https://gall.dcinside.com/board/view/?id=comic_new6&no=4052843"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:04.3682432-04:00",
+      "level": "INFO",
+      "category": "SeriesScan",
+      "message": "Regex scan complete",
+      "data": {
+        "blocks_found": 1
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:05.8133079-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 262395,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424698"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:05.8137243-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424698"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:07.3999909-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 291178,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424719"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:07.4003231-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424719"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:08.8551129-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 273509,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424743"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:08.8555243-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424743"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:10.2719522-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 280792,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424720"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:10.2722507-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424720"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:11.7058701-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 267301,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424674"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:11.7061084-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424674"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:13.1374042-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 267227,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424751"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:13.1375983-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424751"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:14.3933709-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 286689,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424710"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:14.3937462-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424710"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:15.6227605-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 276190,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424686"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:15.6231631-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424686"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:17.1041400-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 269429,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424680"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:17.1055672-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424680"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:18.5876830-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 284132,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424672"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:18.5886074-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424672"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:20.0820913-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 294368,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424650"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:20.0826178-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424650"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:21.5711523-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 277262,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424642"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:21.5714724-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424642"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:23.0239429-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 270988,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424664"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:23.0241636-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424664"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:24.5569829-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 292606,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424714"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:24.5571761-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424714"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:26.0032747-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 266885,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424662"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:26.0034558-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424662"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:27.4206578-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 268848,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424745"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:27.4208428-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424745"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:28.9920514-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 298101,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424670"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:28.9922296-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424670"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:30.4280579-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 278421,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424773"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:30.4283105-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424773"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:31.8963187-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 284625,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424725"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:31.8965182-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424725"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:33.2889181-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 262291,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424678"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:33.2891254-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424678"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:34.7315361-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 271606,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424742"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:34.7317440-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424742"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:36.1883690-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 276371,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424769"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:36.1884800-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424769"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:37.7051032-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 296445,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424706"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:37.7053957-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424706"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:39.1926072-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 283269,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424717"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:39.1929720-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424717"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:40.6283941-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 263622,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424652"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:40.6314303-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424652"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:42.0802215-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 264681,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424737"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:42.0804094-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424737"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:43.5461555-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 273135,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424666"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:43.5464275-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424666"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:44.9804838-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 269847,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424771"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:44.9806608-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424771"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:46.4056516-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 262181,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424704"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:46.4058151-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424704"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:47.8573950-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 270061,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424749"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:47.8586257-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424749"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:49.2959048-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 269257,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424760"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:49.2960357-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424760"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:50.7129751-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 281760,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424757"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:50.7131424-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424757"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:52.1588220-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 274664,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424644"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:52.1590389-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424644"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:53.6072415-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 276528,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424694"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:53.6074220-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424694"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:55.0910726-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 268771,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424777"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:55.0912675-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424777"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:56.5445223-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 268552,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424740"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:56.5448073-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424740"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:57.9789175-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 262067,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424727"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:57.9791411-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424727"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:59.3974119-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 287258,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424761"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:20:59.3976062-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424761"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:21:00.8048857-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 269645,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424640"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:21:00.8050099-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424640"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:21:02.2880862-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 282404,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424715"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:21:02.2882355-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424715"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:21:03.7410469-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 264441,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424763"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:21:03.7412062-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424763"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:21:05.1706370-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 269193,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424684"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:21:05.1709905-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424684"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:21:06.6360655-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 273496,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424734"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:21:06.6363268-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424734"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:21:08.0626717-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 268919,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424656"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:21:08.0630705-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424656"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:21:09.5041369-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 279859,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424746"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:21:09.5043279-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424746"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:21:10.9818821-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 283718,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424724"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:21:10.9820432-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424724"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:21:12.4501263-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 282942,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424752"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:21:12.4503048-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424752"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:21:13.8982481-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 271196,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424755"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:21:13.8984716-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424755"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:21:15.3252965-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 262438,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424783"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:21:15.3254191-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424783"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:21:16.7632114-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 277262,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424688"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:21:16.7633578-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424688"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:21:18.2015488-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 274897,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424692"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:21:18.2017345-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424692"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:21:19.6406848-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 270031,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424779"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:21:19.6408106-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424779"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:21:21.2306220-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 300968,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424696"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:21:21.2307974-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424696"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:21:22.6875976-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 274306,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424781"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:21:22.6878000-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424781"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:21:23.8662461-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 267514,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424775"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:21:23.8666035-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424775"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:21:25.3285712-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 287593,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424722"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:21:25.3287508-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=dcbest&no=424722"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:21:26.7024612-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 238517,
+        "url": "https://gall.dcinside.com/board/view/?id=jungsopd&no=1698086"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:21:26.7026214-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=jungsopd&no=1698086"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:21:28.0461653-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 243276,
+        "url": "https://gall.dcinside.com/board/view/?id=jungsopd&no=1698059"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:21:28.0465505-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=jungsopd&no=1698059"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:21:29.3923032-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 243034,
+        "url": "https://gall.dcinside.com/board/view/?id=jungsopd&no=1697469"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:21:29.3924950-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=jungsopd&no=1697469"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:21:30.7304230-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 243127,
+        "url": "https://gall.dcinside.com/board/view/?id=jungsopd&no=1696839"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:21:30.7306237-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=jungsopd&no=1696839"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:21:32.0729962-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 243091,
+        "url": "https://gall.dcinside.com/board/view/?id=jungsopd&no=1696380"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:21:32.0733562-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=jungsopd&no=1696380"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:21:33.4187054-04:00",
+      "level": "INFO",
+      "category": "PageFetch",
+      "message": "Fetched page",
+      "data": {
+        "length": 242740,
+        "url": "https://gall.dcinside.com/board/view/?id=jungsopd&no=1695534"
+      }
+    },
+    {
+      "timestamp": "2026-04-27T23:21:33.4189071-04:00",
+      "level": "DEBUG",
+      "category": "SeriesScan",
+      "message": "Post inspected",
+      "data": {
+        "has_series": false,
+        "url": "https://gall.dcinside.com/board/view/?id=jungsopd&no=1695534"
+      }
+    }
+  ],
+  "run_end": "2026-04-27T23:21:33.4249545-04:00"
+}
