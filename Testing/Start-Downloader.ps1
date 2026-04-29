@@ -141,9 +141,18 @@ function Process-Post($Url, $BaseDir) {
 
     # --- SAVE SOURCE URL ---
     $SourceFile = Join-Path $TargetDir "source.txt"
-    if (-not (Test-Path $SourceFile)) {
+    try {
         $Enc = if ($PSVersionTable.PSVersion.Major -ge 6) { "utf8BOM" } else { "UTF8" }
-        Set-Content -Path $SourceFile -Value $CleanUrl -Encoding $Enc
+        $WriteUrl = $true
+        if (Test-Path $SourceFile) {
+            $ExistingUrls = Get-Content -LiteralPath $SourceFile -ErrorAction SilentlyContinue
+            if ($ExistingUrls -contains $CleanUrl) { $WriteUrl = $false }
+        }
+        if ($WriteUrl) {
+            Add-Content -LiteralPath $SourceFile -Value $CleanUrl -Encoding $Enc -ErrorAction Stop
+        }
+    } catch {
+        Write-Host "  ! Minor Issue: Could not save source.txt" -ForegroundColor DarkYellow
     }
 
     # --- CLEANUP ---
@@ -152,15 +161,21 @@ function Process-Post($Url, $BaseDir) {
     # --- EXTRACTION (STRICT BOUNDS AND FALLBACK) ---
     $FinalLinks = New-Object System.Collections.Generic.List[PSObject]
     $HQ_Lookup = @{}
+    $AttachmentList = New-Object System.Collections.Generic.List[string]
     
-    # 1. Map Attachments
+    # 1. Map Attachments (with mathematically safe bounds)
     $AppIndex = $Html.IndexOf('class="appending_file"')
     if ($AppIndex -ge 0) {
-        $AppEnd = $Html.IndexOf('</ul>', $AppIndex); if ($AppEnd -lt 0) { $AppEnd = $Html.Length }
-        [regex]::Matches($Html.Substring($AppIndex, $AppEnd-$AppIndex), '(?i)href="([^"]*(?:download\.php|/download/\?)[^"]*)"') | ForEach-Object {
-            $u = $_.Groups[1].Value -replace '&amp;', '&'
-            if ($u -match '^//') { $u = "https:" + $u } elseif ($u -notmatch '^http') { $u = "https://gall.dcinside.com" + $u }
-            if ($u -match '(?i)[?&](?:no|attach_no|f_no)=([^&]+)') { $HQ_Lookup[$Matches[1]] = $u }
+        $AppEnd = $Html.IndexOf('</ul>', $AppIndex)
+        if ($AppEnd -lt 0) { $AppEnd = $Html.Length }
+        $AppLength = $AppEnd - $AppIndex
+        if ($AppLength -gt 0) {
+            [regex]::Matches($Html.Substring($AppIndex, $AppLength), '(?i)href="([^"]*(?:download\.php|/download/\?)[^"]*)"') | ForEach-Object {
+                $u = $_.Groups[1].Value -replace '&amp;', '&'
+                if ($u -match '^//') { $u = "https:" + $u } elseif ($u -notmatch '^http') { $u = "https://gall.dcinside.com" + $u }
+                $AttachmentList.Add($u)
+                if ($u -match '(?i)[?&](?:no|attach_no|f_no)=([^&]+)') { $HQ_Lookup[$Matches[1]] = $u }
+            }
         }
     }
 
@@ -175,7 +190,11 @@ function Process-Post($Url, $BaseDir) {
     if ($EndIndex -lt 0) { $EndIndex = $Html.IndexOf('class="reply_box"', $StartIndex) }
     if ($EndIndex -lt 0) { $EndIndex = $Html.Length }
     
-    $Body = $Html.Substring($StartIndex, $EndIndex - $StartIndex)
+    $BodyLength = $EndIndex - $StartIndex
+    if ($BodyLength -lt 0) { $BodyLength = 0 }
+    
+    $Body = $Html.Substring($StartIndex, $BodyLength)
+    $BodyItems = New-Object System.Collections.Generic.List[PSObject]
     
     [regex]::Matches($Body, '(?i)<img[^>]+>') | ForEach-Object {
         $ImgStr = $_.Value
@@ -191,23 +210,66 @@ function Process-Post($Url, $BaseDir) {
             }
             if ($IsJunk) { return }
 
+            # CAPTURE DATA-FILENO OR DATA-TEMPNO
             $Hash = if ($BodyUrl -match '(?i)[?&](?:no|attach_no|f_no)=([^&]+)') { $Matches[1] } else { $null }
-            $FileNo = if ($ImgStr -match '(?i)data-fileno\s*=\s*["'']?([^"''\s>]+)') { $Matches[1] } else { $null }
+            $FileNo = if ($ImgStr -match '(?i)data-(?:fileno|tempno)\s*=\s*["'']?([^"''\s>]+)') { $Matches[1] } else { $null }
             
+            $BodyItems.Add((New-Object PSObject -Property @{
+                BodyUrl = $BodyUrl
+                Hash = $Hash
+                FileNo = $FileNo
+                ImgStr = $ImgStr
+            }))
+        }
+    }
+
+    # 3. Final Pairing (Relaxed Positional Fallback & Bulletproof Hash Matching)
+    $AttCount = $AttachmentList.Count
+    $BodyCount = $BodyItems.Count
+    
+    if ($AttCount -gt 0 -and $BodyCount -ge $AttCount -and $BodyCount -le ($AttCount + 2)) {
+        # Relaxed match: Allow up to 2 extra images (memes/reactions) at the end of the post
+        for ($i=0; $i -lt $BodyCount; $i++) {
+            if ($i -lt $AttCount) {
+                # Map to high quality attachment
+                $FinalLinks.Add((New-Object PSObject -Property @{
+                    Url = $AttachmentList[$i]
+                    Fallback = $BodyItems[$i].BodyUrl
+                }))
+            } else {
+                # Extra body image (meme)
+                $FinalLinks.Add((New-Object PSObject -Property @{
+                    Url = $BodyItems[$i].BodyUrl
+                    Fallback = $null
+                }))
+            }
+        }
+    } else {
+        # Count mismatch - fallback to best-effort Hash/ID matching
+        foreach ($item in $BodyItems) {
             $UpgradeUrl = $null
-            if ($Hash -and $HQ_Lookup.ContainsKey($Hash)) { $UpgradeUrl = $HQ_Lookup[$Hash] }
-            elseif ($FileNo -and $HQ_Lookup.ContainsKey($FileNo)) { $UpgradeUrl = $HQ_Lookup[$FileNo] }
+            
+            # Use native hashtable indexing (fails safely to $null) instead of .ContainsKey (crashes on $null)
+            if ($item.Hash -and $HQ_Lookup[$item.Hash]) { 
+                $UpgradeUrl = $HQ_Lookup[$item.Hash] 
+            }
+            elseif ($item.FileNo -and $HQ_Lookup[$item.FileNo]) { 
+                $UpgradeUrl = $HQ_Lookup[$item.FileNo] 
+            }
             else {
                 foreach ($key in $HQ_Lookup.Keys) {
-                    if (($Hash -and ($Hash.StartsWith($key) -or $key.StartsWith($Hash))) -or ($FileNo -and ($FileNo.StartsWith($key) -or $key.StartsWith($FileNo)))) {
+                    $HashMatch = ($item.Hash -and $key -and ($item.Hash.StartsWith($key) -or $key.StartsWith($item.Hash)))
+                    $FileMatch = ($item.FileNo -and $key -and ($item.FileNo.StartsWith($key) -or $key.StartsWith($item.FileNo)))
+                    
+                    if ($HashMatch -or $FileMatch) {
                         $UpgradeUrl = $HQ_Lookup[$key]; break
                     }
                 }
             }
 
             $FinalLinks.Add((New-Object PSObject -Property @{
-                Url = if ($UpgradeUrl) { $UpgradeUrl } else { $BodyUrl }
-                Fallback = if ($UpgradeUrl) { $BodyUrl } else { $null }
+                Url = if ($UpgradeUrl) { $UpgradeUrl } else { $item.BodyUrl }
+                Fallback = if ($UpgradeUrl) { $item.BodyUrl } else { $null }
             }))
         }
     }
