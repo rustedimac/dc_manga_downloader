@@ -1,20 +1,36 @@
-# Run-Crawler.ps1
+# ==========================================
+# DC Manga Auto-Crawler
+# ==========================================
 # Ensure UTF8 for Korean characters
 try { [Console]::OutputEncoding = [System.Text.Encoding]::UTF8 } catch {}
 
-# --- Shared Config Loader ---
-. (Join-Path $PSScriptRoot "Get-Config.ps1")
-$Config   = Get-Config
-$ListFile = Join-Path $PSScriptRoot "download_list.txt"
+$ConfigFile = Join-Path $PSScriptRoot "config.yaml"
 
-# --- Settings ---
-$BoardUrl    = $Config.BoardUrl
-$MaxPages    = [int]$Config.MaxPages
-$DoDNSRepair = $Config.DNSAutoRepair -eq "True"
-$LogFile     = Join-Path $PSScriptRoot $Config.LogPath
-$CrawlOrder  = if ($null -ne $Config.CrawlOrder) { [int]$Config.CrawlOrder } else { 0 }
+# --- 1. CONFIG PARSER ---
+$Config = @{}
+if (Test-Path $ConfigFile) {
+    Get-Content $ConfigFile | Where-Object { $_ -match '^\s*([^:]+)\s*:\s*(.*)$' } | ForEach-Object {
+        $Config[$Matches[1].Trim()] = ($Matches[2] -split '#')[0].Trim(" `"'")
+    }
+}
 
-# --- Constants (formerly magic numbers) ---
+# --- 2. PATH RESOLUTION ---
+$ListFile = if ($Config.DownloadListPath) { Join-Path $PSScriptRoot ($Config.DownloadListPath -replace '^\.\\', '') } else { Join-Path $PSScriptRoot "download_list.txt" }
+$ListDir = Split-Path $ListFile
+if (-not (Test-Path $ListDir)) { New-Item -ItemType Directory -Path $ListDir -Force | Out-Null }
+
+$LogFile = if ($Config.AutoCrawlerLogPath) { Join-Path $PSScriptRoot ($Config.AutoCrawlerLogPath -replace '^\.\\', '') } else { Join-Path $PSScriptRoot "logs\Run-Crawler\autocrawl_logs.json" }
+$LogDir = Split-Path $LogFile
+if (-not (Test-Path $LogDir)) { New-Item -ItemType Directory -Path $LogDir -Force | Out-Null }
+
+# --- 3. SETTINGS & VARIABLES ---
+$BoardUrl            = $Config.BoardUrl
+$MaxPages            = if ($Config.AutoCrawlerMaxPages) { [int]$Config.AutoCrawlerMaxPages } else { 10 }
+$DoDNSRepair         = $Config.DNSAutoRepair -eq "True"
+$CrawlOrder          = if ($null -ne $Config.CrawlOrder) { [int]$Config.CrawlOrder } else { 0 }
+$KeepUnfinishedLinks = $Config.KeepUnfinishedLinks -eq "True"
+
+# --- Constants ---
 $PageTimeoutSec  = 15
 $MaxPageRetries  = 2
 $DNSWaitSec      = 10
@@ -32,7 +48,10 @@ function Write-Log([string]$Status, [string]$Message, [string]$Url = "N/A") {
     } else {
         $Json = ($LogEntry | ConvertTo-Json -Compress) -replace '\\u0026', '&'
     }
-    $Json | Add-Content -Path $LogFile
+    
+    # Use version-aware encoding for log writes
+    $Enc = if ($PSVersionTable.PSVersion.Major -ge 6) { "utf8BOM" } else { "UTF8" }
+    $Json | Add-Content -Path $LogFile -Encoding $Enc
 }
 
 $Headers = @{
@@ -110,45 +129,54 @@ foreach ($Page in $PageArray) {
     }
 }
 
+# --- Load File Lock Utility ---
+. (Join-Path $PSScriptRoot "Get-Config.ps1")
+
 # --- Smart Update: merge new URLs with existing list ---
-if (Test-Path $ListFile) {
-    $CurrentFile = Get-Content $ListFile -Encoding UTF8
+Invoke-WithFileLock "DownloadList" {
+    $Enc = if ($PSVersionTable.PSVersion.Major -ge 6) { "utf8BOM" } else { "UTF8" }
 
-    # Preserve manually added URLs
-    $ManualUrls = @()
-    $InManual   = $false
-    foreach ($Line in $CurrentFile) {
-        if     ($Line -match "^\[manual_urls\]") { $InManual = $true }
-        elseif ($Line -match "^\[.*\]")          { $InManual = $false }
-        elseif ($InManual -and $Line -match "^http") { $ManualUrls += $Line.Trim() }
-    }
+    if (Test-Path $ListFile) {
+        $CurrentFile = Get-Content $ListFile -Encoding UTF8
 
-    # Preserve existing #RETRY flags so failed posts aren't lost
-    $SavedRetries = @()
-    $InAuto       = $false
-    foreach ($Line in $CurrentFile) {
-        if     ($Line -match "^\[automatic_urls\]") { $InAuto = $true }
-        elseif ($Line -match "^\[.*\]")             { $InAuto = $false }
-        elseif ($InAuto -and $Line -match "^#RETRY") { $SavedRetries += $Line.Trim() }
-    }
-
-    # Build the new automatic section (retries first, then new URLs)
-    $FinalAuto = New-Object System.Collections.Generic.List[string]
-    foreach ($Url in $SavedRetries) { $FinalAuto.Add($Url) }
-    foreach ($Url in $FoundUrls) {
-        if ($SavedRetries -notcontains "#RETRY $Url" -and $SavedRetries -notcontains $Url) {
-            $FinalAuto.Add($Url)
+        # Preserve manually added URLs
+        $ManualUrls = @()
+        $InManual   = $false
+        foreach ($Line in $CurrentFile) {
+            if      ($Line -match "^\[manual_urls\]") { $InManual = $true }
+            elseif ($Line -match "^\[.*\]")          { $InManual = $false }
+            elseif ($InManual -and $Line -match "^http") { $ManualUrls += $Line.Trim() }
         }
-    }
 
-    $Timestamp  = "# Last crawled: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')"
-    $NewContent = @($Timestamp, "", "[manual_urls]") + $ManualUrls + @("", "[automatic_urls]") + $FinalAuto
-    $NewContent | Set-Content $ListFile -Encoding UTF8
-} else {
-    # Create a fresh list file if it doesn't exist yet
-    $Timestamp = "# Last crawled: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')"
-    $NewContent = @($Timestamp, "", "[manual_urls]", "", "[automatic_urls]") + $FoundUrls
-    $NewContent | Set-Content $ListFile -Encoding UTF8
+        # Preserve existing #RETRY flags so failed posts aren't lost
+        $SavedRetries = @()
+        $InAuto       = $false
+        foreach ($Line in $CurrentFile) {
+            if      ($Line -match "^\[automatic_urls\]") { $InAuto = $true }
+            elseif ($Line -match "^\[.*\]")             { $InAuto = $false }
+            elseif ($InAuto -and $Line -match "^#RETRY") { $SavedRetries += $Line.Trim() }
+        }
+
+        # Build the new automatic section (retries first, then new URLs)
+        $FinalAuto = New-Object System.Collections.Generic.List[string]
+        foreach ($Url in $SavedRetries) { $FinalAuto.Add($Url) }
+        foreach ($Url in $FoundUrls) {
+            if ($SavedRetries -notcontains "#RETRY $Url" -and $SavedRetries -notcontains $Url) {
+                $FinalAuto.Add($Url)
+            }
+        }
+
+        $Timestamp  = "# Last crawled: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')"
+        $NewContent = @($Timestamp, "", "[manual_urls]") + $ManualUrls + @("", "[automatic_urls]") + $FinalAuto
+        
+        $NewContent | Set-Content $ListFile -Encoding $Enc
+    } else {
+        # Create a fresh list file if it doesn't exist yet
+        $Timestamp  = "# Last crawled: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')"
+        $NewContent = @($Timestamp, "", "[manual_urls]", "", "[automatic_urls]") + $FoundUrls
+        
+        $NewContent | Set-Content $ListFile -Encoding $Enc
+    }
 }
 
 Write-Host "`nList updated. Launching Downloader..." -ForegroundColor Green
