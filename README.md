@@ -1,5 +1,10 @@
 # DC Manga Downloader
 
+🌐 **Languages:** [English](README.md) | [🇰🇷 한국어 (Korean)](README_ko.md)  
+📘 **Documentation:** [Usage Guide](USAGE.md) | [🇰🇷 사용 설명서](USAGE_ko.md)  
+
+---
+
 An enterprise-grade, highly robust downloader and cataloging system designed to archive manga translation posts from DCInside. 
 
 Built with power users in mind but designed for everyone: **no coding or command-line knowledge is required.** Simply double-click `launcher.bat` to access the interactive menu. The suite intelligently parses titles, tracks histories, manages series aliases, crawls for missing chapters, and maintains a clean local database of your entire collection—all automatically.
@@ -11,7 +16,7 @@ Built with power users in mind but designed for everyone: **no coding or command
 * **🚀 High-Speed Multi-Threading:** Downloads up to 15 images concurrently per post, maximizing bandwidth and minimizing wait times.
 * **🧠 Hyper-Intelligent Title Parsing:** Automatically extracts the Series Name and Chapter Number from messy post titles, completely ignoring garbage text, upvote begging, or trailing parentheses.
 * **🔗 Daisy-Chain Crawling:** Detects "Previous Chapter" or "Next Chapter" links inside a post and automatically hops through them to bridge gaps in your catalog.
-* **📂 Smart Alias Routing:** Map messy or inconsistent series names to a single, clean "Operator Name." All downloads for that series will automatically route to your defined folder.
+* **📂 Smart Alias Routing:** Map messy or inconsistent series names (e.g., `방과 후, 우리는 우주에서 헤맨다`, `방과후 우리는 우주에서 헤맨다`) to a single, clean "Operator Name." All downloads for that series will automatically route to your defined folder.
 * **🛡️ Duplicate Shield & Data Safety:** * Prevents downloading the exact same URL twice.
   * Uses **Atomic File Writes** and **Cross-Process Mutex Locks** to prevent database corruption, even if the scheduler is running in the background while you browse the catalog.
 * **📁 One-Click Library Access:** Instantly open your organized download directory straight from the launcher menu.
