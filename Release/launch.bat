@@ -29,6 +29,15 @@ echo # --- 1. CORE SETTINGS ---
 echo # The board URL to scan ^(Recommendation Board^)
 echo BoardUrl: "https://gall.dcinside.com/board/lists/?id=comic_new6&exception_mode=recommend"
 echo.
+echo # Set to False to crawl all posts, ignoring the "번역" ^(Translation^) prefix. 
+echo # Useful for boards with dedicated translation categories ^(e.g., search_head=10^).
+echo RequireTranslationPrefix: "True"
+echo.
+echo # Set to True to bypass the download history check.
+echo # Smart Update: It will only download new/missing images if the folder exists, 
+echo # or redownload entirely if you manually deleted the folder.
+echo ForceRedownload: "False"
+echo.
 echo.
 echo # --- 2. CRAWLER ^& SEARCH LIMITS ---
 echo # Pages scanned by the Auto-Crawler ^(Run-Crawler.ps1^)
@@ -41,7 +50,7 @@ echo SeriesBrowserMaxPages: 10
 echo.
 echo # Max time-blocks searched by the Keyword Deep-Search ^(Search-Scanner.ps1, option 1^)
 echo # 300 = exhaustive full history search. Lower this ^(e.g. 10^) 
-echo for faster targeted searches.
+echo # for faster targeted searches.
 echo KeywordSearchMaxBlocks: 300
 echo.
 echo # Crawl Direction: 0 = Oldest First ^(Page 3 -^> 1^), 1 = Newest First ^(Page 1 -^> 3^)
@@ -51,7 +60,7 @@ echo # If True, the auto-crawler appends to the list instead of wiping it fresh.
 echo KeepUnfinishedLinks: False
 echo.
 echo # Pipe-separated list ^(^|^) of junk series titles to ignore ^(triggers chapter-name parsing fallback^)
-echo JunkSeriesTitles: "ㅇㅇ|1|UNKNOWN"
+echo JunkSeriesTitles: "ㅇㅇ|1|UNKNOWN|.|잽랜드|단편|모음|단편 모음|이전화|다음화|목차|북마크|링크|북마크 찐빠있으면 말해줘 그럼 수정함|갓갓 갓갓갓|(내가 번역한 건 아니지만)|번역 기다리는 동안 볼 만화|유동 번역 백업|없는 화는 그 사이트로|ETC"
 echo.
 echo # If True, dynamically hunts for older chapters missing from the current series block
 echo DaisyChainSeries: True
@@ -154,11 +163,9 @@ echo  5. Open Download Directory
 echo  0. Exit
 echo ==========================================
 
-:: CRITICAL FIX: Clear the variable before the prompt
 set "choice="
 set /p choice="Select an option: "
 
-:: If choice is empty (user just pressed Enter), go back to MENU to refresh
 if "%choice%"=="" goto MENU
 
 if "%choice%"=="1" goto AUTO_FLOW
@@ -168,12 +175,14 @@ if "%choice%"=="4" goto TOGGLE_SCHEDULER
 if "%choice%"=="5" goto OPEN_DOWNLOADS
 if "%choice%"=="0" goto CLEAN_EXIT
 
-:: Handle invalid inputs by refreshing the menu
 goto MENU
 
 :AUTO_FLOW
 cls
+:: [수정된 부분] 크롤러 실행 후 멈추지 않고 곧바로 다운로더를 실행(-RunAuto)하도록 수정했습니다.
 "!PS_EXE!" -NoProfile -ExecutionPolicy Bypass -File "%CORE_DIR%Run-Crawler.ps1"
+"!PS_EXE!" -NoProfile -ExecutionPolicy Bypass -File "%CORE_DIR%Start-Downloader.ps1" -RunAuto
+echo.
 pause
 goto MENU
 
