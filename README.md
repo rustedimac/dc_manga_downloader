@@ -1,7 +1,8 @@
 # DC Manga Downloader
 
-🌐 **Languages:** [English](README.md) | [🇰🇷 한국어 (Korean)](README_ko.md)  
-📘 **Documentation:** [Usage Guide](USAGE.md) | [🇰🇷 사용 설명서](USAGE_ko.md)  
+**Languages:** [English](README.md) | [🇰🇷 한국어 (Korean)](README_ko.md)  
+**Documentation:** [Usage Guide](USAGE.md) | [🇰🇷 사용 설명서](USAGE_ko.md)  
+**Config guide:** [Config guide](CONFIG.md) | [🇰🇷 설정 가이드](CONFIG_ko.md)  
 
 ---
 
