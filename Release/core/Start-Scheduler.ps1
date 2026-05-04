@@ -1,63 +1,59 @@
 # ==========================================
 # DC Manga Background Scheduler
 # ==========================================
-param (
-    [string]$AutoInterval = "",
-    [string]$BoardInterval = ""
-)
-
 try { [Console]::OutputEncoding = [System.Text.Encoding]::UTF8 } catch {}
 
 $RootDir = Split-Path $PSScriptRoot -Parent
-$ConfigFile = Join-Path $RootDir "config.yaml"
-
 . (Join-Path $PSScriptRoot "Get-Config.ps1")
-
-$Config = @{}
-if (Test-Path $ConfigFile) {
-    Get-Content $ConfigFile -Encoding UTF8 | Where-Object { $_ -match '^\s*([^:]+)\s*:\s*(.*)$' } | ForEach-Object {
-        $Config[$Matches[1].Trim()] = ($Matches[2] -split '#')[0].Trim(" `"'")
-    }
-}
-
-$AutoH = if ($AutoInterval) { [double]$AutoInterval } elseif ($Config.AutoCrawlerIntervalHours) { [double]$Config.AutoCrawlerIntervalHours } else { 1 }
-$BoardH = if ($BoardInterval) { [double]$BoardInterval } elseif ($Config.BoardCrawlerIntervalHours) { [double]$Config.BoardCrawlerIntervalHours } else { 12 }
-
-$NextAuto = (Get-Date)
-$NextBoard = (Get-Date).AddHours($BoardH)
 
 Clear-Host
 Write-Host "==========================================" -ForegroundColor Cyan
-Write-Host "      DC Manga Background Scheduler       " -ForegroundColor Cyan
+Write-Host "   DC Manga Background Scheduler Active   " -ForegroundColor Cyan
 Write-Host "==========================================" -ForegroundColor Cyan
-Write-Host "Auto-Crawler Interval : $AutoH hours" -ForegroundColor Gray
-Write-Host "Board Scanner Interval: $BoardH hours" -ForegroundColor Gray
-Write-Host "Leave this window open to run in the background." -ForegroundColor Yellow
-Write-Host "==========================================`n" -ForegroundColor Cyan
+Write-Host "Leave this window open. The suite will silently monitor the board." -ForegroundColor Gray
+Write-Host "You can edit config.yaml while this is running to change intervals dynamically.`n" -ForegroundColor DarkGray
+
+$NextAutoRun = Get-Date
+$NextBoardRun = Get-Date
 
 while ($true) {
-    $Now = Get-Date
 
-    if ($Now -ge $NextAuto) {
-        Write-Host "[$($Now.ToString('MM/dd/yyyy HH:mm:ss'))] Triggering Auto-Crawler..." -ForegroundColor Green
+    $Config = Get-Config -ConfigPath (Join-Path $RootDir "config.yaml")
+    
+    $AutoInterval = if ($null -ne $Config.AutoCrawlerIntervalHours) { [double]$Config.AutoCrawlerIntervalHours } else { 1 }
+    $BoardInterval = if ($null -ne $Config.BoardCrawlerIntervalHours) { [double]$Config.BoardCrawlerIntervalHours } else { 12 }
+
+    $CurrentTime = Get-Date
+
+    # ---------------------------------------------------------
+    # 1. Auto-Crawler
+    # ---------------------------------------------------------
+    if ($AutoInterval -le 0) {
+        $NextAutoRun = $CurrentTime.AddHours(1)
+    } elseif ($CurrentTime -ge $NextAutoRun) {
+        Write-Host "[$($CurrentTime.ToString('HH:mm:ss'))] Starting Auto-Crawler..." -ForegroundColor Yellow
         
-        # 1. Run the Crawler to find links
-        & (Join-Path $PSScriptRoot "Run-Crawler.ps1")
+        $CrawlerScript = Join-Path $PSScriptRoot "Run-Crawler.ps1"
+        if (Test-Path $CrawlerScript) { & $CrawlerScript }
         
-        # 2. INSTANTLY trigger the Downloader to grab what was found
-        Write-Host "[$((Get-Date).ToString('MM/dd/yyyy HH:mm:ss'))] Triggering Auto-Downloader..." -ForegroundColor Green
-        & (Join-Path $PSScriptRoot "Start-Downloader.ps1") -RunAuto
-        
-        $NextAuto = (Get-Date).AddHours($AutoH)
-        Write-Host "`nNext Auto-Crawler run at: $($NextAuto.ToString('MM/dd/yyyy HH:mm:ss'))`n" -ForegroundColor DarkGray
+        $NextAutoRun = (Get-Date).AddHours($AutoInterval)
+        Write-Host "[$((Get-Date).ToString('HH:mm:ss'))] Auto-Crawler finished. Next run at $($NextAutoRun.ToString('HH:mm:ss'))" -ForegroundColor Green
     }
 
-    if ($Now -ge $NextBoard) {
-        Write-Host "[$($Now.ToString('MM/dd/yyyy HH:mm:ss'))] Triggering Board Series Scanner..." -ForegroundColor Green
-        & (Join-Path $PSScriptRoot "Search-Scanner.ps1") -RunBoardCrawler
-        $NextBoard = (Get-Date).AddHours($BoardH)
-        Write-Host "`nNext Board Scanner run at: $($NextBoard.ToString('MM/dd/yyyy HH:mm:ss'))`n" -ForegroundColor DarkGray
-    }
+    # ---------------------------------------------------------
+    # 2. Board Series Scanner
+    # ---------------------------------------------------------
+    if ($BoardInterval -le 0) {
 
-    Start-Sleep -Seconds 10
+        $NextBoardRun = $CurrentTime.AddHours(1)
+    } elseif ($CurrentTime -ge $NextBoardRun) {
+        Write-Host "[$($CurrentTime.ToString('HH:mm:ss'))] Starting Board Series Scanner..." -ForegroundColor Yellow
+        
+        $ScannerScript = Join-Path $PSScriptRoot "Search-Scanner.ps1"
+        if (Test-Path $ScannerScript) { & $ScannerScript -RunBoardCrawler }
+        
+        $NextBoardRun = (Get-Date).AddHours($BoardInterval)
+        Write-Host "[$((Get-Date).ToString('HH:mm:ss'))] Board Scanner finished. Next run at $($NextBoardRun.ToString('HH:mm:ss'))" -ForegroundColor Green
+    }
+    Start-Sleep -Seconds 60
 }
