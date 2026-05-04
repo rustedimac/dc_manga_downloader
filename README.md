@@ -6,7 +6,7 @@
 
 ---
 
-An enterprise-grade, highly robust downloader and cataloging system designed to archive manga translation posts from DCInside. 
+A highly robust downloader and cataloging system designed to archive manga translation posts from DCInside. 
 
 Built with power users in mind but designed for everyone: **no coding or command-line knowledge is required.** Simply double-click `launcher.bat` to access the interactive menu. The suite intelligently parses titles, tracks histories, manages series aliases, crawls for missing chapters, and maintains a clean local database of your entire collection—all automatically.
 
