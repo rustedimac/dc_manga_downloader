@@ -11,7 +11,6 @@ Built with power users in mind but designed for everyone: **no coding or command
 * **🧠 Hyper-Intelligent Title Parsing:** Automatically extracts the Series Name and Chapter Number from messy post titles, completely ignoring garbage text, upvote begging, or trailing parentheses.
 * **🔗 Daisy-Chain Crawling:** Detects "Previous Chapter" or "Next Chapter" links inside a post and automatically hops through them to bridge gaps in your catalog.
 * **📂 Smart Alias Routing:** Map messy or inconsistent series names to a single, clean "Operator Name." All downloads for that series will automatically route to your defined folder.
-* **🔞 Automated Uncensored Pipeline:** Automatically detects Telegraph (`telegra.ph`) backup links, scrapes them for Arca.live URLs, bypasses the temporary CDNs, and downloads the high-quality uncensored images into a dedicated `\무검열` subfolder.
 * **🛡️ Duplicate Shield & Data Safety:** * Prevents downloading the exact same URL twice.
   * Uses **Atomic File Writes** and **Cross-Process Mutex Locks** to prevent database corruption, even if you force-close the app or have Excel open.
 
