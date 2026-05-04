@@ -4,30 +4,38 @@ param (
     [switch]$RunScannerQueue
 )
 
-# Ensure UTF8 for Korean character support
 try { [Console]::OutputEncoding = [System.Text.Encoding]::UTF8 } catch {}
 
-# --- NEW ANCHOR LOGIC ---
 $RootDir = Split-Path $PSScriptRoot -Parent
 $ConfigFile = Join-Path $RootDir "config.yaml"
 
-# --- 1. CONFIG PARSER ---
+. (Join-Path $PSScriptRoot "Get-Config.ps1")
+
+function Get-CleanUrl([string]$u) {
+    $u = $u.Trim() -replace "^#RETRY ", "" -replace "^#DELETED ", ""
+    if ($u -match 'gall\.dcinside\.com/board/view/') {
+        $id = if ($u -match '[?&]id=([^&]+)') { $Matches[1] } else { "" }
+        $no = if ($u -match '[?&]no=(\d+)') { $Matches[1] } else { "" }
+        if ($id -and $no) { return "https://gall.dcinside.com/board/view/?id=$id&no=$no" }
+    }
+    return $u
+}
+
 $Config = @{}
 if (Test-Path $ConfigFile) {
-    Get-Content $ConfigFile | Where-Object { $_ -match '^\s*([^:]+)\s*:\s*(.*)$' } | ForEach-Object {
+    Get-Content $ConfigFile -Encoding UTF8 | Where-Object { $_ -match '^\s*([^:]+)\s*:\s*(.*)$' } | ForEach-Object {
         $Config[$Matches[1].Trim()] = ($Matches[2] -split '#')[0].Trim(" `"'")
     }
 }
 
-# --- 2. PATH RESOLUTION & LIST GENERATOR ---
+$script:ForceRedownload = $Config.ForceRedownload -eq "True"
+
 $MainListFile = if ($Config.DownloadListPath) { Join-Path $RootDir ($Config.DownloadListPath -replace '^\.\\', '') } else { Join-Path $RootDir "Data\download_list.txt" }
 $ListDir = Split-Path $MainListFile
 if (-not (Test-Path $ListDir)) { New-Item -ItemType Directory -Path $ListDir -Force | Out-Null }
 
 $ListFile = $MainListFile
-if ($RunScannerQueue) {
-    $ListFile = Join-Path $ListDir "scanner_queue.txt"
-}
+if ($RunScannerQueue) { $ListFile = Join-Path $ListDir "scanner_queue.txt" }
 
 if ($ListFile -eq $MainListFile -and -not (Test-Path $ListFile)) {
     $Enc = if ($PSVersionTable.PSVersion.Major -ge 6) { "utf8BOM" } else { "UTF8" }
@@ -37,10 +45,57 @@ if ($ListFile -eq $MainListFile -and -not (Test-Path $ListFile)) {
     @() | Set-Content -Path $ListFile -Encoding $Enc
 }
 
-# Load File Lock Utility
-. (Join-Path $PSScriptRoot "Get-Config.ps1")
+# --- ALIAS REGISTRY ---
+$AliasFile = Join-Path $RootDir "Data\series_aliases.csv"
+$Global:AliasMap = @{}
+if (Test-Path $AliasFile) {
+    $aliases = @(Import-Csv $AliasFile -Encoding UTF8)
+    foreach ($a in $aliases) { $Global:AliasMap[$a.OriginalName] = $a.OperatorName }
+}
 
-# Force Disable System Proxy (prevents issues with some network environments)
+function Register-Alias([string]$OrigName) {
+    if ([string]::IsNullOrWhiteSpace($OrigName)) { return }
+    if (-not $Global:AliasMap.ContainsKey($OrigName)) {
+        $Global:AliasMap[$OrigName] = $OrigName
+        Invoke-WithFileLock "Aliases" {
+            $Enc = if ($PSVersionTable.PSVersion.Major -ge 6) { "utf8BOM" } else { "UTF8" }
+            $NewRow = [PSCustomObject]@{ OriginalName=$OrigName; OperatorName=$OrigName }
+            if (Test-Path $AliasFile) {
+                $All = @(Import-Csv $AliasFile -Encoding UTF8)
+                $All += $NewRow
+                Write-FileAtomic -Path $AliasFile -Content ($All | Sort-Object OriginalName) -AsCsv -Encoding $Enc
+            } else {
+                Write-FileAtomic -Path $AliasFile -Content @($NewRow) -AsCsv -Encoding $Enc
+            }
+        }
+    }
+}
+
+function Get-OperatorName([string]$detectedName) {
+    Register-Alias $detectedName
+    if ($Global:AliasMap.ContainsKey($detectedName)) { return $Global:AliasMap[$detectedName] }
+    return $detectedName
+}
+
+# --- HISTORY & CATALOG ---
+$HistoryFile = if ($Config.DownloadHistoryPath) { Join-Path $RootDir ($Config.DownloadHistoryPath -replace '^\.\\', '') } else { Join-Path $RootDir "Data\download_history.csv" }
+$Global:DownloadHistory = New-Object System.Collections.Generic.HashSet[string]
+if (Test-Path $HistoryFile) {
+    $histData = @(Import-Csv $HistoryFile -Encoding UTF8 | Where-Object { -not [string]::IsNullOrWhiteSpace($_.Url) })
+    foreach ($h in $histData) { $Global:DownloadHistory.Add($h.Url.Trim()) | Out-Null }
+}
+
+$CsvFile = if ($Config.CatalogCsvPath) { Join-Path $RootDir ($Config.CatalogCsvPath -replace '^\.\\', '') } else { Join-Path $RootDir "Data\series_catalog.csv" }
+$Global:CatalogLookup = @{}
+if (Test-Path $CsvFile) {
+    try {
+        $catData = @(Import-Csv $CsvFile -Encoding UTF8)
+        foreach ($c in $catData) {
+            if (-not [string]::IsNullOrWhiteSpace($c.Url)) { $Global:CatalogLookup[$c.Url.Trim()] = $c }
+        }
+    } catch {}
+}
+
 if ($Config.UseProxy -eq "False") {
     $NullProxy = New-Object System.Net.WebProxy
     [System.Net.HttpWebRequest]::DefaultWebProxy = $NullProxy
@@ -49,113 +104,49 @@ if ($Config.UseProxy -eq "False") {
     [System.Net.WebRequest]::DefaultWebProxy = [System.Net.WebProxy]::new()
 }
 
-# Metrics
-$script:SessionSuccessCount = 0
-$script:SessionFailureCount = 0
-$script:SessionSkipCount    = 0
-$script:SessionTotalBytes   = 0
+$script:SessionSuccessCount = 0; $script:SessionFailureCount = 0; $script:SessionSkipCount = 0; $script:SessionTotalBytes = 0; $script:SessionExtraLinks = @()
 
-# Configuration
-$DownloadLocation = if ($Config.DownloadDir -and [System.IO.Path]::IsPathRooted($Config.DownloadDir)) {
-    $Config.DownloadDir
-} else {
-    Join-Path $RootDir ($Config.DownloadDir -replace '^\.\\', '')
-}
+$DownloadLocation = if ($Config.DownloadDir -and [System.IO.Path]::IsPathRooted($Config.DownloadDir)) { $Config.DownloadDir } else { Join-Path $RootDir ($Config.DownloadDir -replace '^\.\\', '') }
+$LogFile = if ($Config.LogPath -and [System.IO.Path]::IsPathRooted($Config.LogPath)) { $Config.LogPath } else { Join-Path $RootDir ($Config.LogPath -replace '^\.\\', '') }
 
-$LogFile = if ($Config.LogPath -and [System.IO.Path]::IsPathRooted($Config.LogPath)) {
-    $Config.LogPath
-} else {
-    Join-Path $RootDir ($Config.LogPath -replace '^\.\\', '')
-}
-
-# --- LOG ROTATION ---
 if (Test-Path $LogFile) {
     $MaxLogMB = if ($Config.CrawlerLogMaxMB) { [double]$Config.CrawlerLogMaxMB } else { 10 }
     if (((Get-Item $LogFile).Length / 1MB) -ge $MaxLogMB) {
         $Timestamp = Get-Date -Format "yyyyMMdd_HHmmss"
         $RotatedLog = ($LogFile -replace '\.json$', "_$Timestamp.json")
         Rename-Item -Path $LogFile -NewName (Split-Path $RotatedLog -Leaf)
-        
-        $LogDirObj = Split-Path $LogFile
+        $Files = Get-ChildItem -Path (Split-Path $LogFile) -Filter "*.json" | Sort-Object CreationTime
         $MaxLogFiles = if ($Config.CrawlerLogMaxFiles) { [int]$Config.CrawlerLogMaxFiles } else { 5 }
-        $Files = Get-ChildItem -Path $LogDirObj -Filter "*.json" | Sort-Object CreationTime
-        while ($Files.Count -gt $MaxLogFiles) {
-            Remove-Item -Path $Files[0].FullName -Force
-            $Files = Get-ChildItem -Path $LogDirObj -Filter "*.json" | Sort-Object CreationTime
-        }
+        while ($Files.Count -gt $MaxLogFiles) { Remove-Item -Path $Files[0].FullName -Force; $Files = Get-ChildItem -Path (Split-Path $LogFile) -Filter "*.json" | Sort-Object CreationTime }
     }
 }
 
-$LogLevel         = $Config.LogLevel
-$DoDNSRepair      = $Config.DNSAutoRepair -eq "True"
-$SleepTime        = if ($Config.RateLimitSeconds) { [double]$Config.RateLimitSeconds } else { 2.5 }
-$RenameSequential = $Config.RenameFilesSequential -eq "True"
-$MaxThreads       = if ($Config.MaxConcurrentDownloads) { [int]$Config.MaxConcurrentDownloads } else { 15 }
-$ShowVisualBar    = $Config.ShowProgressBar -eq "True"
-
-if ($MaxThreads -lt 1) { $MaxThreads = 1 }
-
-# Native PowerShell Progress Setting
-if ($ShowVisualBar) {
-    $ProgressPreference = 'SilentlyContinue'
-}
-
-# --- 3. HELPER FUNCTIONS ---
+$LogLevel = $Config.LogLevel; $DoDNSRepair = $Config.DNSAutoRepair -eq "True"; $SleepTime = if ($Config.RateLimitSeconds) { [double]$Config.RateLimitSeconds } else { 2.5 }
+$RenameSequential = $Config.RenameFilesSequential -eq "True"; $MaxThreads = if ($Config.MaxConcurrentDownloads) { [int]$Config.MaxConcurrentDownloads } else { 15 }
+$ShowVisualBar = $Config.ShowProgressBar -eq "True"; if ($MaxThreads -lt 1) { $MaxThreads = 1 }
+if ($ShowVisualBar) { $ProgressPreference = 'SilentlyContinue' }
 
 function Get-SafeName([string]$Name) {
     if ([string]::IsNullOrWhiteSpace($Name)) { return "Unknown" }
-    
     $Safe = ($Name -replace '<[^>]+>', '').Replace('?', '？').Replace(':', '：').Replace('*', '＊').Replace('|', '｜').Replace('"', '＂')
     $IllegalChars = [System.IO.Path]::GetInvalidFileNameChars() -join ''
     $ExtraChars = if ($Config.CustomStripChars) { $Config.CustomStripChars } else { "" }
     $Regex = "[" + [regex]::Escape($IllegalChars + $ExtraChars) + "\x00-\x1F]"
-    
     $Final = (($Safe -replace $Regex, '_') -replace '\s+', ' ').Trim().Trim(".")
+    
     if ([string]::IsNullOrWhiteSpace($Final)) { return "Unknown_Title" }
     return $Final
 }
 
 function Write-Log {
-    param(
-        [string]$Status,
-        [string]$Message,
-        [string]$Url = "N/A",
-        [string]$Manga = "N/A",
-        [string]$Chapter = "N/A",
-        [string]$ImageNum = "N/A",
-        [string]$TotalImages = "N/A",
-        [string]$Size = "N/A"
-    )
-    
+    param($Status, $Message, $Url="N/A", $Manga="N/A", $Chapter="N/A", $ImageNum="N/A", $TotalImages="N/A", $Size="N/A")
     if ($LogLevel -eq "Error" -and $Status -notin @("ERROR", "SESSION", "REPAIR", "FLAGGED")) { return }
-
-    $LogEntry = [ordered]@{
-        Timestamp   = (Get-Date -Format "yyyy-MM-dd HH:mm:ss")
-        Status      = $Status
-        Manga       = $Manga
-        Chapter     = $Chapter
-        ImageNum    = $ImageNum
-        TotalImages = $TotalImages
-        Size        = $Size
-        Message     = $Message
-        Url         = $Url
-    }
-    
-    $Json = if ($PSVersionTable.PSVersion.Major -ge 6) { 
-        $LogEntry | ConvertTo-Json -Compress -EscapeHandling EscapeHtml 
-    } else { 
-        $LogEntry | ConvertTo-Json -Compress 
-    }
-    
+    $LogEntry = [ordered]@{ Timestamp=(Get-Date -Format "yyyy-MM-dd HH:mm:ss"); Status=$Status; Manga=$Manga; Chapter=$Chapter; ImageNum=$ImageNum; TotalImages=$TotalImages; Size=$Size; Message=$Message; Url=$Url }
+    $Json = if ($PSVersionTable.PSVersion.Major -ge 6) { $LogEntry | ConvertTo-Json -Compress -EscapeHandling EscapeHtml } else { $LogEntry | ConvertTo-Json -Compress }
     $Json = $Json.Replace('\u0026', '&').Replace('\u003c', '<').Replace('\u003e', '>')
-
     try {
-        $Client = New-Object System.IO.Pipes.NamedPipeClientStream(".", "DCMangaLogger", [System.IO.Pipes.PipeDirection]::Out)
-        $Client.Connect(150)
-        $Writer = New-Object System.IO.StreamWriter($Client, [System.Text.Encoding]::UTF8)
-        $Writer.WriteLine($Json)
-        $Writer.Flush()
-        $Client.Dispose()
+        $Client = New-Object System.IO.Pipes.NamedPipeClientStream(".", "DCMangaLogger", [System.IO.Pipes.PipeDirection]::Out); $Client.Connect(150)
+        $Writer = New-Object System.IO.StreamWriter($Client, [System.Text.Encoding]::UTF8); $Writer.WriteLine($Json); $Writer.Flush(); $Client.Dispose()
     } catch { 
         $LogDirNode = Split-Path $LogFile
         if (-not (Test-Path $LogDirNode)) { New-Item -ItemType Directory -Path $LogDirNode -Force | Out-Null }
@@ -165,96 +156,475 @@ function Write-Log {
 
 function Show-VisualProgress([int]$Current, [int]$Total) {
     if (-not $ShowVisualBar) { return }
-    $Percent = [Math]::Floor(($Current / $Total) * 100)
-    $Width = 30
-    $Done = [Math]::Floor(($Current / $Total) * $Width)
-    $Left = $Width - $Done
+    $Percent = [Math]::Floor(($Current / $Total) * 100); $Width = 30; $Done = [Math]::Floor(($Current / $Total) * $Width); $Left = $Width - $Done
     $Bar = "[" + ("#" * $Done) + ("-" * $Left) + "]"
     Write-Host -NoNewline "`r    Progress: $Bar $Percent% ($Current/$Total images)    "
 }
 
-# --- 4. CORE PROCESSING FUNCTION ---
-
-function Process-Post($Url, $BaseDir) {
-    $PostStartTime = Get-Date
-    $CleanUrl = $Url.Trim() -replace "^#RETRY ", ""
+function Parse-TitleToSeries([string]$RawTitle) {
+    $T = $RawTitle -replace '&lt;', '<' -replace '&gt;', '>' -replace '&amp;', '&'
     
-    if ($CleanUrl -match "/view\?id=") {
-        $CleanUrl = $CleanUrl -replace "/view\?id=", "/view/?id="
+    $IsDanpyeon = ($T -match '단편')
+    $FallbackChapter = if ($IsDanpyeon) { "단편" } else { "General" }
+
+    $T = $T -replace '^(?:\[?번역\]?\s*\)?|재업\)?|딸깍\)?|\[?단편\]?\s*\)?|<단편>\s*|\(단편\)\s*)\s*', ''
+    $T = $T -replace '\(.*?(?:完|완결|끝).*?\)$', '' 
+
+    $ChapterPattern = '(?i)((?:\d+권\s*)?(?:#\d+|\(\s*\d+_\d+\s*\)|(?:Part|LIFE|Season|Session)\s*\d+(?:\s*,\s*\d+)*|[<\[\(][^>\]\)]*[화편권]\s*\d+[>\]\)]|\d[\d\.\-~_]*(?:\s*[화편권])?(?:(?:\s*[,&＆\+]\s*|\s+)\d[\d\.\-~_]*(?:\s*[화편권])?)*\s*[화편권](?:\s*[\-\+]\s*\d+)?|\d+\s*~\s*\d+(?:\s*[화편권])?|\d+(?:\s*,\s*\d+)*(?:\s*(?:完|완결|끝))?(?=\s*(?:[\[\(<][^\]\)>]*[\]\)>]\s*)*$)|(?:최종|마지막)\s*[화편])(?:\s*(?:오마케|보너스|외전|특별|특별편|번외|번외편|단편|총집편))?)'
+
+    while ($T -match '(?s)\s*([\[\(<][^\]\)>]*[\]\)>])\s*$') {
+        $ParenText = $Matches[1].Trim()
+        $InsideText = $ParenText.Substring(1, $ParenText.Length - 2).Trim()
+
+        if ($ParenText -match "^${ChapterPattern}$" -or $InsideText -match "^${ChapterPattern}$") {
+            break 
+        } else {
+            $T = $T.Substring(0, $T.Length - $Matches[0].Length)
+        }
+    }
+    
+    $Manga = $T
+    $Chapter = $FallbackChapter
+    
+    $matchesList = [regex]::Matches($T, $ChapterPattern)
+    if ($matchesList.Count -gt 0) {
+        $lastMatch = $matchesList[$matchesList.Count - 1]
+        
+        $PossibleManga = $T.Substring(0, $lastMatch.Index).Trim()
+        
+        $PossibleManga = [regex]::Replace($PossibleManga, '[\(\[<][^)>\]]*[가-힣a-zA-Z]+[^)>\]]*[\)\]>]', '')
+        $PossibleManga = $PossibleManga -replace '[-\s:\[\(<]+$', '' 
+        $PossibleManga = $PossibleManga -replace '\s+\d+$', ''
+        $PossibleManga = $PossibleManga.Trim()
+        
+        if (-not [string]::IsNullOrWhiteSpace($PossibleManga)) { $Manga = $PossibleManga }
+        
+        $RawChapter = $lastMatch.Value.Trim()
+        $RawChapter = $RawChapter -replace '^[<\[\(]', '' -replace '[>\]\)]$', '' 
+        $Chapter = $RawChapter
+    } else {
+        $Manga = [regex]::Replace($Manga, '[\(\[<][^)>\]]*[가-힣a-zA-Z]+[^)>\]]*[\)\]>]', '')
+        $Manga = $Manga -replace '\s+\d+$', ''
+        $Manga = $Manga.Trim()
+    }
+    
+    return @{ Series = $Manga; Chapter = $Chapter }
+}
+
+function Extract-SeriesFromHtml {
+    param([string]$Html, [string]$Url)
+    
+    $AllChapters = New-Object System.Collections.Generic.List[PSObject]
+    $VisitedHtmlUrls = @{}
+    $CurrentUrl = Get-CleanUrl $Url
+    $CurrentHtml = $Html
+    $FinalTitle = ""
+
+    while ($true) {
+        $VisitedHtmlUrls[$CurrentUrl] = $true
+        
+        $RawTitle = "Unknown"
+        if ($CurrentHtml -match '(?i)<meta\s+property="og:title"\s+content="([^"]+)"') {
+            $RawTitle = $Matches[1] -replace '\s*-\s*.*?갤러리\s*$', ''
+        } elseif ($CurrentHtml -match '(?i)<title>([^<]+)</title>') {
+            $RawTitle = $Matches[1] -replace '\s*-\s*.*?갤러리\s*$', ''
+        } elseif ($CurrentHtml -match '(?s)<span[^>]*class="title_subject"[^>]*>(.*?)</span>') {
+            $RawTitle = $Matches[1].Trim()
+        }
+        $RawTitle = ($RawTitle -replace '<[^>]+>', '').Replace('&amp;', '&').Replace('&lt;', '<').Replace('&gt;', '>')
+
+        $Date = if ($CurrentHtml -match '<span class="gall_date" title="([^"]+)">') { $Matches[1] } else { "" }
+        
+        $PostContent = ""
+        $bStart = $CurrentHtml.IndexOf('class="writing_view_box"')
+        if ($bStart -ge 0) {
+            $bEnd = $CurrentHtml.IndexOf('class="updown_area"', $bStart)
+            if ($bEnd -lt 0) { $bEnd = $CurrentHtml.IndexOf('class="appending_file_box"', $bStart) }
+            if ($bEnd -lt 0) { $bEnd = $CurrentHtml.Length }
+            $bLen = $bEnd - $bStart
+            if ($bLen -gt 0) { $PostContent = $CurrentHtml.Substring($bStart, $bLen) }
+        }
+
+        $ExtraLinks = @()
+        if ($PostContent) {
+            [regex]::Matches($PostContent, '(?i)href="(https?://[^"]+)"') | ForEach-Object { 
+                $exUrl = $_.Groups[1].Value
+                if ($exUrl -notmatch 'dcinside\.(com|co\.kr)|\$\{link\}|pickmaker\.com|rankify\.best|naver\.com/adbiz') { $ExtraLinks += $exUrl }
+            }
+        }
+        $ExtraLinksStr = ($ExtraLinks | Sort-Object -Unique) -join " | "
+        
+        $Parsed = Parse-TitleToSeries $RawTitle
+
+        if ($PostContent -notmatch '\[시리즈\]') { 
+            if ($FinalTitle -eq "") { $FinalTitle = $Parsed.Series }
+            $exists = $false
+            foreach ($ext in $AllChapters) { if ($ext.Url -eq $CurrentUrl) { $exists = $true; break } }
+            if (-not $exists) { $AllChapters.Add([PSCustomObject]@{ Series = $FinalTitle; Chapter = $RawTitle; OriginalTitle = $RawTitle; Url = $CurrentUrl; Date = $Date; ExtraLinks = $ExtraLinksStr; Status = "" }) }
+            break 
+        }
+        
+        $parts = $PostContent -split '\[시리즈\]'
+        if ($parts.Count -lt 2) { break }
+
+        $batch = @()
+        $batch += [PSCustomObject]@{ Series = ""; Chapter = $RawTitle; OriginalTitle = $RawTitle; Url = $CurrentUrl; Date = $Date; ExtraLinks = $ExtraLinksStr; Status = "" }
+        $LastValidTitle = "UNKNOWN"
+
+        for ($i = 1; $i -lt $parts.Count; $i++) {
+            $after = $parts[$i]
+            if ($after -match '(?s)^\s*(.*?)(?:<a|<br|·)') { 
+                $title = ($Matches[1] -replace '<[^>]+>', '').Trim() 
+                $JunkList = if ($Config.JunkSeriesTitles) { $Config.JunkSeriesTitles -split '\|' | ForEach-Object { $_.Trim() } } else { @("ㅇㅇ", "1", "UNKNOWN") }
+                if ($title -notmatch '^[\.\s\-_]*$' -and $JunkList -notcontains $title) { $LastValidTitle = $title }
+            }
+
+            $chapterMatches = [regex]::Matches($after, '<a[^>]+href="([^"]+)"[^>]*>\s*·\s*([^<]+)</a>', [System.Text.RegularExpressions.RegexOptions]::IgnoreCase)
+            foreach ($m in $chapterMatches) { 
+                $u = Get-CleanUrl $m.Groups[1].Value.Trim()
+                $LinkText = $m.Groups[2].Value.Trim()
+                if ($u -ne $CurrentUrl) {
+                    $batch += [PSCustomObject]@{ Series = ""; Chapter = $LinkText; OriginalTitle = $LinkText; Url = $u; Date = ""; ExtraLinks = ""; Status = "" } 
+                } else {
+                    $batch[0].Chapter = $LinkText
+                    $batch[0].OriginalTitle = $LinkText
+                }
+            }
+        }
+
+        if ($FinalTitle -eq "") {
+            if ($LastValidTitle -ne "UNKNOWN") { $FinalTitle = $LastValidTitle } else { $FinalTitle = $Parsed.Series }
+        }
+        Register-Alias $FinalTitle
+
+        foreach ($c in $batch) {
+            $c.Series = $FinalTitle
+            $exists = $false
+            foreach ($ext in $AllChapters) { 
+                if ($ext.Url -eq $c.Url) { 
+                    $exists = $true
+                    if (-not $ext.Date -and $c.Date) { $ext.Date = $c.Date }
+                    if (-not $ext.ExtraLinks -and $c.ExtraLinks) { $ext.ExtraLinks = $c.ExtraLinks }
+                    break 
+                } 
+            }
+            if (-not $exists) { $AllChapters.Add($c) }
+        }
+
+        if ($Config.DaisyChainSeries -eq "True") {
+            $OldestUrl = $null; $MinNum = [double]::MaxValue; $FoundRealNum = $false
+            foreach ($c in $AllChapters) {
+                if ($c.Chapter -match '(\d*\.\d+|\d+)') {
+                    $num = [double]$Matches[1]; if ($num -lt $MinNum) { $MinNum = $num; $OldestUrl = $c.Url; $FoundRealNum = $true }
+                }
+            }
+            if ($null -eq $OldestUrl -and $AllChapters.Count -gt 0) { $OldestUrl = $AllChapters[0].Url }
+
+            if ($OldestUrl -and -not $VisitedHtmlUrls.ContainsKey($OldestUrl)) {
+                $HoppingTxt = if ($FoundRealNum) { "$($MinNum)화" } else { "Older Posts" }
+                Write-Host "    -> [Daisy Chain] Hopping to bridge series gaps: $HoppingTxt" -ForegroundColor Magenta
+                try {
+                    $Headers = @{ "User-Agent" = "Mozilla/5.0"; "Referer" = "https://gall.dcinside.com/" }
+                    $CurrentUrl = $OldestUrl
+                    $CurrentHtml = (Invoke-WebRequest $CurrentUrl -Headers $Headers -UseBasicParsing -TimeoutSec 10).Content
+                    Start-Sleep -Milliseconds 400
+                    continue
+                } catch { break }
+            } else { break }
+        } else { break }
     }
 
-    $PostSuccess = 0
-    $PostFail    = 0
-    $PostSkip    = 0
-    $PostBytes   = 0
+    if ($AllChapters.Count -gt 0) {
+        Write-Host "    -> Database Linked: $FinalTitle ($($AllChapters.Count) chapters)" -ForegroundColor Green
+        return @{ $FinalTitle = $AllChapters.ToArray() }
+    } else { return @{} }
+}
 
-    $Headers = @{ 
-        "User-Agent" = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36";
-        "Referer" = "https://gall.dcinside.com/";
-        "Accept" = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8"
+function Normalize-CsvRow($row) {
+    return [PSCustomObject]@{
+        Series = if ($row.Series) { $row.Series } else { "Unknown" }
+        Chapter = if ($row.Chapter) { $row.Chapter } else { "General" }
+        OriginalTitle = if ($row.OriginalTitle) { $row.OriginalTitle } else { "" }
+        Url = if ($row.Url) { Get-CleanUrl $row.Url } else { "" }
+        Date = if ($row.Date) { $row.Date } else { "" }
+        ExtraLinks = if ($row.ExtraLinks) { $row.ExtraLinks } else { "" }
+        Status = if ($row.Status) { $row.Status } else { "" }
     }
+}
+
+function Merge-SeriesCsv($SeriesMap) {
+    $existing = @()
+    if (Test-Path $CsvFile) { $existing = @(Import-Csv $CsvFile -Encoding UTF8 | ForEach-Object { Normalize-CsvRow $_ }) }
     
-    $MaxRetries = 3
-    $RetryCount = 0
-    $Html = $null
+    $out = @($existing); $added = 0
+    foreach ($t in $SeriesMap.Keys) {
+        foreach ($c in $SeriesMap[$t]) {
+            $match = $out | Where-Object Url -eq $c.Url
+            if (-not $match) { 
+                
+                $ParsedOriginal = Parse-TitleToSeries $c.Chapter
+                $FinalChap = $ParsedOriginal.Chapter
+                $ParsedSeries = $ParsedOriginal.Series
+
+                $IsCollectionOneShot = ($FinalChap -eq "단편" -and $ParsedSeries -ne $c.Series)
+
+                if ($FinalChap -eq "General" -or $IsCollectionOneShot) {
+                    $cleaned = $ParsedSeries
+                    $FinalChap = if ($cleaned.Length -gt 60) { $cleaned.Substring(0, 30) + "..." + $cleaned.Substring($cleaned.Length - 27) } else { $cleaned }
+                }
+                
+                $c.OriginalTitle = $c.Chapter
+                $c.Chapter = $FinalChap
+                $out += Normalize-CsvRow $c; $added++
+            } else {
+                $updated = $false
+                if ($c.Date -and -not $match.Date) { $match.Date = $c.Date; $updated = $true }
+                if ($c.ExtraLinks -and -not $match.ExtraLinks) { $match.ExtraLinks = $c.ExtraLinks; $updated = $true }
+                if ($c.Status -and -not $match.Status) { $match.Status = $c.Status; $updated = $true }
+                
+                # [NEW] 구형 CSV 데이터 자동 마이그레이션
+                if (-not $match.OriginalTitle) { 
+                    $match.OriginalTitle = $match.Chapter
+                    $ParsedOld = Parse-TitleToSeries $match.Chapter
+                    $FinalOldChap = $ParsedOld.Chapter
+                    $OldSeries = $ParsedOld.Series
+                    $IsCol = ($FinalOldChap -eq "단편" -and $OldSeries -ne $match.Series)
+                    if ($FinalOldChap -eq "General" -or $IsCol) {
+                        $FinalOldChap = if ($OldSeries.Length -gt 60) { $OldSeries.Substring(0, 30) + "..." + $OldSeries.Substring($OldSeries.Length - 27) } else { $OldSeries }
+                    }
+                    $match.Chapter = $FinalOldChap
+                    $updated = $true 
+                }
+
+                if ($updated) { $added++ }
+            }
+        }
+    }
+    if ($added -gt 0) { 
+        $Enc = if ($PSVersionTable.PSVersion.Major -ge 6) { "utf8BOM" } else { "UTF8" }
+        Invoke-WithFileLock "SeriesCsv" { Write-FileAtomic -Path $CsvFile -Content $out -Encoding $Enc -AsCsv }
+    }
+    return $added
+}
+
+function Process-Post($RawUrl, $BaseDir) {
+    $PostStartTime = Get-Date; $CleanUrl = Get-CleanUrl $RawUrl
+
+    if (-not $script:ForceRedownload -and $Global:DownloadHistory.Contains($CleanUrl)) {
+        Write-Host "  [SKIP] URL exists in Download History: $CleanUrl" -ForegroundColor DarkGray
+        Invoke-WithFileLock "DownloadList" {
+            if (Test-Path $ListFile) {
+                $Enc = if ($PSVersionTable.PSVersion.Major -ge 6) { "utf8BOM" } else { "UTF8" }
+                $UpdatedLines = @((Get-Content $ListFile -Encoding UTF8) | Where-Object { $_.Trim() -ne $RawUrl -and $_.Trim() -ne $CleanUrl -and $_.Trim() -ne "#RETRY $CleanUrl" -and $_.Trim() -ne "#DELETED $CleanUrl" })
+                Write-FileAtomic -Path $ListFile -Content $UpdatedLines -Encoding $Enc
+            }
+        }
+        return
+    } elseif ($script:ForceRedownload -and $Global:DownloadHistory.Contains($CleanUrl)) {
+        Write-Host "  [FORCE] Bypassing history check for: $CleanUrl" -ForegroundColor Cyan
+    }
+
+    $PostSuccess = 0; $PostFail = 0; $PostSkip = 0; $PostBytes = 0
+    $Headers = @{ "User-Agent" = "Mozilla/5.0"; "Referer" = "https://gall.dcinside.com/" }
+    $MaxRetries = 3; $RetryCount = 0; $Html = $null
+    $IsDeleted = $false
     
     while ($RetryCount -le $MaxRetries -and $null -eq $Html) {
         try {
             $Response = Invoke-WebRequest -Uri $CleanUrl -Headers $Headers -UseBasicParsing -TimeoutSec 20
+            $FinalUrl = $Response.BaseResponse.ResponseUri.AbsoluteUri
+            if ($FinalUrl -match "error/deleted" -or $FinalUrl -match "derror") {
+                $IsDeleted = $true; break
+            }
             $Html = $Response.Content
         } catch {
+            if ($_.Exception.Response) {
+                $StatusCode = $_.Exception.Response.StatusCode
+                $ErrorUri = $_.Exception.Response.ResponseUri.AbsoluteUri
+                if ($StatusCode -eq "NotFound" -or $StatusCode -eq 404 -or $ErrorUri -match "error/deleted" -or $ErrorUri -match "derror") {
+                    $IsDeleted = $true; break
+                }
+            }
             $RetryCount++
             if ($DoDNSRepair -and ($_.Exception.Message -match "could not be resolved|No such host")) {
                 Write-Host "  ! DNS Error detected. Flushing DNS and waiting..." -ForegroundColor Yellow
-                Write-Log "REPAIR" "DNS Flush triggered" $CleanUrl
-                ipconfig /flushdns | Out-Null
-                Start-Sleep -Seconds 10
-            } else {
-                Start-Sleep -Seconds 3
-            }
+                ipconfig /flushdns | Out-Null; Start-Sleep -Seconds 10
+            } else { Start-Sleep -Seconds 3 }
         }
     }
 
-    if ($null -eq $Html) { 
+    if ($IsDeleted -or $null -eq $Html) { 
+        $Prefix = if ($IsDeleted) { "#DELETED" } else { "#RETRY" }
+        $Color  = if ($IsDeleted) { "Red" } else { "Magenta" }
+        $Msg    = if ($IsDeleted) { "Post permanently deleted. Added #DELETED flag." } else { "Failed to load HTML. Added #RETRY flag." }
+
         Invoke-WithFileLock "DownloadList" {
             if (Test-Path $ListFile) {
                 $Lines = (Get-Content $ListFile -Encoding UTF8)
-                if ($Lines -notcontains "#RETRY $CleanUrl") {
+                if ($Lines -notcontains "$Prefix $CleanUrl") {
                     $Enc = if ($PSVersionTable.PSVersion.Major -ge 6) { "utf8BOM" } else { "UTF8" }
-                    $Lines -replace [regex]::Escape($Url), "#RETRY $CleanUrl" | Set-Content $ListFile -Encoding $Enc
-                    Write-Host "  [FLAGGED] Post failed to load HTML. Added #RETRY flag." -ForegroundColor Magenta
+                    $UpdatedLines = @($Lines | Where-Object { $_.Trim() -ne $RawUrl -and $_.Trim() -ne $CleanUrl -and $_.Trim() -ne "#RETRY $CleanUrl" -and $_.Trim() -ne "#DELETED $CleanUrl" })
+                    $UpdatedLines += "$Prefix $CleanUrl"
+                    Write-FileAtomic -Path $ListFile -Content $UpdatedLines -Encoding $Enc
                 }
             }
         }
-        Write-Log "ERROR" "Failed to load HTML after retries" $CleanUrl
+        Write-Host "  [FLAGGED] $Msg" -ForegroundColor $Color
+        
+        if ($IsDeleted) {
+            $CatMatch = $Global:CatalogLookup[$CleanUrl]
+            if ($CatMatch) {
+                $CatMatch.Status = "DELETED"
+                Merge-SeriesCsv @{ ($CatMatch.Series) = @($CatMatch) } | Out-Null
+            }
+            Invoke-WithFileLock "DownloadHistory" {
+                $Enc = if ($PSVersionTable.PSVersion.Major -ge 6) { "utf8BOM" } else { "UTF8" }
+                $NewEntry = [PSCustomObject]@{ Url = $CleanUrl; Series = "DELETED"; Chapter = "DELETED"; DownloadedDate = (Get-Date -Format "yyyy-MM-dd HH:mm:ss") }
+                $existingHist = @()
+                if (Test-Path $HistoryFile) { $existingHist = @(Import-Csv $HistoryFile -Encoding UTF8 | Where-Object { -not [string]::IsNullOrWhiteSpace($_.Url) }) }
+                if (-not ($existingHist | Where-Object { $_.Url -eq $CleanUrl })) {
+                    $existingHist += $NewEntry
+                    Write-FileAtomic -Path $HistoryFile -Content $existingHist -Encoding $Enc -AsCsv
+                    $Global:DownloadHistory.Add($CleanUrl) | Out-Null
+                }
+            }
+        }
         return 
     }
 
-    $RawTitle = if ($Html -match '<span[^>]*class="title_subject"[^>]*>(.*?)</span>') {
-        $Matches[1].Trim()
-    } else {
-        "Unknown"
-    }
-
-    $CleanTitle = $RawTitle -replace '&lt;', '<' -replace '&gt;', '>' -replace '&amp;', '&'
-    $CleanTitle = $CleanTitle -replace '^번역\)\s*', '' -replace '^\s*\[?번역\]?\s*', '' -replace '\s*\([^)]*\)$', ''
-    $CleanTitle = $CleanTitle.Trim().Trim(".")
-    
-    $Manga = $CleanTitle
+    $Manga = "Unknown"
     $Chapter = "General"
-    
-    if ($CleanTitle -match '^(.*?)\s+([\(<\[]?[\d\.\-~,&＆\s]+화?[\)>\]]?)$') {
-        $Manga = $Matches[1].Trim()
-        $Chapter = $Matches[2].Trim()
+    $CatalogMatch = $Global:CatalogLookup[$CleanUrl]
+
+    if ($null -ne $CatalogMatch) {
+        $Manga = $CatalogMatch.Series
+        
+        # [NEW] 원본 제목 우선 처리
+        $RawTarget = if ($CatalogMatch.OriginalTitle) { $CatalogMatch.OriginalTitle } else { $CatalogMatch.Chapter }
+        $Chapter = $RawTarget
+        
+        Write-Host "  [CATALOG MATCH] Mapped to database: $Manga ($($CatalogMatch.Chapter))" -ForegroundColor DarkGray
+        
+        $CurrentDate = if ($Html -match '<span class="gall_date" title="([^"]+)">') { $Matches[1] } else { "" }
+        $PostContent = ""
+        $bStart = $Html.IndexOf('class="writing_view_box"')
+        if ($bStart -ge 0) {
+            $bEnd = $Html.IndexOf('class="updown_area"', $bStart)
+            if ($bEnd -lt 0) { $bEnd = $Html.IndexOf('class="appending_file_box"', $bStart) }
+            if ($bEnd -lt 0) { $bEnd = $Html.Length }
+            $bLen = $bEnd - $bStart
+            if ($bLen -gt 0) { $PostContent = $Html.Substring($bStart, $bLen) }
+        }
+
+        $ExtraLinks = @()
+        if ($PostContent) {
+            [regex]::Matches($PostContent, '(?i)href="(https?://[^"]+)"') | ForEach-Object { 
+                $exUrl = $_.Groups[1].Value
+                if ($exUrl -notmatch 'dcinside\.(com|co\.kr)|\$\{link\}|pickmaker\.com|rankify\.best|naver\.com/adbiz') { $ExtraLinks += $exUrl }
+            }
+        }
+        $ExtraLinksStr = ($ExtraLinks | Sort-Object -Unique) -join " | "
+        
+        if ($ExtraLinksStr) {
+            $script:SessionExtraLinks += [PSCustomObject]@{ Manga = $Manga; Chapter = $CatalogMatch.Chapter; Links = $ExtraLinksStr }
+            Write-Host "  [INFO] Found Extra External Links: $ExtraLinksStr" -ForegroundColor Cyan
+        }
+
+        if (($CurrentDate -and -not $CatalogMatch.Date) -or ($ExtraLinksStr -and -not $CatalogMatch.ExtraLinks)) {
+            $CatalogMatch.Date = if ($CurrentDate) { $CurrentDate } else { $CatalogMatch.Date }
+            $CatalogMatch.ExtraLinks = if ($ExtraLinksStr) { $ExtraLinksStr } else { $CatalogMatch.ExtraLinks }
+            Merge-SeriesCsv @{ ($Manga) = @($CatalogMatch) } | Out-Null
+        }
+    } else {
+        Write-Host "  [CATALOG] Analyzing post data for Database..." -ForegroundColor Gray
+        $Extracted = Extract-SeriesFromHtml $Html $CleanUrl
+        if ($Extracted.Keys.Count -gt 0) {
+            $Manga = $Extracted.Keys[0]; $ChapObj = $Extracted[$Manga] | Where-Object Url -eq $CleanUrl
+            
+            $RawTarget = if ($ChapObj) { $ChapObj.OriginalTitle } else { "General" }
+            $Chapter = $RawTarget
+            
+            if ($ChapObj -and $ChapObj.ExtraLinks) {
+                $script:SessionExtraLinks += [PSCustomObject]@{ Manga = $Manga; Chapter = $ChapObj.Chapter; Links = $ChapObj.ExtraLinks }
+                Write-Host "  [INFO] Found Extra External Links: $($ChapObj.ExtraLinks)" -ForegroundColor Cyan
+            }
+            Merge-SeriesCsv $Extracted | Out-Null
+            foreach ($c in $Extracted[$Manga]) { $Global:CatalogLookup[$c.Url] = $c }
+        } else {
+            $HtmlRawTitle = ""
+            if ($Html -match '(?i)<meta\s+property="og:title"\s+content="([^"]+)"') {
+                $HtmlRawTitle = $Matches[1] -replace '\s*-\s*.*?갤러리\s*$', ''
+            } elseif ($Html -match '(?i)<title>([^<]+)</title>') {
+                $HtmlRawTitle = $Matches[1] -replace '\s*-\s*.*?갤러리\s*$', ''
+            } elseif ($Html -match '(?s)<span[^>]*class="title_subject"[^>]*>(.*?)</span>') {
+                $HtmlRawTitle = $Matches[1].Trim()
+            }
+            $HtmlRawTitle = ($HtmlRawTitle -replace '<[^>]+>', '').Replace('&amp;', '&').Replace('&lt;', '<').Replace('&gt;', '>')
+            
+            $Parsed = Parse-TitleToSeries $HtmlRawTitle
+            $Manga = $Parsed.Series; $Chapter = $HtmlRawTitle
+        }
     }
 
-    $SafeManga   = Get-SafeName $Manga
-    $SafeChapter = Get-SafeName $Chapter
-    $TargetDir   = Join-Path (Join-Path $BaseDir $SafeManga) $SafeChapter
+    $OperatorManga = Get-OperatorName $Manga
+    if ($OperatorManga -ne $Manga) { Write-Host "  [ALIAS] Override active: $OperatorManga" -ForegroundColor Cyan }
+
+    $ParsedChapObj = Parse-TitleToSeries $Chapter
+    $FolderChapter = $ParsedChapObj.Chapter
+    $ParsedChapSeries = $ParsedChapObj.Series
     
-    if (-not [System.IO.Directory]::Exists($TargetDir)) {
-        [System.IO.Directory]::CreateDirectory($TargetDir) | Out-Null
+    $IsCollectionOneShot = ($FolderChapter -eq "단편" -and $ParsedChapSeries -ne $OperatorManga -and $ParsedChapSeries -ne $Manga)
+
+    if ($FolderChapter -eq "General" -or $IsCollectionOneShot) {
+        $HtmlRawTitle = ""
+        if ($Html -match '(?i)<meta\s+property="og:title"\s+content="([^"]+)"') {
+            $HtmlRawTitle = $Matches[1] -replace '\s*-\s*.*?갤러리\s*$', ''
+        } elseif ($Html -match '(?i)<title>([^<]+)</title>') {
+            $HtmlRawTitle = $Matches[1] -replace '\s*-\s*.*?갤러리\s*$', ''
+        } elseif ($Html -match '(?s)<span[^>]*class="title_subject"[^>]*>(.*?)</span>') {
+            $HtmlRawTitle = $Matches[1].Trim()
+        }
+        $HtmlRawTitle = ($HtmlRawTitle -replace '<[^>]+>', '').Replace('&amp;', '&').Replace('&lt;', '<').Replace('&gt;', '>')
+        
+        if ($HtmlRawTitle) { 
+            $FallbackParsed = Parse-TitleToSeries $HtmlRawTitle
+            $FolderChapter = $FallbackParsed.Chapter 
+            
+            $StillCollectionOneShot = ($FolderChapter -eq "단편" -and $FallbackParsed.Series -ne $OperatorManga -and $FallbackParsed.Series -ne $Manga)
+            
+            if ($FolderChapter -eq "General" -or $StillCollectionOneShot) {
+                $CleanedTitle = $FallbackParsed.Series
+                if ($CleanedTitle.Length -gt 60) {
+                    $FolderChapter = $CleanedTitle.Substring(0, 30) + "..." + $CleanedTitle.Substring($CleanedTitle.Length - 27)
+                } else {
+                    $FolderChapter = $CleanedTitle
+                }
+            }
+        }
     }
+    
+    if ([string]::IsNullOrWhiteSpace($FolderChapter)) { $FolderChapter = "General" }
+
+    $SafeManga   = Get-SafeName $OperatorManga
+    $SafeChapter = Get-SafeName $FolderChapter
+    
+    $BaseTargetDir = Join-Path (Join-Path $BaseDir $SafeManga) $SafeChapter
+    $TargetDir = $BaseTargetDir
+    $DupeCounter = 1
+    
+    while ([System.IO.Directory]::Exists($TargetDir)) {
+        $SourceFile = Join-Path $TargetDir "source.txt"
+        if (Test-Path $SourceFile) {
+            $ExistingUrls = Get-Content -LiteralPath $SourceFile -ErrorAction SilentlyContinue
+            if ($ExistingUrls -contains $CleanUrl) {
+                break
+            }
+        }
+        $TargetDir = Join-Path (Join-Path $BaseDir $SafeManga) "$SafeChapter (중복 $DupeCounter)"
+        $DupeCounter++
+    }
+
+    if (-not [System.IO.Directory]::Exists($TargetDir)) { [System.IO.Directory]::CreateDirectory($TargetDir) | Out-Null }
 
     $SourceFile = Join-Path $TargetDir "source.txt"
     try {
@@ -264,19 +634,12 @@ function Process-Post($Url, $BaseDir) {
             $ExistingUrls = Get-Content -LiteralPath $SourceFile -ErrorAction SilentlyContinue
             if ($ExistingUrls -contains $CleanUrl) { $WriteUrl = $false }
         }
-        if ($WriteUrl) {
-            Add-Content -LiteralPath $SourceFile -Value $CleanUrl -Encoding $Enc -ErrorAction Stop
-        }
-    } catch {
-        Write-Host "  ! Minor Issue: Could not save source.txt" -ForegroundColor DarkYellow
-    }
+        if ($WriteUrl) { Add-Content -LiteralPath $SourceFile -Value $CleanUrl -Encoding $Enc -ErrorAction Stop }
+    } catch {}
 
-    Get-ChildItem -LiteralPath $TargetDir -File | Where-Object { $_.Extension -eq '.tmp' -or $_.Extension -eq '' } | Remove-Item -Force -ErrorAction SilentlyContinue
+    Get-ChildItem -LiteralPath $TargetDir -File | Where-Object { $_.Extension -eq '.tmp' -or $_.Extension -eq '' } | Remove-Item -Force -ErrorAction SilentlyContinue 2>$null
 
-    $FinalLinks = New-Object System.Collections.Generic.List[PSObject]
-    $HQ_Lookup = @{}
-    $AttachmentList = New-Object System.Collections.Generic.List[string]
-    
+    $FinalLinks = New-Object System.Collections.Generic.List[PSObject]; $HQ_Lookup = @{}; $AttachmentList = New-Object System.Collections.Generic.List[string]
     $AppIndex = $Html.IndexOf('class="appending_file"')
     if ($AppIndex -ge 0) {
         $AppEnd = $Html.IndexOf('</ul>', $AppIndex)
@@ -286,8 +649,7 @@ function Process-Post($Url, $BaseDir) {
             [regex]::Matches($Html.Substring($AppIndex, $AppLength), '(?i)href="([^"]*(?:download\.php|/download/\?)[^"]*)"') | ForEach-Object {
                 $u = $_.Groups[1].Value -replace '&amp;', '&'
                 if ($u -match '^//') { $u = "https:" + $u } elseif ($u -notmatch '^http') { $u = "https://gall.dcinside.com" + $u }
-                $AttachmentList.Add($u)
-                if ($u -match '(?i)[?&](?:no|attach_no|f_no)=([^&]+)') { $HQ_Lookup[$Matches[1]] = $u }
+                $AttachmentList.Add($u); if ($u -match '(?i)[?&](?:no|attach_no|f_no)=([^&]+)') { $HQ_Lookup[$Matches[1]] = $u }
             }
         }
     }
@@ -319,8 +681,7 @@ function Process-Post($Url, $BaseDir) {
         }
     }
 
-    $AttCount = $AttachmentList.Count
-    $BodyCount = $BodyItems.Count
+    $AttCount = $AttachmentList.Count; $BodyCount = $BodyItems.Count
     if ($AttCount -gt 0 -and $BodyCount -ge $AttCount -and $BodyCount -le ($AttCount + 2)) {
         for ($i=0; $i -lt $BodyCount; $i++) {
             if ($i -lt $AttCount) { $FinalLinks.Add((New-Object PSObject -Property @{ Url = $AttachmentList[$i]; Fallback = $BodyItems[$i].BodyUrl })) }
@@ -345,36 +706,37 @@ function Process-Post($Url, $BaseDir) {
     $TotalCount = $FinalLinks.Count
     if ($TotalCount -eq 0) { Write-Host "  ! No images found." -ForegroundColor Yellow; return }
 
-    Write-Host ">>> Processing: $Manga ($Chapter) | Images: $TotalCount" -ForegroundColor Cyan
-    Write-Log "SESSION" "Starting Post Download" $CleanUrl $SafeManga $SafeChapter "N/A" $TotalCount
+    $FinalFolderName = Split-Path $TargetDir -Leaf
+    Write-Host ">>> Processing: $OperatorManga ($FinalFolderName) | Images: $TotalCount" -ForegroundColor Cyan
+    Write-Log "SESSION" "Starting Post Download" $CleanUrl $SafeManga $FinalFolderName "N/A" $TotalCount
 
     $RunningJobs = @()
     for ($i=0; $i -lt $TotalCount; $i++) {
-        $Item = $FinalLinks[$i]
-        $BaseName = if ($RenameSequential) { (($i+1).ToString('000')) } else { "img_$($i+1)" }
+        $Item = $FinalLinks[$i]; $BaseName = if ($RenameSequential) { (($i+1).ToString('000')) } else { "img_$($i+1)" }
         $ExistingFile = Get-ChildItem -LiteralPath $TargetDir -Filter "$BaseName.*" -File | Where-Object { $_.Extension -match 'jpg|png|gif|webp' } | Select-Object -First 1
 
         if ($null -eq $ExistingFile) {
             while (($RunningJobs | Where-Object { $_.State -eq 'Running' }).Count -ge $MaxThreads) { 
                 $Completed = $RunningJobs | Where-Object { $_.State -ne 'Running' }
                 if ($Completed) {
-                    foreach ($R in ($Completed | Receive-Job)) {
-                        if ($R.Success) { 
-                            $PostSuccess++; $script:SessionSuccessCount++; $PostBytes += $R.Size; $script:SessionTotalBytes += $R.Size
-                            Write-Log "SUCCESS" "Saved image" $CleanUrl $SafeManga $SafeChapter $R.Index $TotalCount "$($R.Size) B" 
-                        } else { 
-                            $PostFail++; $script:SessionFailureCount++; 
-                            Write-Log "ERROR" "Failed image: $($R.ErrorMsg)" $CleanUrl $SafeManga $SafeChapter $R.Index $TotalCount 
+                    $Results = Receive-Job -Job $Completed -ErrorAction SilentlyContinue 2>$null
+                    if ($null -ne $Results) {
+                        foreach ($R in $Results) {
+                            if ($null -ne $R -and $R.Success) { 
+                                $PostSuccess++; $script:SessionSuccessCount++; $PostBytes += $R.Size; $script:SessionTotalBytes += $R.Size
+                            } elseif ($null -ne $R -and $null -ne $R.Success) { 
+                                $PostFail++; $script:SessionFailureCount++; 
+                            }
+                            Show-VisualProgress ($PostSuccess + $PostSkip + $PostFail) $TotalCount
                         }
-                        Show-VisualProgress ($PostSuccess + $PostSkip + $PostFail) $TotalCount
                     }
-                    $Completed | Remove-Job
+                    Remove-Job -Job $Completed -Force -ErrorAction SilentlyContinue 2>$null
                     $RunningJobs = @($RunningJobs | Where-Object { $_.State -eq 'Running' })
                 }
                 Start-Sleep -Milliseconds 50 
             }
             
-            $RunningJobs += Start-Job -ScriptBlock {
+            $RunningJobs += Start-Job -Name "DCM_DL_$i" -ScriptBlock {
                 param($Target, $Dest, $Idx, $BaseName, $Headers, $Proxy)
                 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
                 if ($Proxy -eq "False") { [System.Net.WebRequest]::DefaultWebProxy = New-Object System.Net.WebProxy }
@@ -391,7 +753,7 @@ function Process-Post($Url, $BaseDir) {
                             if ($Hex -match "^89-50-4E-47") { $Ext = ".png" } elseif ($Hex -match "^47-49-46-38") { $Ext = ".gif" } elseif ($Hex -match "^52-49-46-46") { $Ext = ".webp" }
                             $Final = "$BaseName$Ext"; Rename-Item -LiteralPath $Dest -NewName $Final -Force
                             return @{ Success=$true; Size=(Get-Item (Join-Path (Split-Path $Dest) $Final)).Length; Index=$Idx; FileName=$Final }
-                        } catch { if (Test-Path $Dest) { Remove-Item $Dest -Force }; Start-Sleep -Seconds 1 }
+                        } catch { if (Test-Path $Dest) { Remove-Item $Dest -Force -ErrorAction SilentlyContinue }; Start-Sleep -Seconds 1 }
                     }
                 }
                 return @{ Success=$false; Index=$Idx; ErrorMsg="Connection Dropped by Server" }
@@ -402,41 +764,56 @@ function Process-Post($Url, $BaseDir) {
         }
     }
 
-    if ($RunningJobs) {
-        $FinishedData = $RunningJobs | Wait-Job | Receive-Job
-        foreach ($Res in $FinishedData) {
-            if ($Res.Success) { 
-                $PostSuccess++; $script:SessionSuccessCount++; $PostBytes += $Res.Size; $script:SessionTotalBytes += $Res.Size 
-                Write-Log "SUCCESS" "Saved image" $CleanUrl $SafeManga $SafeChapter $Res.Index $TotalCount "$($Res.Size) B"
-            } else { 
-                $PostFail++; $script:SessionFailureCount++; 
-                Write-Log "ERROR" "Failed image: $($Res.ErrorMsg)" $CleanUrl $SafeManga $SafeChapter $Res.Index $TotalCount 
+    while ($RunningJobs.Count -gt 0) {
+        $Completed = $RunningJobs | Where-Object { $_.State -ne 'Running' }
+        if ($Completed) {
+            $Results = Receive-Job -Job $Completed -ErrorAction SilentlyContinue 2>$null
+            if ($null -ne $Results) {
+                foreach ($R in $Results) {
+                    if ($null -ne $R -and $R.Success) { 
+                        $PostSuccess++; $script:SessionSuccessCount++; $PostBytes += $R.Size; $script:SessionTotalBytes += $R.Size 
+                    } elseif ($null -ne $R -and $null -ne $R.Success) { 
+                        $PostFail++; $script:SessionFailureCount++; 
+                    }
+                    Show-VisualProgress ($PostSuccess + $PostSkip + $PostFail) $TotalCount
+                }
             }
-            Show-VisualProgress ($PostSuccess + $PostSkip + $PostFail) $TotalCount
-        }
-        $RunningJobs | Remove-Job
+            Remove-Job -Job $Completed -Force -ErrorAction SilentlyContinue 2>$null
+            $RunningJobs = @($RunningJobs | Where-Object { $_.State -eq 'Running' })
+        } else { Start-Sleep -Milliseconds 50 }
     }
 
-    if ($ShowVisualBar) { Write-Host "" } # Add line break after bar finishes
+    if ($ShowVisualBar) { Write-Host "" }
 
     if ($PostFail -eq 0 -and ($PostSuccess -gt 0 -or $PostSkip -gt 0)) {
         Invoke-WithFileLock "DownloadList" {
             if (Test-Path $ListFile) {
                 $Enc = if ($PSVersionTable.PSVersion.Major -ge 6) { "utf8BOM" } else { "UTF8" }
                 $Lines = Get-Content $ListFile -Encoding UTF8
-                $UpdatedLines = @($Lines | Where-Object { $_.Trim() -ne $Url -and $_.Trim() -ne $CleanUrl -and $_.Trim() -ne "#RETRY $CleanUrl" })
-                Set-Content -Path $ListFile -Value $UpdatedLines -Encoding $Enc
+                $UpdatedLines = @($Lines | Where-Object { $_.Trim() -ne $RawUrl -and $_.Trim() -ne $CleanUrl -and $_.Trim() -ne "#RETRY $CleanUrl" -and $_.Trim() -ne "#DELETED $CleanUrl" })
+                Write-FileAtomic -Path $ListFile -Content $UpdatedLines -Encoding $Enc
             }
         }
-        Write-Host "  [CLEANUP] Post finished. Link removed." -ForegroundColor Gray
+        Invoke-WithFileLock "DownloadHistory" {
+            $Enc = if ($PSVersionTable.PSVersion.Major -ge 6) { "utf8BOM" } else { "UTF8" }
+            $NewEntry = [PSCustomObject]@{ Url = $CleanUrl; Series = $SafeManga; Chapter = $FinalFolderName; DownloadedDate = (Get-Date -Format "yyyy-MM-dd HH:mm:ss") }
+            $existingHist = @()
+            if (Test-Path $HistoryFile) { $existingHist = @(Import-Csv $HistoryFile -Encoding UTF8 | Where-Object { -not [string]::IsNullOrWhiteSpace($_.Url) }) }
+            if (-not ($existingHist | Where-Object { $_.Url -eq $CleanUrl })) {
+                $existingHist += $NewEntry
+                Write-FileAtomic -Path $HistoryFile -Content $existingHist -Encoding $Enc -AsCsv
+                $Global:DownloadHistory.Add($CleanUrl) | Out-Null
+            }
+        }
+        Write-Host "  [CLEANUP] Post finished. Added to History & Link removed." -ForegroundColor Gray
     } elseif ($PostFail -gt 0) {
         Invoke-WithFileLock "DownloadList" {
             if (Test-Path $ListFile) {
                 $Lines = Get-Content $ListFile -Encoding UTF8
                 if ($Lines -notcontains "#RETRY $CleanUrl") {
                     $Enc = if ($PSVersionTable.PSVersion.Major -ge 6) { "utf8BOM" } else { "UTF8" }
-                    $UpdatedLines = @($Lines -replace [regex]::Escape($Url), "#RETRY $CleanUrl")
-                    Set-Content -Path $ListFile -Value $UpdatedLines -Encoding $Enc
+                    $UpdatedLines = @($Lines -replace [regex]::Escape($RawUrl), "#RETRY $CleanUrl")
+                    Write-FileAtomic -Path $ListFile -Content $UpdatedLines -Encoding $Enc
                 }
             }
         }
@@ -446,10 +823,8 @@ function Process-Post($Url, $BaseDir) {
     $PostEndTime = Get-Date; $PostElapsed = "{0:hh\:mm\:ss}" -f ($PostEndTime - $PostStartTime)
     $Summary = "Post Done: Saved: $PostSuccess | Failed: $PostFail | Skipped: $PostSkip | Size: $([Math]::Round($PostBytes/1MB, 2)) MB | Time: $PostElapsed"
     Write-Host "  $Summary`n" -ForegroundColor Gray
-    Write-Log "SESSION" "Finished Post Download | $Summary" $CleanUrl $SafeManga $SafeChapter "N/A" $TotalCount
 }
 
-# --- 5. UI ---
 Clear-Host
 $Urls = @()
 
@@ -464,13 +839,7 @@ if ($RunAuto -or $RunManualQueue -or $RunScannerQueue) {
     Write-Host " 0. Return to Main Menu"
     $Choice = Read-Host "Select Option"
     
-    if ($Choice -eq '0') {
-        exit # Returns control to launch.bat
-    } elseif ($Choice -eq '1') {
-        $Mode = "AUTO"
-    } else {
-        $Mode = "MANUAL"
-    }
+    if ($Choice -eq '0') { exit } elseif ($Choice -eq '1') { $Mode = "AUTO" } else { $Mode = "MANUAL" }
 }
 
 if ($Mode -eq "AUTO") {
@@ -478,71 +847,55 @@ if ($Mode -eq "AUTO") {
         $cap = ($RunScannerQueue -eq $true)
         $TargetHeader = if ($RunAuto) { "\[automatic_urls\]" } else { "\[manual_urls\]" }
         
-        foreach($l in Get-Content $ListFile -Encoding UTF8) {
-            if (-not $RunScannerQueue) {
-                if($l -match $TargetHeader) { $cap = $true } 
-                elseif($l -match "\[") { $cap = $false }
+        if (Test-Path $ListFile) {
+            $Lines = Get-Content $ListFile -Encoding UTF8
+            if ($null -ne $Lines) {
+                if ($Lines.Count -eq $null) { $Lines = @($Lines) }
+                foreach($l in $Lines) {
+                    if (-not $RunScannerQueue) {
+                        if($l -match $TargetHeader) { $cap = $true } elseif($l -match "\[") { $cap = $false }
+                    }
+                    if($cap -and $l.Trim() -match "^http|^#RETRY") { $Urls += $l.Trim() } 
+                }
             }
-            
-            if($cap -and $l.Trim() -match "^http|^#RETRY") { 
-                $Urls += $l.Trim() 
-            } 
         }
-    } else {
-        Write-Host "Error: target list missing at $ListFile" -ForegroundColor Red
-        Pause
-        exit
-    }
+    } else { Write-Host "Error: target list missing at $ListFile" -ForegroundColor Red; Pause; exit }
 } else {
     Write-Host "Enter DCInside Post URL (or leave blank to cancel):" -ForegroundColor Gray
     $pasted = Read-Host "URL"
-    if ($pasted -match "http") {
-        $Urls += $pasted.Trim()
-    } else {
-        exit # Return to main menu if blank
-    }
+    if ($pasted -match "http") { $Urls += $pasted.Trim() } else { exit }
 }
 
 $script:SessionInterrupted = $true
 
 try {
-    $SessionStartTime = Get-Date
-    $idx = 1
+    $SessionStartTime = Get-Date; $idx = 1
     
-    Write-Log "SESSION" "--- DOWNLOADER START ($Mode MODE) ---"
-    
-    foreach ($Target in $Urls) {
-        if ([string]::IsNullOrWhiteSpace($Target)) { continue }
-        
-        Write-Host "[$idx/$($Urls.Count)] Processing: $Target" -ForegroundColor Yellow
-        Process-Post $Target $DownloadLocation
-        
-        if ($idx -lt $Urls.Count) {
-            Start-Sleep -Seconds $SleepTime
+    if ($Urls.Count -gt 0) {
+        foreach ($Target in $Urls) {
+            if ([string]::IsNullOrWhiteSpace($Target)) { continue }
+            Write-Host "[$idx/$($Urls.Count)] Processing: $Target" -ForegroundColor Yellow
+            Process-Post $Target $DownloadLocation
+            if ($idx -lt $Urls.Count) { Start-Sleep -Seconds $SleepTime }
+            $idx++
         }
-        $idx++
-    }
+    } else { Write-Host "No valid URLs found in queue." -ForegroundColor Yellow }
     
     $script:SessionInterrupted = $false
-
 } finally {
-    $SessionEndTime = Get-Date
-    $Elapsed = "{0:hh\:mm\:ss}" -f ($SessionEndTime - $SessionStartTime)
+    $SessionEndTime = Get-Date; $Elapsed = "{0:hh\:mm\:ss}" -f ($SessionEndTime - $SessionStartTime)
 
     if ($script:SessionInterrupted) {
-        $OrphanJobs = Get-Job | Where-Object { $_.Name -like "Job*" }
+        $OrphanJobs = Get-Job | Where-Object { $_.Name -like "DCM_DL_*" }
         if ($OrphanJobs) {
-            $OrphanJobs | Stop-Job -ErrorAction SilentlyContinue
-            $Results = $OrphanJobs | Receive-Job -ErrorAction SilentlyContinue
-            foreach ($R in $Results) {
-                if ($R -and $R.Success) {
-                    $script:SessionSuccessCount++
-                    $script:SessionTotalBytes += $R.Size
-                } elseif ($R -and $null -ne $R.Success -and -not $R.Success) {
-                    $script:SessionFailureCount++
+            $OrphanJobs | Stop-Job -ErrorAction SilentlyContinue 2>$null
+            $Results = $OrphanJobs | Receive-Job -ErrorAction SilentlyContinue 2>$null
+            if ($null -ne $Results) {
+                foreach ($R in $Results) {
+                    if ($null -ne $R -and $R.Success) { $script:SessionSuccessCount++; $script:SessionTotalBytes += $R.Size } elseif ($null -ne $R -and -not $R.Success) { $script:SessionFailureCount++ }
                 }
             }
-            $OrphanJobs | Remove-Job -ErrorAction SilentlyContinue
+            $OrphanJobs | Remove-Job -Force -ErrorAction SilentlyContinue 2>$null
         }
     }
 
@@ -550,16 +903,21 @@ try {
     $Sz = if ($B -ge 1GB) { "$([Math]::Round($B/1GB, 2)) GB" } elseif ($B -ge 1MB) { "$([Math]::Round($B/1MB, 2)) MB" } else { "$([Math]::Round($B/1KB, 2)) KB" }
     
     $Stats = "Success: $($script:SessionSuccessCount) | Failed: $($script:SessionFailureCount) | Skipped: $($script:SessionSkipCount) | Size: $Sz | Time: $Elapsed"
-    
     $EndStatus = if ($script:SessionInterrupted) { "INTERRUPTED" } else { "FINISHED" }
-    Write-Log "SESSION" "--- DOWNLOADER $EndStatus | $Stats ---"
     
+    if ($script:SessionExtraLinks -and $script:SessionExtraLinks.Count -gt 0) {
+        Write-Host "`n========================================" -ForegroundColor Magenta
+        Write-Host "   EXTRA EXTERNAL LINKS DETECTED" -ForegroundColor Magenta
+        Write-Host "========================================" -ForegroundColor Magenta
+        foreach ($ex in $script:SessionExtraLinks) {
+            Write-Host " -> $($ex.Manga) ($($ex.Chapter)): $($ex.Links)" -ForegroundColor Cyan
+        }
+    }
+
     Write-Host "========================================" -ForegroundColor White
     Write-Host "DOWNLOADER $EndStatus" -ForegroundColor White
     Write-Host $Stats -ForegroundColor White
     Write-Host "========================================" -ForegroundColor White
     
-    if (-not $RunAuto -and -not $RunScannerQueue) {
-        Pause
-    }
+    if (-not $RunAuto -and -not $RunScannerQueue) { Pause }
 }

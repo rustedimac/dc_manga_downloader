@@ -30,25 +30,26 @@ function Invoke-WithFileLock {
                 Write-Warning "[Lock] Could not acquire '$MutexName' within ${TimeoutMs}ms. Proceeding without lock."
             }
         } catch [System.Threading.AbandonedMutexException] {
-            # Previous owner was hard-killed — we now own it, safe to continue
             $Owned = $true
         }
+        
         & $Action
+
     } finally {
-        if ($Owned -and $null -ne $Mutex) { try { $Mutex.ReleaseMutex() } catch {} }
-        if ($null -ne $Mutex) { $Mutex.Dispose() }
+        if ($Owned -and $null -ne $Mutex) {
+            $Mutex.ReleaseMutex()
+        }
+        if ($null -ne $Mutex) {
+            $Mutex.Dispose()
+        }
     }
 }
 
 # ===========================================================================
-# ATOMIC FILE WRITES  (write-to-temp then rename)
-# Guarantees the target file is never left in a half-written state if the
-# process is killed mid-write. On Windows, Rename-Item within the same
-# drive is atomic at the NTFS level — the old file survives intact or the
-# new one fully replaces it, never a partial result.
-#
-# Usage (plain lines):   Write-FileAtomic $Path $Lines
-# Usage (CSV rows):      Write-FileAtomic $Path $Rows -AsCsv
+# ATOMIC FILE WRITE (WITH RETRY LOGIC FOR EXCEL/AV LOCKS)
+# Writes data to a .tmp file first, then forcefully replaces the target file.
+# Guarantees that if the script crashes mid-write — or if disk space fills up 
+# — the old file survives intact.
 # ===========================================================================
 function Write-FileAtomic {
     param(
@@ -66,9 +67,29 @@ function Write-FileAtomic {
         } else {
             $Content | Set-Content $TmpPath -Encoding $Encoding
         }
-        # Atomic swap: replace target with the fully-written temp file
-        if (Test-Path $Path) { Remove-Item $Path -Force }
-        Rename-Item $TmpPath $Path
+        
+        $MaxRetries = 5
+        $Success = $false
+        
+        for ($i = 0; $i -lt $MaxRetries; $i++) {
+            try {
+                if (Test-Path $Path) { Remove-Item $Path -Force -ErrorAction Stop }
+                Rename-Item -Path $TmpPath -NewName (Split-Path $Path -Leaf) -ErrorAction Stop
+                $Success = $true
+                break
+            } catch {
+                Start-Sleep -Milliseconds 500
+            }
+        }
+        
+        if (-not $Success) {
+            Write-Host "`n[!] CRITICAL SAVE ERROR [!]" -ForegroundColor Red
+            Write-Host "Failed to save file: $Path" -ForegroundColor Yellow
+            Write-Host "This usually happens because the file is OPEN IN EXCEL." -ForegroundColor White
+            Write-Host "Please close the file and try running the script again.`n" -ForegroundColor Gray
+            throw "File locked by another process (Excel)."
+        }
+        
     } catch {
         if (Test-Path $TmpPath) { Remove-Item $TmpPath -Force -ErrorAction SilentlyContinue }
         throw
@@ -77,7 +98,8 @@ function Write-FileAtomic {
 
 function Get-Config {
     param (
-        [string]$ConfigPath = (Join-Path $PSScriptRoot "config.yaml")
+        # [FIXED] core 폴더가 아닌 상위 폴더(Release Candidate)에서 찾도록 경로 수정!
+        [string]$ConfigPath = (Join-Path (Split-Path $PSScriptRoot -Parent) "config.yaml")
     )
 
     $Config = @{}
@@ -87,10 +109,14 @@ function Get-Config {
         return $Config
     }
 
-    Get-Content $ConfigPath | Where-Object { $_ -match '^\s*([^:#][^:]*)\s*:\s*(.*)$' } | ForEach-Object {
-        $Key   = $Matches[1].Trim()
-        $Value = ($Matches[2] -split '#')[0].Trim(" `"'")
-        $Config[$Key] = $Value
+    Get-Content $ConfigPath -Encoding UTF8 | Where-Object { $_ -match '^\s*([^:#][^:]*)\s*:\s*(.*)$' } | ForEach-Object {
+        $key = $Matches[1].Trim()
+        $val = $Matches[2].Trim()
+        $val = ($val -split '#')[0].Trim()
+        if ($val -match '^"(.*)"$') { $val = $Matches[1] }
+        elseif ($val -match "^'(.*)'$") { $val = $Matches[1] }
+
+        $Config[$key] = $val
     }
 
     return $Config
