@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Kone.gg Asset Debugger</title>
+    <style>
+        body { font-family: sans-serif; background: #1a1a1a; color: #e0e0e0; padding: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; background: #2d2d2d; }
+        th, td { border: 1px solid #444; padding: 12px; text-align: left; }
+        th { background: #3d3d3d; }
+        .status-200 { color: #4caf50; font-weight: bold; }
+        .status-error { color: #f44336; font-weight: bold; }
+        .url-cell { font-family: monospace; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <h2>Kone.gg Accessibility Report</h2>
+    <p>Testing assets for: <strong>gynerwork</strong> (ID: bwo_YbIDtJLATWOTRY4z0b)</p>
+    <table>
+        <thead>
+            <tr>
+                <th>Resource Name</th>
+                <th>Status</th>
+                <th>URL</th>
+            </tr>
+        </thead>
+        <tbody id="results"></tbody>
+    </table>
+
+    <script>
+        const assetId = "bwo_YbIDtJLATWOTRY4z0b";
+        const endpoints = [
+            { name: "Main Page", url: "https://kone.gg/s/gynerwork/" + assetId },
+            { name: "Global Icon", url: "https://api.kone.gg/v0/sub/gynerwork/icon" },
+            { name: "Direct API Asset", url: "https://api.kone.gg/v0/s/gynerwork/" + assetId },
+            { name: "Alternative API Path", url: "https://api.kone.gg/v0/post/" + assetId },
+            { name: "Sub-Specific API", url: "https://api.kone.gg/v0/sub/gynerwork/" + assetId }
+        ];
+
+        async function checkUrl(item) {
+            const table = document.getElementById('results');
+            const row = table.insertRow();
+            row.insertCell(0).innerText = item.name;
+            const statusCell = row.insertCell(1);
+            const urlCell = row.insertCell(2);
+            urlCell.className = "url-cell";
+            urlCell.innerText = item.url;
+
+            try {
+                // Using 'no-cors' mode if standard fetch fails due to site security
+                const response = await fetch(item.url, { method: 'HEAD', mode: 'no-cors' });
+                // Note: With 'no-cors', status is always 0 even if successful. 
+                // We attempt a standard fetch first.
+                const realCheck = await fetch(item.url);
+                statusCell.innerText = realCheck.status + " " + realCheck.statusText;
+                statusCell.className = realCheck.ok ? "status-200" : "status-error";
+            } catch (e) {
+                statusCell.innerText = "Blocked/Failed";
+                statusCell.className = "status-error";
+            }
+        }
+
+        endpoints.forEach(checkUrl);
+    </script>
+</body>
+</html>

@@ -1,0 +1,149 @@
+# ==========================================
+# DC Manga - External Link Downloader (Telegraph / Arca.live / Kone.gg)
+# ==========================================
+param (
+    [string[]]$TelegraphLinks,
+    [string]$TargetDir,
+    [int]$MaxThreads,
+    [hashtable]$Headers,
+    [string]$UseProxy,
+    [bool]$RenameSequential
+)
+
+$ExtSuccess = 0; $ExtFail = 0; $ExtBytes = 0
+$ExtraDir = Join-Path $TargetDir "Extra"
+$ExternalLinks = New-Object System.Collections.Generic.List[PSObject]
+
+foreach ($tgLink in $TelegraphLinks) {
+    Write-Host "  [EXTERNAL] Intercepted Telegraph link. Resolving: $tgLink" -ForegroundColor Magenta
+    try {
+        [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+        $tgHtml = (Invoke-WebRequest -Uri $tgLink -UseBasicParsing -TimeoutSec 15).Content
+        
+        # 1. Arca.live (본문 영역만 엄격하게 분리)
+        if ($tgHtml -match '(?i)href="(https?://arca\.live/b/[^"]+)"') {
+            $arcaUrl = $Matches[1]
+            Write-Host "  [EXTERNAL] Extracted Arca.live link: $arcaUrl" -ForegroundColor Cyan
+            $arcaHtml = (Invoke-WebRequest -Uri $arcaUrl -Headers $Headers -UseBasicParsing -TimeoutSec 15).Content
+            
+            # [FIX] 본문(article-content) 시작부터 하단 정보(article-footer)까지만 자릅니다 (썸네일 방지)
+            $cStart = $arcaHtml.IndexOf('class="fr-view article-content"')
+            if ($cStart -ge 0) {
+                $cEnd = $arcaHtml.IndexOf('class="article-footer"', $cStart)
+                if ($cEnd -lt 0) { $cEnd = $arcaHtml.IndexOf('id="comment"', $cStart) }
+                if ($cEnd -lt 0) { $cEnd = $arcaHtml.Length }
+                
+                $contentBlock = $arcaHtml.Substring($cStart, $cEnd - $cStart)
+                [regex]::Matches($contentBlock, '(?i)<img[^>]+src="([^"]+)"') | ForEach-Object {
+                    $src = $_.Groups[1].Value -replace '&amp;', '&'
+                    if ($src -match 'namu\.la') {
+                        if ($src -match '^//') { $src = "https:" + $src }
+                        $ExternalLinks.Add((New-Object PSObject -Property @{ Url = $src; Fallback = $null }))
+                    }
+                }
+            }
+        } 
+# 2. Kone.gg (post_content 영역 타겟팅)
+        elseif ($tgHtml -match '(?i)href="(https?://kone\.gg/s/[^"]+)"') {
+            $koneUrl = $Matches[1]
+            Write-Host "  [EXTERNAL] Extracted Kone.gg link: $koneUrl" -ForegroundColor Cyan
+            $koneHtml = (Invoke-WebRequest -Uri $koneUrl -Headers $Headers -UseBasicParsing -TimeoutSec 15).Content
+            
+            # [FIX] JSON 인코딩(\" 및 \/)을 강제로 풀어 순수한 HTML 형태로 변환합니다.
+            $cleanHtml = [System.Net.WebUtility]::HtmlDecode($koneHtml) -replace '\\"', '"' -replace '\\/', '/'
+            
+            # 사용자가 짚어준 핵심 영역: id="post_content" 찾기
+            $cStart = $cleanHtml.IndexOf('id="post_content"')
+            if ($cStart -ge 0) {
+                # 본문이 끝나는 지점 (태그, 댓글, 추천 게시글 등 썸네일이 등장하기 전)에서 자릅니다.
+                $cEnd = $cleanHtml.IndexOf('class="post-tags"', $cStart)
+                if ($cEnd -lt 0) { $cEnd = $cleanHtml.IndexOf('id="comments"', $cStart) }
+                if ($cEnd -lt 0) { $cEnd = $cleanHtml.IndexOf('class="related-posts"', $cStart) }
+                if ($cEnd -lt 0) { $cEnd = $cleanHtml.Length }
+                
+                # 정확히 잘라낸 본문(14장 분량)
+                $contentBlock = $cleanHtml.Substring($cStart, $cEnd - $cStart)
+                
+                # 순수 HTML 형태가 되었으므로, 복잡한 정규식 없이 <img> 태그의 src만 깔끔하게 뽑아냅니다.
+                [regex]::Matches($contentBlock, '(?i)<img[^>]+src="([^"]+mittere\.io[^"]+)"') | ForEach-Object {
+                    $ExternalLinks.Add((New-Object PSObject -Property @{ Url = $_.Groups[1].Value; Fallback = $null }))
+                }
+            } else {
+                Write-Host "  [WARN] Failed to isolate Kone.gg content body (post_content not found)." -ForegroundColor Yellow
+            }
+        }        
+		# 3. Direct Telegraph
+        else {
+            Write-Host "  [EXTERNAL] No external board found. Scanning direct Telegraph images..." -ForegroundColor Cyan
+            [regex]::Matches($tgHtml, '(?i)<img[^>]+src="([^"]+)"') | ForEach-Object {
+                $src = $_.Groups[1].Value
+                if ($src -match '^/file/') { $src = "https://telegra.ph" + $src }
+                if ($src -match '^http') { $ExternalLinks.Add((New-Object PSObject -Property @{ Url = $src; Fallback = $null })) }
+            }
+        }
+    } catch { Write-Host "  [WARN] Failed to resolve External link." -ForegroundColor Yellow }
+}
+
+# 중복 제거 (HashSet 사용으로 가장 정확하게 처리)
+$UniqueLinks = @()
+$UrlCache = New-Object System.Collections.Generic.HashSet[string]
+foreach ($L in $ExternalLinks) {
+    if (-not $UrlCache.Contains($L.Url)) {
+        $UniqueLinks += $L
+        $UrlCache.Add($L.Url) | Out-Null
+    }
+}
+$ExtCount = $UniqueLinks.Count
+
+if ($ExtCount -gt 0) {
+    if (-not [System.IO.Directory]::Exists($ExtraDir)) { [System.IO.Directory]::CreateDirectory($ExtraDir) | Out-Null }
+    Write-Host "  >>> Downloading $ExtCount External Images into \Extra subfolder..." -ForegroundColor Magenta
+    
+    $E_RunningJobs = @()
+    for ($i=0; $i -lt $ExtCount; $i++) {
+        $Item = $UniqueLinks[$i]; $BaseName = if ($RenameSequential) { "extra_$(($i+1).ToString('000'))" } else { "extra_$($i+1)" }
+        $ExistingFile = Get-ChildItem -LiteralPath $ExtraDir -Filter "$BaseName.*" -File | Where-Object { $_.Extension -match 'jpg|png|gif|webp' } | Select-Object -First 1
+
+        if ($null -eq $ExistingFile) {
+            while (($E_RunningJobs | Where-Object { $_.State -eq 'Running' }).Count -ge $MaxThreads) { 
+                $Completed = $E_RunningJobs | Where-Object { $_.State -ne 'Running' }
+                if ($Completed) {
+                    $Results = Receive-Job -Job $Completed -ErrorAction SilentlyContinue 2>$null
+                    if ($null -ne $Results) { foreach ($R in $Results) { if ($R.Success) { $ExtSuccess++; $ExtBytes += $R.Size } elseif ($null -ne $R.Success) { $ExtFail++ } } }
+                    Remove-Job -Job $Completed -Force -ErrorAction SilentlyContinue 2>$null
+                    $E_RunningJobs = @($E_RunningJobs | Where-Object { $_.State -eq 'Running' })
+                }
+                Start-Sleep -Milliseconds 50 
+            }
+            $E_RunningJobs += Start-Job -Name "DCM_DL_E_$i" -ScriptBlock {
+                param($Target, $Dest, $Idx, $BaseName, $Headers, $Proxy)
+                [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+                if ($Proxy -eq "False") { [System.Net.WebRequest]::DefaultWebProxy = New-Object System.Net.WebProxy }
+                $Url = $Target.Url; $H = $Headers.Clone(); if ($Url -notmatch "dcinside\.") { $H.Remove("Referer") }
+                for ($r=0; $r -lt 2; $r++) {
+                    try {
+                        $wc = New-Object System.Net.WebClient
+                        foreach ($k in $H.Keys) { $wc.Headers.Add($k, $H[$k]) }
+                        $wc.DownloadFile($Url, $Dest); $wc.Dispose()
+                        $Stream = [System.IO.File]::OpenRead($Dest); $Bytes = New-Object byte[] 12; $Stream.Read($Bytes, 0, 12) | Out-Null; $Stream.Close()
+                        $Hex = [System.BitConverter]::ToString($Bytes); $Ext = ".jpg" 
+                        if ($Hex -match "^89-50-4E-47") { $Ext = ".png" } elseif ($Hex -match "^47-49-46-38") { $Ext = ".gif" } elseif ($Hex -match "^52-49-46-46") { $Ext = ".webp" }
+                        $Final = "$BaseName$Ext"; Rename-Item -LiteralPath $Dest -NewName $Final -Force
+                        return @{ Success=$true; Size=(Get-Item (Join-Path (Split-Path $Dest) $Final)).Length }
+                    } catch { if (Test-Path $Dest) { Remove-Item $Dest -Force }; Start-Sleep -Seconds 1 }
+                }
+                return @{ Success=$false }
+            } -ArgumentList $Item, (Join-Path $ExtraDir "$BaseName.tmp"), ($i+1), $BaseName, $Headers, $UseProxy
+        }
+    }
+    while ($E_RunningJobs.Count -gt 0) {
+        $Completed = $E_RunningJobs | Where-Object { $_.State -ne 'Running' }
+        if ($Completed) {
+            $Results = Receive-Job -Job $Completed -ErrorAction SilentlyContinue 2>$null
+            if ($null -ne $Results) { foreach ($R in $Results) { if ($R.Success) { $ExtSuccess++; $ExtBytes += $R.Size } elseif ($null -ne $R.Success) { $ExtFail++ } } }
+            Remove-Job -Job $Completed -Force -ErrorAction SilentlyContinue 2>$null
+            $E_RunningJobs = @($E_RunningJobs | Where-Object { $_.State -eq 'Running' })
+        } else { Start-Sleep -Milliseconds 50 }
+    }
+}
+return [PSCustomObject]@{ Success = $ExtSuccess; Fail = $ExtFail; Bytes = $ExtBytes }
